@@ -1,0 +1,30 @@
+import { v4 } from "uuid";
+import { ValidationError } from "../utils/errors";
+import { BookmarkEntity, NewBookmarkEntity } from "../types";
+
+export class BookmarkRecord implements BookmarkEntity {
+  id: string;
+  name: string;
+  url: string;
+  favorite: boolean;
+
+  constructor({ id, name, url, favorite }: NewBookmarkEntity) {
+    if (!name) {
+      throw new ValidationError("Bookmark name is required");
+    }
+    if (name.length > 200) {
+      throw new ValidationError("Bookmark name cannot be more than 200 characters");
+    }
+    if (!url) {
+      throw new ValidationError("Bookmark url is required");
+    }
+    if (url.length > 500) {
+      throw new ValidationError("Bookmark url cannot be more that 500 characters");
+    }
+
+    this.id = id ?? v4();
+    this.name = name;
+    this.url = url;
+    this.favorite = favorite ?? false;
+  }
+}

@@ -4,3 +4,5 @@ export interface BookmarkEntity {
   url: string;
   favorite: boolean;
 }
+
+export type NewBookmarkEntity = Omit<BookmarkEntity, "id" | "favorite"> & { id?: string; favorite?: boolean };
