@@ -1,29 +1,32 @@
-import { FieldPacket } from "mysql2";
-import { v4 } from "uuid";
-import { pool } from "../utils/db";
-import { ValidationError } from "../utils/errors";
-import { BookmarkEntity, NewBookmarkEntity } from "../types";
+import { FieldPacket } from 'mysql2';
+import { v4 } from 'uuid';
+import { pool } from '../utils/db';
+import { ValidationError } from '../utils/errors';
+import { BookmarkEntity, NewBookmarkEntity } from '../types';
 
 type BookmarkRecordResults = [BookmarkEntity[], FieldPacket[]];
 
 export class BookmarkRecord implements BookmarkEntity {
   id: string;
+
   name: string;
+
   url: string;
+
   favorite: boolean;
 
   constructor({ id, name, url, favorite }: NewBookmarkEntity) {
     if (!name) {
-      throw new ValidationError("Bookmark name is required");
+      throw new ValidationError('Bookmark name is required');
     }
     if (name.length > 200) {
-      throw new ValidationError("Bookmark name cannot be more than 200 characters");
+      throw new ValidationError('Bookmark name cannot be more than 200 characters');
     }
     if (!url) {
-      throw new ValidationError("Bookmark url is required");
+      throw new ValidationError('Bookmark url is required');
     }
     if (url.length > 500) {
-      throw new ValidationError("Bookmark url cannot be more that 500 characters");
+      throw new ValidationError('Bookmark url cannot be more that 500 characters');
     }
 
     this.id = id ?? v4();
@@ -33,7 +36,7 @@ export class BookmarkRecord implements BookmarkEntity {
   }
 
   static async getOne(id: string): Promise<BookmarkRecord | null> {
-    const [results] = (await pool.execute("SELECT * from `bookmarks` WHERE `id` = :id", {
+    const [results] = (await pool.execute('SELECT * from `bookmarks` WHERE `id` = :id', {
       id,
     })) as BookmarkRecordResults;
 
@@ -44,14 +47,14 @@ export class BookmarkRecord implements BookmarkEntity {
   static async getAll(name?: string): Promise<BookmarkEntity[]> {
     if (name) {
       const [results] = (await pool.execute(
-        "SELECT `id`, `name`, `url`, `favorite` FROM `bookmarks` WHERE `name` LIKE :name",
+        'SELECT `id`, `name`, `url`, `favorite` FROM `bookmarks` WHERE `name` LIKE :name',
         { name: `%${name}%` }
       )) as BookmarkRecordResults;
       return results;
     }
 
     const [results] = (await pool.execute(
-      "SELECT `id`, `name`, `url`, `favorite` FROM `bookmarks`"
+      'SELECT `id`, `name`, `url`, `favorite` FROM `bookmarks`'
     )) as BookmarkRecordResults;
     return results;
   }

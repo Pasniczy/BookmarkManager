@@ -12,5 +12,7 @@
     "moduleResolution": "Node",
     "esModuleInterop": true,
     "allowSyntheticDefaultImports": true
-  }
+  },
+  "include": ["./**/*.ts"],
+  "exclude": ["node_modules"]
 }
