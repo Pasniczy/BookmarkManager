@@ -7,7 +7,7 @@ const testBookmark: BookmarkRecord = {
   name: "test bookmark",
   url: "http://test.com",
   favorite: false,
-}; // make sure to add bookmark with this id to db
+}; // make sure to add this bookmark to db
 
 const newBookmarkEntityMock: NewBookmarkEntity = {
   name: "test name",
@@ -21,7 +21,6 @@ afterAll(() => {
 describe("BookmarkRecord", () => {
   it("should create BookmarkRecord instance", () => {
     const bookmark = new BookmarkRecord(newBookmarkEntityMock);
-
     expect(bookmark.name).toBe("test name");
     expect(bookmark.url).toBe("http://example.com");
     expect(bookmark.favorite).toBe(false);
@@ -29,7 +28,6 @@ describe("BookmarkRecord", () => {
 
   it("should create BookmarkRecord instance with favorite set to true", () => {
     const bookmark = new BookmarkRecord({ ...newBookmarkEntityMock, favorite: true });
-
     expect(bookmark.name).toBe("test name");
     expect(bookmark.url).toBe("http://example.com");
     expect(bookmark.favorite).toBe(true);
@@ -43,7 +41,7 @@ describe("BookmarkRecord.getAll()", () => {
     expect(bookmarks[0]).toBeDefined();
   });
 
-  it("should return array with test bookmark entry for passed name parameter", async () => {
+  it("should return array with test bookmark entry for passed name query", async () => {
     const bookmarks = await BookmarkRecord.getAll(testBookmark.name);
     expect(Array.isArray(bookmarks)).toBe(true);
     const resultTestBookmark: BookmarkEntity = { ...bookmarks[0], favorite: !!bookmarks[0] };
