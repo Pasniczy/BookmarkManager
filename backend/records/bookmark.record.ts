@@ -7,13 +7,10 @@ import { BookmarkEntity, NewBookmarkEntity } from '../types';
 type BookmarkRecordResults = [BookmarkEntity[], FieldPacket[]];
 
 export class BookmarkRecord implements BookmarkEntity {
-  id: string;
-
+  readonly id: string;
   name: string;
-
   url: string;
-
-  favorite: boolean;
+  _favorite: boolean;
 
   constructor({ id, name, url, favorite }: NewBookmarkEntity) {
     if (!name) {
@@ -32,12 +29,28 @@ export class BookmarkRecord implements BookmarkEntity {
     this.id = id ?? v4();
     this.name = name;
     this.url = url;
-    this.favorite = !!favorite;
+    this.favorite = favorite;
+  }
+
+  get favorite(): boolean {
+    return this._favorite;
+  }
+
+  set favorite(value: boolean | number) {
+    this._favorite = !!value;
   }
 
   async add(): Promise<BookmarkRecord> {
     await pool.execute(
       'INSERT INTO `bookmarks`(`id`,`name`,`url`,`favorite`) VALUES(:id, :name, :url, :favorite)',
+      this
+    );
+    return this;
+  }
+
+  async update(): Promise<BookmarkRecord> {
+    await pool.execute(
+      'UPDATE `bookmarks` SET `name` = :name, `url` = :url, `favorite` = :favorite WHERE `id` = :id',
       this
     );
     return this;

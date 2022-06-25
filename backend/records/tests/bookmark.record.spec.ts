@@ -95,3 +95,26 @@ describe('BookmarkRecord.add()', () => {
     expect(bookmark).toStrictEqual(testBookmarkRecord);
   });
 });
+
+describe('BookmarkRecord.update()', () => {
+  afterAll(async () => {
+    await testBookmarkRecord.update();
+  });
+  it('should return BookmarkRecord', async () => {
+    const bookmark = await testBookmarkRecord.update();
+    expect(bookmark instanceof BookmarkRecord).toBe(true);
+  });
+  it('should update BookmarkRecord with given id in db', async () => {
+    const bookmark = await BookmarkRecord.getOne(testBookmarkId);
+    expect(bookmark.name).toBe(testBookmarkRecord.name);
+    expect(bookmark.url).toBe(testBookmarkRecord.url);
+    expect(bookmark.favorite).toBe(testBookmarkRecord.favorite);
+    bookmark.name = newBookmarkEntityMock.name;
+    bookmark.url = newBookmarkEntityMock.url;
+    bookmark.favorite = true;
+    const { name, url, favorite } = await bookmark.update();
+    expect(name).toBe(newBookmarkEntityMock.name);
+    expect(url).toBe(newBookmarkEntityMock.url);
+    expect(favorite).toBe(true);
+  });
+});

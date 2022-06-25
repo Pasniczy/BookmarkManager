@@ -9,6 +9,7 @@ module.exports = {
     'arrow-body-style': 0,
     'no-nested-ternary': 2,
     'consistent-return': 0,
+    'no-underscore-dangle': 0,
     'object-curly-newline': 0,
     'import/prefer-default-export': 0,
     'unused-imports/no-unused-imports': 1,
@@ -34,6 +35,13 @@ module.exports = {
         '@typescript-eslint/no-use-before-define': 0,
         '@typescript-eslint/explicit-module-boundary-types': 0,
         '@typescript-eslint/comma-dangle': 0,
+        '@typescript-eslint/lines-between-class-members': 0,
+      },
+    },
+    {
+      files: ['*.spec.ts', '*.test.ts'],
+      rules: {
+        '@typescript-eslint/ban-ts-comment': 0,
       },
     },
   ],
