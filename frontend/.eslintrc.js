@@ -14,6 +14,7 @@ module.exports = {
     'arrow-body-style': 0,
     'no-nested-ternary': 2,
     'no-trailing-spaces': 2,
+    'import/prefer-default-export': 0,
     'import/no-extraneous-dependencies': 0,
     'unused-imports/no-unused-imports': 1,
     'react/function-component-definition': 0,
