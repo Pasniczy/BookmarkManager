@@ -56,6 +56,10 @@ export class BookmarkRecord implements BookmarkEntity {
     return this;
   }
 
+  async delete(): Promise<void> {
+    await pool.execute('DELETE FROM `bookmarks` WHERE `id` = :id', this);
+  }
+
   static async getOne(id: string): Promise<BookmarkRecord | null> {
     const [results] = (await pool.execute('SELECT * from `bookmarks` WHERE `id` = :id', {
       id,

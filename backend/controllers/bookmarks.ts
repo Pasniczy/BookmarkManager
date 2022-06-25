@@ -25,7 +25,7 @@ export const getBookmarks = async (req: Request, res: Response) => {
 export const addBookmark = async (req: Request, res: Response) => {
   const bookmark = new BookmarkRecord(req.body as BookmarkEntity);
   await bookmark.add();
-  res.status(200).json(bookmark);
+  res.status(201).json(bookmark);
 };
 
 // @desc Update bookmark
@@ -44,4 +44,16 @@ export const updateBookmark = async (req: Request, res: Response) => {
   bookmark = await bookmark.update();
 
   res.status(200).json(bookmark);
+};
+
+// @desc Delete bookmark
+// @route DELETE /bookmarks/:id
+export const deleteBookmark = async (req: Request, res: Response) => {
+  const bookmark = await BookmarkRecord.getOne(req.params.id);
+
+  if (!bookmark) throw new ValidationError('Bookmark not found');
+
+  await bookmark.delete();
+
+  res.status(200).end();
 };

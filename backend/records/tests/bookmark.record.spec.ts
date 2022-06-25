@@ -7,7 +7,6 @@ const newBookmarkEntityMock: NewBookmarkEntity = {
   url: 'http://example.com',
 };
 
-// make sure this record exists in db
 const testBookmarkId = '12345678-1234-1234-1234-123456789abc';
 const testBookmarkEntity: BookmarkEntity = {
   id: testBookmarkId,
@@ -17,7 +16,12 @@ const testBookmarkEntity: BookmarkEntity = {
 };
 const testBookmarkRecord = new BookmarkRecord(testBookmarkEntity);
 
-afterAll(() => {
+beforeAll(async () => {
+  await testBookmarkRecord.add();
+});
+
+afterAll(async () => {
+  await testBookmarkRecord.delete();
   pool.end();
 });
 
@@ -80,9 +84,7 @@ describe('BookmarkRecord.getAll() static', () => {
 
 describe('BookmarkRecord.add()', () => {
   beforeEach(async () => {
-    await pool.execute('DELETE FROM `bookmarks` WHERE `id` = :id', {
-      id: testBookmarkId,
-    });
+    await testBookmarkRecord.delete();
   });
   it('should return BookmarkRecord', async () => {
     const bookmark = await testBookmarkRecord.add();
@@ -116,5 +118,16 @@ describe('BookmarkRecord.update()', () => {
     expect(name).toBe(newBookmarkEntityMock.name);
     expect(url).toBe(newBookmarkEntityMock.url);
     expect(favorite).toBe(true);
+  });
+});
+
+describe('BookmarkRecord.delete()', () => {
+  afterAll(async () => {
+    await testBookmarkRecord.add();
+  });
+  it('should delete BookmarkRecord with given id in db', async () => {
+    expect(await BookmarkRecord.getOne(testBookmarkId)).toBeDefined();
+    await testBookmarkRecord.delete();
+    expect(await BookmarkRecord.getOne(testBookmarkId)).toBeNull();
   });
 });
