@@ -17,7 +17,7 @@ module.exports = {
   },
   overrides: [
     {
-      files: '*.ts',
+      files: './**/*.ts',
       extends: [
         'plugin:@typescript-eslint/recommended',
         'plugin:@typescript-eslint/recommended-requiring-type-checking',
@@ -39,7 +39,7 @@ module.exports = {
       },
     },
     {
-      files: ['*.spec.ts', '*.test.ts'],
+      files: ['./**/*.spec.ts', './**/*.test.ts'],
       rules: {
         '@typescript-eslint/ban-ts-comment': 0,
       },
