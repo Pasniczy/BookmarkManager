@@ -32,6 +32,15 @@ export class BookmarkRecord implements BookmarkEntity {
     this.favorite = favorite ?? false;
   }
 
+  static async getOne(id: string): Promise<BookmarkRecord | null> {
+    const [results] = (await pool.execute("SELECT * from `bookmarks` WHERE `id` = :id", {
+      id,
+    })) as BookmarkRecordResults;
+
+    if (!results[0]) return null;
+    return new BookmarkRecord(results[0]);
+  }
+
   static async getAll(name?: string): Promise<BookmarkEntity[]> {
     if (name) {
       const [results] = (await pool.execute(

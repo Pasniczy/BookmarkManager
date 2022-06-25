@@ -1,6 +1,7 @@
 import { Router } from "express";
-import { getBookmarks } from "../controllers/bookmarks";
+import { getBookmark, getBookmarks } from "../controllers/bookmarks";
 
 export const bookmarksRouter = Router();
 
+bookmarksRouter.get("/:id", getBookmark);
 bookmarksRouter.get("/", getBookmarks);

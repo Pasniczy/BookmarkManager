@@ -14,6 +14,11 @@ const newBookmarkEntityMock: NewBookmarkEntity = {
   url: "http://example.com",
 };
 
+const parseBookmark = (bookmark: BookmarkEntity): BookmarkEntity => ({
+  ...bookmark,
+  favorite: !!bookmark.favorite,
+});
+
 afterAll(() => {
   pool.end();
 });
@@ -34,6 +39,19 @@ describe("BookmarkRecord", () => {
   });
 });
 
+describe("BookmarkRecord.getOne()", () => {
+  it("should return test bookmark entry for existing test id param", async () => {
+    const bookmark = await BookmarkRecord.getOne(testBookmark.id);
+    expect(typeof bookmark === "object").toBe(true);
+    expect(parseBookmark(bookmark)).toStrictEqual(testBookmark);
+  });
+
+  it("should return null for non existing test id param", async () => {
+    const bookmark = await BookmarkRecord.getOne("------------------------------------");
+    expect(bookmark).toBeNull();
+  });
+});
+
 describe("BookmarkRecord.getAll()", () => {
   it("should return array of entries", async () => {
     const bookmarks = await BookmarkRecord.getAll();
@@ -44,6 +62,6 @@ describe("BookmarkRecord.getAll()", () => {
   it("should return array with test bookmark entry for passed name query", async () => {
     const bookmarks = await BookmarkRecord.getAll(testBookmark.name);
     expect(Array.isArray(bookmarks)).toBe(true);
-    const resultTestBookmark: BookmarkEntity = { ...bookmarks[0], favorite: !!bookmarks[0] };
+    expect(parseBookmark(bookmarks[0])).toStrictEqual(testBookmark);
   });
 });
