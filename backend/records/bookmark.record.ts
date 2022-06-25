@@ -32,7 +32,7 @@ export class BookmarkRecord implements BookmarkEntity {
     this.id = id ?? v4();
     this.name = name;
     this.url = url;
-    this.favorite = favorite ?? false;
+    this.favorite = !!favorite;
   }
 
   static async getOne(id: string): Promise<BookmarkRecord | null> {
@@ -44,18 +44,18 @@ export class BookmarkRecord implements BookmarkEntity {
     return new BookmarkRecord(results[0]);
   }
 
-  static async getAll(name?: string): Promise<BookmarkEntity[]> {
+  static async getAll(name?: string): Promise<BookmarkRecord[]> {
     if (name) {
       const [results] = (await pool.execute(
         'SELECT `id`, `name`, `url`, `favorite` FROM `bookmarks` WHERE `name` LIKE :name',
         { name: `%${name}%` }
       )) as BookmarkRecordResults;
-      return results;
+      return results.map((result) => new BookmarkRecord(result));
     }
 
     const [results] = (await pool.execute(
       'SELECT `id`, `name`, `url`, `favorite` FROM `bookmarks`'
     )) as BookmarkRecordResults;
-    return results;
+    return results.map((result) => new BookmarkRecord(result));
   }
 }
