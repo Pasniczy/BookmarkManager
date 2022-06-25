@@ -35,6 +35,14 @@ export class BookmarkRecord implements BookmarkEntity {
     this.favorite = !!favorite;
   }
 
+  async add(): Promise<BookmarkRecord> {
+    await pool.execute(
+      'INSERT INTO `bookmarks`(`id`,`name`,`url`,`favorite`) VALUES(:id, :name, :url, :favorite)',
+      this
+    );
+    return this;
+  }
+
   static async getOne(id: string): Promise<BookmarkRecord | null> {
     const [results] = (await pool.execute('SELECT * from `bookmarks` WHERE `id` = :id', {
       id,

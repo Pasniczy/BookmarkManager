@@ -8,14 +8,14 @@ const newBookmarkEntityMock: NewBookmarkEntity = {
 };
 
 // make sure this record exists in db
-const testBookmarkEntityMock: BookmarkEntity = {
-  id: '12345678-1234-1234-1234-123456789abc',
+const testBookmarkId = '12345678-1234-1234-1234-123456789abc';
+const testBookmarkEntity: BookmarkEntity = {
+  id: testBookmarkId,
   name: 'test bookmark',
   url: 'http://test.com',
   favorite: false,
 };
-
-const testBookmarkRecordMock = new BookmarkRecord(testBookmarkEntityMock);
+const testBookmarkRecord = new BookmarkRecord(testBookmarkEntity);
 
 afterAll(() => {
   pool.end();
@@ -51,11 +51,11 @@ describe('BookmarkRecord', () => {
   });
 });
 
-describe('BookmarkRecord.getOne()', () => {
+describe('BookmarkRecord.getOne() static', () => {
   it('should return test BookmarkRecord entry for existing test id param', async () => {
-    const bookmark = await BookmarkRecord.getOne(testBookmarkEntityMock.id);
+    const bookmark = await BookmarkRecord.getOne(testBookmarkId);
     expect(typeof bookmark === 'object').toBe(true);
-    expect(bookmark).toStrictEqual(testBookmarkRecordMock);
+    expect(bookmark).toStrictEqual(testBookmarkRecord);
   });
 
   it('should return null for non existing test id param', async () => {
@@ -64,7 +64,7 @@ describe('BookmarkRecord.getOne()', () => {
   });
 });
 
-describe('BookmarkRecord.getAll()', () => {
+describe('BookmarkRecord.getAll() static', () => {
   it('should return array of entries', async () => {
     const bookmarks = await BookmarkRecord.getAll();
     expect(Array.isArray(bookmarks)).toBe(true);
@@ -72,8 +72,26 @@ describe('BookmarkRecord.getAll()', () => {
   });
 
   it('should return array with test bookmark entry for passed name query', async () => {
-    const bookmarks = await BookmarkRecord.getAll(testBookmarkEntityMock.name);
+    const bookmarks = await BookmarkRecord.getAll(testBookmarkEntity.name);
     expect(Array.isArray(bookmarks)).toBe(true);
-    expect(bookmarks[0]).toStrictEqual(testBookmarkRecordMock);
+    expect(bookmarks[0]).toStrictEqual(testBookmarkRecord);
+  });
+});
+
+describe('BookmarkRecord.add()', () => {
+  beforeEach(async () => {
+    await pool.execute('DELETE FROM `bookmarks` WHERE `id` = :id', {
+      id: testBookmarkId,
+    });
+  });
+  it('should return BookmarkRecord', async () => {
+    const bookmark = await testBookmarkRecord.add();
+    expect(bookmark instanceof BookmarkRecord).toBe(true);
+  });
+  it('should add BookmarkRecord to db', async () => {
+    let bookmark = await BookmarkRecord.getOne(testBookmarkId);
+    expect(bookmark).toBeNull();
+    bookmark = await testBookmarkRecord.add();
+    expect(bookmark).toStrictEqual(testBookmarkRecord);
   });
 });
