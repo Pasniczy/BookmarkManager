@@ -1,6 +1,10 @@
+import { FieldPacket } from "mysql2";
 import { v4 } from "uuid";
+import { pool } from "../utils/db";
 import { ValidationError } from "../utils/errors";
 import { BookmarkEntity, NewBookmarkEntity } from "../types";
+
+type BookmarkRecordResults = [BookmarkEntity[], FieldPacket[]];
 
 export class BookmarkRecord implements BookmarkEntity {
   id: string;
@@ -26,5 +30,20 @@ export class BookmarkRecord implements BookmarkEntity {
     this.name = name;
     this.url = url;
     this.favorite = favorite ?? false;
+  }
+
+  static async getAll(name?: string): Promise<BookmarkEntity[]> {
+    if (name) {
+      const [results] = (await pool.execute(
+        "SELECT `id`, `name`, `url`, `favorite` FROM `bookmarks` WHERE `name` LIKE :name",
+        { name: `%${name}%` }
+      )) as BookmarkRecordResults;
+      return results;
+    }
+
+    const [results] = (await pool.execute(
+      "SELECT `id`, `name`, `url`, `favorite` FROM `bookmarks`"
+    )) as BookmarkRecordResults;
+    return results;
   }
 }

@@ -1,9 +1,12 @@
 import express from "express";
+import { bookmarksRouter } from "./routes/bookmarks";
 import { handleError } from "./utils/errors";
 
 const app = express();
 
 app.use(express.json());
+
+app.use("/bookmarks", bookmarksRouter);
 
 app.use(handleError);
 
