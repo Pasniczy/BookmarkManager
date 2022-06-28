@@ -1,0 +1,26 @@
+name: Frontend Checks
+
+on: [push]
+
+jobs:
+  checks:
+    runs-on: ubuntu-latest
+
+    defaults:
+      run:
+        working-directory: frontend
+
+    steps:
+      - uses: actions/checkout@v2
+      - name: use node v.14
+        uses: actions/setup-node@v1
+        with:
+          node-version: 14
+      - name: install node modules
+        run: yarn install --ignore-scripts
+      - name: eslint check
+        run: yarn run lint
+      - name: formating check
+        run: yarn run format
+      - name: type check
+        run: yarn type

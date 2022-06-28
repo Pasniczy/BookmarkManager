@@ -32,7 +32,7 @@ export class BookmarkRecord implements BookmarkEntity {
     this.favorite = favorite;
   }
 
-  get favorite(): boolean {
+  get favorite(): BookmarkEntity['favorite'] {
     return this._favorite;
   }
 
@@ -69,7 +69,7 @@ export class BookmarkRecord implements BookmarkEntity {
     return new BookmarkRecord(results[0]);
   }
 
-  static async getAll(name?: string): Promise<BookmarkRecord[]> {
+  static async getAll(name?: BookmarkEntity['name']): Promise<BookmarkRecord[]> {
     if (name) {
       const [results] = (await pool.execute(
         'SELECT `id`, `name`, `url`, `favorite` FROM `bookmarks` WHERE `name` LIKE :name',
