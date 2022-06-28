@@ -1,7 +1,17 @@
 module.exports = {
   root: true,
-  extends: ['airbnb-base'],
-  plugins: ['prettier', 'unused-imports'],
+  extends: [
+    'airbnb-base',
+    'plugin:@typescript-eslint/recommended',
+    'plugin:@typescript-eslint/recommended-requiring-type-checking',
+    'airbnb-typescript/base',
+  ],
+  plugins: ['prettier', 'unused-imports', '@typescript-eslint/eslint-plugin'],
+  parser: '@typescript-eslint/parser',
+  parserOptions: {
+    project: './tsconfig.json',
+    tsconfigRootDir: __dirname,
+  },
   rules: {
     'max-len': [2, 120],
     'linebreak-style': 0,
@@ -16,38 +26,9 @@ module.exports = {
     'import/prefer-default-export': 0,
     'unused-imports/no-unused-imports': 1,
     'no-console': 0,
+    '@typescript-eslint/comma-dangle': 0,
+    '@typescript-eslint/default-param-last': 0,
+    '@typescript-eslint/no-floating-promises': 0,
+    '@typescript-eslint/lines-between-class-members': 0,
   },
-  overrides: [
-    {
-      files: './**/*.ts',
-      extends: [
-        'plugin:@typescript-eslint/recommended',
-        'plugin:@typescript-eslint/recommended-requiring-type-checking',
-        'airbnb-typescript/base',
-      ],
-      parser: '@typescript-eslint/parser',
-      parserOptions: {
-        project: ['./tsconfig.json'],
-        tsconfigRootDir: __dirname,
-      },
-      rules: {
-        '@typescript-eslint/no-floating-promises': 0,
-        '@typescript-eslint/unbound-method': 0,
-        '@typescript-eslint/no-unused-vars': 1,
-        '@typescript-eslint/no-empty-interface': 1,
-        '@typescript-eslint/no-use-before-define': 0,
-        '@typescript-eslint/explicit-module-boundary-types': 0,
-        '@typescript-eslint/comma-dangle': 0,
-        '@typescript-eslint/lines-between-class-members': 0,
-        '@typescript-eslint/no-unsafe-call': 0,
-        '@typescript-eslint/no-unsafe-assignment': 0,
-      },
-    },
-    {
-      files: ['./**/*.spec.ts', './**/*.test.ts'],
-      rules: {
-        '@typescript-eslint/ban-ts-comment': 0,
-      },
-    },
-  ],
 };

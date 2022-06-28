@@ -10,7 +10,7 @@ export class BookmarkRecord implements BookmarkEntity {
   readonly id: string;
   name: string;
   url: string;
-  _favorite: boolean;
+  _favorite = false;
 
   constructor({ id, name, url, favorite }: NewBookmarkEntity) {
     if (!name) {
@@ -36,7 +36,7 @@ export class BookmarkRecord implements BookmarkEntity {
     return this._favorite;
   }
 
-  set favorite(value: boolean | number) {
+  set favorite(value: NewBookmarkEntity['favorite']) {
     this._favorite = !!value;
   }
 

@@ -5,7 +5,7 @@ import { bookmarksRouter } from './routes/bookmarks';
 import { handleError } from './utils/errors';
 
 dotenv.config({ path: './config/config.env' });
-const APP_PORT = parseInt(process.env.APP_PORT, 10) || 5000;
+const APP_PORT = (process.env.APP_PORT && parseInt(process.env.APP_PORT, 10)) || 5000;
 const FRONTEND_APP_PORT = process.env.FRONTEND_APP_PORT || 3000;
 
 const app = express();

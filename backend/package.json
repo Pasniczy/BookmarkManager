@@ -11,7 +11,8 @@
     "lint": "eslint . --ext .js,.ts",
     "lint:fix": "eslint . --ext .js,.ts --fix",
     "format": "prettier \"**/*.{js,json,ts}\" -c",
-    "format:fix": "prettier --write \"**/*.{js,json,ts}\" "
+    "format:fix": "prettier --write \"**/*.{js,json,ts}\" ",
+    "type": "tsc --noEmit --skipLibCheck"
   },
   "dependencies": {
     "cors": "^2.8.5",

@@ -5,4 +5,7 @@ export interface BookmarkEntity {
   favorite: boolean;
 }
 
-export type NewBookmarkEntity = Omit<BookmarkEntity, 'id' | 'favorite'> & { id?: string; favorite?: boolean | number };
+export type NewBookmarkEntity = Omit<BookmarkEntity, 'id' | 'favorite'> & {
+  id?: string;
+  favorite?: boolean | 0 | 1;
+};

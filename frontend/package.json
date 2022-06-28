@@ -30,7 +30,8 @@
     "lint": "eslint . --ext .ts,.js,.tsx,.jsx",
     "lint:fix": "eslint . --ext .ts,.js,.tsx,.jsx --fix",
     "format": "prettier \"src/**/*.{js,jsx,json,ts,tsx,css,scss}\" -c",
-    "format:fix": "prettier --write \"src/**/*.{js,jsx,json,ts,tsx,css,scss}\" "
+    "format:fix": "prettier --write \"src/**/*.{js,jsx,json,ts,tsx,css,scss}\" ",
+    "type": "tsc --noEmit --skipLibCheck"
   },
   "browserslist": {
     "production": [

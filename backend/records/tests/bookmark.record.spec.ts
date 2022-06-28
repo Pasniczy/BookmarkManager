@@ -108,7 +108,7 @@ describe('BookmarkRecord.update()', () => {
   });
   it('should update BookmarkRecord with given id in db', async () => {
     const bookmark = await BookmarkRecord.getOne(testBookmarkId);
-    expect(bookmark.name).toBe(testBookmarkRecord.name);
+    if (!bookmark) throw new Error('No bookmark found');
     expect(bookmark.url).toBe(testBookmarkRecord.url);
     expect(bookmark.favorite).toBe(testBookmarkRecord.favorite);
     bookmark.name = newBookmarkEntityMock.name;
