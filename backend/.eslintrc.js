@@ -1,8 +1,10 @@
 module.exports = {
   root: true,
-  extends: ['prettier', 'airbnb-base'],
+  extends: ['airbnb-base'],
   plugins: ['prettier', 'unused-imports'],
   rules: {
+    'max-len': [2, 120],
+    'linebreak-style': 0,
     semi: 2,
     'no-undef': 0,
     'no-shadow': 0,
@@ -26,6 +28,7 @@ module.exports = {
       parser: '@typescript-eslint/parser',
       parserOptions: {
         project: ['./tsconfig.json'],
+        tsconfigRootDir: __dirname,
       },
       rules: {
         '@typescript-eslint/no-floating-promises': 0,
@@ -36,6 +39,8 @@ module.exports = {
         '@typescript-eslint/explicit-module-boundary-types': 0,
         '@typescript-eslint/comma-dangle': 0,
         '@typescript-eslint/lines-between-class-members': 0,
+        '@typescript-eslint/no-unsafe-call': 0,
+        '@typescript-eslint/no-unsafe-assignment': 0,
       },
     },
     {
