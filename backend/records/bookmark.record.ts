@@ -10,7 +10,7 @@ export class BookmarkRecord implements BookmarkEntity {
   readonly id: string;
   name: string;
   url: string;
-  _favorite = false;
+  favorite = false;
 
   constructor({ id, name, url, favorite }: NewBookmarkEntity) {
     if (!name) {
@@ -29,15 +29,7 @@ export class BookmarkRecord implements BookmarkEntity {
     this.id = id ?? v4();
     this.name = name;
     this.url = url;
-    this.favorite = favorite;
-  }
-
-  get favorite(): BookmarkEntity['favorite'] {
-    return this._favorite;
-  }
-
-  set favorite(value: NewBookmarkEntity['favorite']) {
-    this._favorite = !!value;
+    this.favorite = !!favorite;
   }
 
   async add(): Promise<BookmarkRecord> {
