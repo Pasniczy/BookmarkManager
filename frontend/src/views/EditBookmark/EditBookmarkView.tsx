@@ -1,21 +1,35 @@
-import { ChangeEvent, FormEvent, useState } from 'react';
-import { useNavigate } from 'react-router-dom';
+import { ChangeEvent, FormEvent, useEffect, useState } from 'react';
+import { useNavigate, useParams } from 'react-router-dom';
 import { useDispatch } from 'react-redux';
 import { NewBookmarkEntity } from 'Models';
-import { addBookmark } from '../../actions/bookmarks';
 import { useAppSelector } from '../../store';
+import { editBookmark, getBookmark } from '../../actions/bookmarks';
 import { BookmarksForm } from '../../components/Bookmarks/BookmarksForm';
 
-export const AddBookmarkView = () => {
+export const EditBookmarkView = () => {
   const navigate = useNavigate();
   const dispatch = useDispatch();
-  const { error } = useAppSelector((state) => state.bookmarks);
+  const params = useParams();
+  // TODO: Add routes types
+  const id = params.id as string;
+  const { bookmark, error } = useAppSelector((state) => state.bookmarks);
 
   const [formState, setFormState] = useState<NewBookmarkEntity>({
     name: '',
     url: '',
     favorite: false,
   });
+
+  useEffect(() => {
+    dispatch(getBookmark(id));
+  }, [dispatch, id]);
+
+  useEffect(() => {
+    if (bookmark) {
+      const { name, url, favorite } = bookmark;
+      setFormState({ name, url, favorite });
+    }
+  }, [bookmark]);
 
   const handleInputChange = (e: ChangeEvent<HTMLInputElement>) => {
     const value = e.target.type === 'checkbox' ? e.target.checked : e.target.value;
@@ -30,7 +44,7 @@ export const AddBookmarkView = () => {
     if (!formState.name || !formState) {
       return console.error('Name and URL inputs cannot be empty');
     }
-    dispatch(addBookmark(formState, navigate));
+    dispatch(editBookmark(id, formState, navigate));
   };
 
   if (error) {
@@ -40,7 +54,7 @@ export const AddBookmarkView = () => {
   return (
     <div>
       <BookmarksForm
-        title="Add Bookmark"
+        title="Edit bookmark"
         formState={formState}
         onSubmit={handleSubmit}
         onInputChange={handleInputChange}

@@ -25,11 +25,9 @@ export const BookmarksView = () => {
   return (
     <div>
       <h1>Bookmarks</h1>
-      <ul style={{ display: 'flex', justifyContent: 'space-around' }}>
-        <li>
-          <Link to="/bookmarks/add">Add bookmark</Link>
-        </li>
-      </ul>
+      <p>
+        <Link to="/bookmarks/add">Add bookmark</Link>
+      </p>
       {bookmarks.map((bookmark) => (
         <BookmarkItem key={bookmark.id} bookmark={bookmark} />
       ))}

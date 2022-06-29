@@ -29,14 +29,45 @@ const initialState: BookmarksState = {
 export const bookmarksReducer = (state: BookmarksState = initialState, action: BookmarksAction) => {
   switch (action.type) {
     case BookmarksActionType.GET_BOOKMARKS:
-      return { ...state, ...resetState, bookmarks: action.payload.bookmarks };
+      return {
+        ...state,
+        ...resetState,
+        bookmarks: action.payload.bookmarks,
+      };
     case BookmarksActionType.GET_BOOKMARK:
+      return {
+        ...state,
+        ...resetState,
+        bookmark: action.payload.bookmark,
+      };
     case BookmarksActionType.BOOKMARK_ADDED:
-      return { ...state, ...resetState, bookmark: action.payload.bookmark };
+      return {
+        ...state,
+        ...resetState,
+        bookmark: action.payload.bookmark,
+        bookmarks: [action.payload.bookmark, ...state.bookmarks],
+      };
+    case BookmarksActionType.BOOKMARK_EDITED:
+      return {
+        ...state,
+        ...resetState,
+        bookmarks: state.bookmarks.map((bookmark) => {
+          if (bookmark.id !== action.payload.id) return bookmark;
+          return action.payload.bookmark;
+        }),
+      };
     case BookmarksActionType.BOOKMARKS_LOADING:
-      return { ...state, ...resetState, loading: true };
+      return {
+        ...state,
+        ...resetState,
+        loading: true,
+      };
     case BookmarksActionType.BOOKMARKS_ERROR:
-      return { ...state, ...resetState, error: action.payload.error };
+      return {
+        ...state,
+        ...resetState,
+        error: action.payload.error,
+      };
     default:
       return state;
   }

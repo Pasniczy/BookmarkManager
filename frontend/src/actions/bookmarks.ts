@@ -82,3 +82,35 @@ export const addBookmark = (
     }
   };
 };
+
+export const editBookmark = (
+  id: string,
+  editedBookmark: NewBookmarkEntity,
+  navigate: NavigateFunction
+): ThunkAction<Promise<void>, RootState, unknown, BookmarksAction> => {
+  return async (dispatch: Dispatch<BookmarksAction>) => {
+    const config = {
+      headers: {
+        'Content-Type': 'application/json',
+      },
+    };
+    try {
+      dispatch({
+        type: BookmarksActionType.BOOKMARKS_LOADING,
+      });
+      const res = await axios.put(`http://localhost:3001/bookmarks/${id}`, editedBookmark, config);
+      const bookmark = res.data as BookmarkEntity;
+      dispatch({
+        type: BookmarksActionType.BOOKMARK_EDITED,
+        payload: { id, bookmark },
+      });
+      navigate('/bookmarks');
+    } catch (err) {
+      console.error(err);
+      dispatch({
+        type: BookmarksActionType.BOOKMARKS_ERROR,
+        payload: { error: 'Failed to edit bookmark' },
+      });
+    }
+  };
+};
