@@ -52,8 +52,8 @@ export const bookmarksReducer = (state: BookmarksState = initialState, action: B
         ...state,
         ...resetState,
         bookmarks: state.bookmarks.map((bookmark) => {
-          if (bookmark.id !== action.payload.id) return bookmark;
-          return action.payload.bookmark;
+          if (bookmark.id === action.payload.id) return action.payload.bookmark;
+          return bookmark;
         }),
       };
     case BookmarksActionType.BOOKMARK_DELETED:
