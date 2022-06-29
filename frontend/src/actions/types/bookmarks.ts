@@ -5,6 +5,7 @@ export enum BookmarksActionType {
   GET_BOOKMARK = 'GET_BOOKMARK',
   BOOKMARK_ADDED = 'BOOKMARK_ADDED',
   BOOKMARK_EDITED = 'BOOKMARK_EDITED',
+  BOOKMARK_DELETED = 'BOOKMARK_DELETED',
   BOOKMARKS_LOADING = 'BOOKMARKS_LOADING',
   BOOKMARKS_ERROR = 'BOOKMARKS_ERROR',
 }
@@ -38,6 +39,13 @@ export type BookmarkEdited = {
   };
 };
 
+export type BookmarkDeleted = {
+  type: BookmarksActionType.BOOKMARK_DELETED;
+  payload: {
+    id: BookmarkEntity['id'];
+  };
+};
+
 export type BookmarksLoading = {
   type: BookmarksActionType.BOOKMARKS_LOADING;
 };
@@ -54,5 +62,6 @@ export type BookmarksAction =
   | GetBookmark
   | BookmarkAdded
   | BookmarkEdited
+  | BookmarkDeleted
   | BookmarksLoading
   | BookmarksError;

@@ -56,6 +56,12 @@ export const bookmarksReducer = (state: BookmarksState = initialState, action: B
           return action.payload.bookmark;
         }),
       };
+    case BookmarksActionType.BOOKMARK_DELETED:
+      return {
+        ...state,
+        ...resetState,
+        bookmarks: state.bookmarks.filter((bookmark) => bookmark.id !== action.payload.id),
+      };
     case BookmarksActionType.BOOKMARKS_LOADING:
       return {
         ...state,

@@ -1,12 +1,15 @@
 import { MouseEvent } from 'react';
 import { BookmarkEntity } from 'Models';
 import { useNavigate } from 'react-router-dom';
+import { useDispatch } from 'react-redux';
+import { deleteBookmark } from '../../actions/bookmarks';
 
 type Props = {
   bookmark: BookmarkEntity;
 };
 
 export const BookmarkItem = ({ bookmark }: Props) => {
+  const dispatch = useDispatch();
   const navigate = useNavigate();
 
   const handleBookmarkSelect = () => {
@@ -16,6 +19,11 @@ export const BookmarkItem = ({ bookmark }: Props) => {
   const handleEditButtonClick = (e: MouseEvent<HTMLButtonElement>) => {
     e.stopPropagation();
     navigate(`/bookmarks/edit/${bookmark.id}`);
+  };
+
+  const handleDeleteButtonClick = (e: MouseEvent<HTMLButtonElement>) => {
+    e.stopPropagation();
+    dispatch(deleteBookmark(bookmark.id));
   };
 
   return (
@@ -29,6 +37,9 @@ export const BookmarkItem = ({ bookmark }: Props) => {
       <div style={{ marginTop: 10 }}>
         <button type="button" onClick={handleEditButtonClick}>
           Edit bookmark
+        </button>
+        <button type="button" onClick={handleDeleteButtonClick}>
+          Delete bookmark
         </button>
       </div>
     </div>

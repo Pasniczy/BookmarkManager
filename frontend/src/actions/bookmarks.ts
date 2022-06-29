@@ -114,3 +114,24 @@ export const editBookmark = (
     }
   };
 };
+
+export const deleteBookmark = (id: string): ThunkAction<Promise<void>, RootState, unknown, BookmarksAction> => {
+  return async (dispatch: Dispatch<BookmarksAction>) => {
+    try {
+      dispatch({
+        type: BookmarksActionType.BOOKMARKS_LOADING,
+      });
+      await axios.delete(`http://localhost:3001/bookmarks/${id}`);
+      dispatch({
+        type: BookmarksActionType.BOOKMARK_DELETED,
+        payload: { id },
+      });
+    } catch (err) {
+      console.error(err);
+      dispatch({
+        type: BookmarksActionType.BOOKMARKS_ERROR,
+        payload: { error: 'Failed to edit bookmark' },
+      });
+    }
+  };
+};
