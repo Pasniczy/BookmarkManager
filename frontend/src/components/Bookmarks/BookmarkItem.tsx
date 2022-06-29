@@ -1,18 +1,14 @@
 import { BookmarkEntity } from 'Models';
 import { useNavigate } from 'react-router-dom';
-import { useDispatch } from 'react-redux';
-import { getBookmark } from '../../actions/bookmarks';
 
 type Props = {
   bookmark: BookmarkEntity;
 };
 
 export const BookmarkItem = ({ bookmark }: Props) => {
-  const dispatch = useDispatch();
   const navigate = useNavigate();
 
   const handleBookmarkSelect = () => {
-    dispatch(getBookmark(bookmark.id));
     navigate(bookmark.id);
   };
 

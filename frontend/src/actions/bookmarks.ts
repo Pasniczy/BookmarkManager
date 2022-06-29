@@ -1,15 +1,16 @@
-import axios from 'axios';
 import { Dispatch } from 'react';
-import { BookmarkEntity } from 'Models';
+import { NavigateFunction } from 'react-router';
 import { ThunkAction } from 'redux-thunk';
+import axios from 'axios';
 import { RootState } from 'src/store';
+import { BookmarkEntity, NewBookmarkEntity } from 'Models';
 import { BookmarksAction, BookmarksActionType } from './types';
 
 export const getBookmarks = (): ThunkAction<Promise<void>, RootState, unknown, BookmarksAction> => {
   return async (dispatch) => {
     try {
       dispatch({
-        type: BookmarksActionType.BOOKMARK_LOADING,
+        type: BookmarksActionType.BOOKMARKS_LOADING,
       });
       const res = await axios.get('http://localhost:3001/bookmarks');
       const bookmarks = res.data as BookmarkEntity[];
@@ -33,7 +34,7 @@ export const getBookmark = (
   return async (dispatch: Dispatch<BookmarksAction>) => {
     try {
       dispatch({
-        type: BookmarksActionType.BOOKMARK_LOADING,
+        type: BookmarksActionType.BOOKMARKS_LOADING,
       });
       const res = await axios.get(`http://localhost:3001/bookmarks/${id}`);
       const bookmark = res.data as BookmarkEntity;
@@ -42,9 +43,41 @@ export const getBookmark = (
         payload: { bookmark },
       });
     } catch (err) {
+      console.error(err);
       dispatch({
         type: BookmarksActionType.BOOKMARKS_ERROR,
         payload: { error: 'Failed to fetch bookmarks' },
+      });
+    }
+  };
+};
+
+export const addBookmark = (
+  newBookmark: NewBookmarkEntity,
+  navigate: NavigateFunction
+): ThunkAction<Promise<void>, RootState, unknown, BookmarksAction> => {
+  return async (dispatch: Dispatch<BookmarksAction>) => {
+    const config = {
+      headers: {
+        'Content-Type': 'application/json',
+      },
+    };
+    try {
+      dispatch({
+        type: BookmarksActionType.BOOKMARKS_LOADING,
+      });
+      const res = await axios.post('http://localhost:3001/bookmarks', newBookmark, config);
+      const bookmark = res.data as BookmarkEntity;
+      dispatch({
+        type: BookmarksActionType.BOOKMARK_ADDED,
+        payload: { bookmark },
+      });
+      navigate(`/bookmarks/${bookmark.id}`);
+    } catch (err) {
+      console.error(err);
+      dispatch({
+        type: BookmarksActionType.BOOKMARKS_ERROR,
+        payload: { error: 'Failed to add bookmark' },
       });
     }
   };

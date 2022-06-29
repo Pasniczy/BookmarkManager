@@ -1,4 +1,5 @@
 import { useEffect } from 'react';
+import { Link } from 'react-router-dom';
 import { useDispatch } from 'react-redux';
 import { useAppSelector } from '../../store';
 import { getBookmarks } from '../../actions/bookmarks';
@@ -24,6 +25,11 @@ export const BookmarksView = () => {
   return (
     <div>
       <h1>Bookmarks</h1>
+      <ul style={{ display: 'flex', justifyContent: 'space-around' }}>
+        <li>
+          <Link to="/bookmarks/add">Add bookmark</Link>
+        </li>
+      </ul>
       {bookmarks.map((bookmark) => (
         <BookmarkItem key={bookmark.id} bookmark={bookmark} />
       ))}

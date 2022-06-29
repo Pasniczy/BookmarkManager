@@ -3,33 +3,41 @@ import { BookmarkEntity } from 'Models';
 export enum BookmarksActionType {
   GET_BOOKMARKS = 'GET_BOOKMARKS',
   GET_BOOKMARK = 'GET_BOOKMARK',
-  BOOKMARK_LOADING = 'BOOKMARKS_LOADING',
-  BOOKMARKS_ERROR = 'BOOKMARK_ERROR',
+  BOOKMARK_ADDED = 'BOOKMARK_ADDED',
+  BOOKMARKS_LOADING = 'BOOKMARKS_LOADING',
+  BOOKMARKS_ERROR = 'BOOKMARKS_ERROR',
 }
 
-export type GetAllBookmarksAction = {
+export type GetAllBookmarks = {
   type: BookmarksActionType.GET_BOOKMARKS;
   payload: {
     bookmarks: BookmarkEntity[];
   };
 };
 
-export type GetBookmarkAction = {
+export type GetBookmark = {
   type: BookmarksActionType.GET_BOOKMARK;
   payload: {
     bookmark: BookmarkEntity;
   };
 };
 
-export type BookmarksLoading = {
-  type: BookmarksActionType.BOOKMARK_LOADING;
+export type BookmarkAdded = {
+  type: BookmarksActionType.BOOKMARK_ADDED;
+  payload: {
+    bookmark: BookmarkEntity;
+  };
 };
 
-export type BookmarkError = {
+export type BookmarksLoading = {
+  type: BookmarksActionType.BOOKMARKS_LOADING;
+};
+
+export type BookmarksError = {
   type: BookmarksActionType.BOOKMARKS_ERROR;
   payload: {
     error: string;
   };
 };
 
-export type BookmarksAction = GetAllBookmarksAction | GetBookmarkAction | BookmarksLoading | BookmarkError;
+export type BookmarksAction = GetAllBookmarks | GetBookmark | BookmarkAdded | BookmarksLoading | BookmarksError;

@@ -26,6 +26,7 @@ module.exports = {
     'no-shadow': 0,
     'no-console': 0,
     'arrow-body-style': 0,
+    'consistent-return': 0,
     'no-nested-ternary': 2,
     'no-trailing-spaces': 2,
     'object-curly-newline': 0,

@@ -2,13 +2,22 @@ import { BookmarkEntity } from 'Models';
 import { Nullable } from '../types';
 import { BookmarksAction, BookmarksActionType } from '../actions/types';
 
-export interface BookmarksState {
-  bookmarks: BookmarkEntity[];
+interface BookmarksResetState {
   bookmark: Nullable<BookmarkEntity>;
   loading: boolean;
   // TODO: Model errors
   error: Nullable<string>;
 }
+
+export interface BookmarksState extends BookmarksResetState {
+  bookmarks: BookmarkEntity[];
+}
+
+const resetState: BookmarksResetState = {
+  bookmark: null,
+  loading: false,
+  error: null,
+};
 
 const initialState: BookmarksState = {
   bookmarks: [],
@@ -20,13 +29,14 @@ const initialState: BookmarksState = {
 export const bookmarksReducer = (state: BookmarksState = initialState, action: BookmarksAction) => {
   switch (action.type) {
     case BookmarksActionType.GET_BOOKMARKS:
-      return { ...state, bookmarks: action.payload.bookmarks, loading: false, error: null };
+      return { ...state, ...resetState, bookmarks: action.payload.bookmarks };
     case BookmarksActionType.GET_BOOKMARK:
-      return { ...state, bookmark: action.payload.bookmark, loading: false, error: null };
-    case BookmarksActionType.BOOKMARK_LOADING:
-      return { ...state, loading: true, error: null };
+    case BookmarksActionType.BOOKMARK_ADDED:
+      return { ...state, ...resetState, bookmark: action.payload.bookmark };
+    case BookmarksActionType.BOOKMARKS_LOADING:
+      return { ...state, ...resetState, loading: true };
     case BookmarksActionType.BOOKMARKS_ERROR:
-      return { ...state, loading: false, error: action.payload.error };
+      return { ...state, ...resetState, error: action.payload.error };
     default:
       return state;
   }
