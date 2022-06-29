@@ -1,5 +1,6 @@
 import express from 'express';
 import cors from 'cors';
+import 'express-async-errors';
 import * as dotenv from 'dotenv';
 import { bookmarksRouter } from './routes/bookmarks';
 import { handleError } from './utils/errors';
