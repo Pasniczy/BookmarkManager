@@ -52,13 +52,11 @@ export const EditBookmarkView = () => {
   }
 
   return (
-    <div>
-      <BookmarksForm
-        title="Edit bookmark"
-        formState={formState}
-        onSubmit={handleSubmit}
-        onInputChange={handleInputChange}
-      />
-    </div>
+    <BookmarksForm
+      title="Edit bookmark"
+      formState={formState}
+      onInputChange={handleInputChange}
+      onSubmit={handleSubmit}
+    />
   );
 };

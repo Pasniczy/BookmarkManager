@@ -38,13 +38,11 @@ export const AddBookmarkView = () => {
   }
 
   return (
-    <div>
-      <BookmarksForm
-        title="Add Bookmark"
-        formState={formState}
-        onSubmit={handleSubmit}
-        onInputChange={handleInputChange}
-      />
-    </div>
+    <BookmarksForm
+      title="Add Bookmark"
+      formState={formState}
+      onInputChange={handleInputChange}
+      onSubmit={handleSubmit}
+    />
   );
 };
