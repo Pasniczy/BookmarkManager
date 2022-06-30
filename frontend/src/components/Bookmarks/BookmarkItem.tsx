@@ -31,7 +31,7 @@ export const BookmarkItem = ({ bookmark }: Props) => {
 
   const handleDeleteButtonClick = (e: MouseEvent<HTMLButtonElement>) => {
     e.stopPropagation();
-    dispatch(deleteBookmark(bookmark.id));
+    dispatch(deleteBookmark(bookmark.id, navigate));
   };
 
   return (

@@ -115,7 +115,10 @@ export const editBookmark = (
   };
 };
 
-export const deleteBookmark = (id: string): ThunkAction<Promise<void>, RootState, unknown, BookmarksAction> => {
+export const deleteBookmark = (
+  id: string,
+  navigate: NavigateFunction
+): ThunkAction<Promise<void>, RootState, unknown, BookmarksAction> => {
   return async (dispatch: Dispatch<BookmarksAction>) => {
     try {
       dispatch({
@@ -126,6 +129,7 @@ export const deleteBookmark = (id: string): ThunkAction<Promise<void>, RootState
         type: BookmarksActionType.BOOKMARK_DELETED,
         payload: { id },
       });
+      navigate('/bookmarks');
     } catch (err) {
       console.error(err);
       dispatch({
