@@ -2,6 +2,8 @@ import { ChangeEvent, FormEvent, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { useDispatch } from 'react-redux';
 import { NewBookmarkEntity } from 'Models';
+import Box from '@mui/material/Box';
+import Typography from '@mui/material/Typography';
 import { addBookmark } from '../../actions/bookmarks';
 import { useAppSelector } from '../../store';
 import { BookmarksForm } from '../../components/Bookmarks/BookmarksForm';
@@ -38,11 +40,13 @@ export const AddBookmarkView = () => {
   }
 
   return (
-    <BookmarksForm
-      title="Add Bookmark"
-      formState={formState}
-      onInputChange={handleInputChange}
-      onSubmit={handleSubmit}
-    />
+    <>
+      <Box style={{ marginTop: 10, marginBottom: 10 }}>
+        <Typography variant="h4" component="h2">
+          Edit bookmark
+        </Typography>
+      </Box>
+      <BookmarksForm formType="add" formState={formState} onInputChange={handleInputChange} onSubmit={handleSubmit} />
+    </>
   );
 };

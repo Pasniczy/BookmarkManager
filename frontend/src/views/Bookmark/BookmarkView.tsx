@@ -1,11 +1,14 @@
 import { useEffect } from 'react';
-import { useParams, useNavigate } from 'react-router-dom';
+import { Link, useParams } from 'react-router-dom';
 import { useDispatch } from 'react-redux';
+import Box from '@mui/material/Box';
+import Button from '@mui/material/Button';
+import Typography from '@mui/material/Typography';
 import { useAppSelector } from '../../store';
 import { getBookmark } from '../../actions/bookmarks';
+import { BookmarkDetails } from '../../components/Bookmarks/BookmarkDetails';
 
 export const BookmarkView = () => {
-  const navigate = useNavigate();
   const dispatch = useDispatch();
   const { id } = useParams() as { id: string };
   const { bookmark, loading, error } = useAppSelector((state) => state.bookmarks);
@@ -23,13 +26,20 @@ export const BookmarkView = () => {
   }
 
   return (
-    <div style={{ margin: 10, padding: 10, border: '1px solid black' }}>
-      <h3>{bookmark.name}</h3>
-      <p>URL: {bookmark.url}</p>
-      <p>Favorite: {bookmark.favorite.toString()}</p>
-      <button type="button" onClick={() => navigate('/bookmarks')}>
-        Go back
-      </button>
-    </div>
+    <>
+      <Box style={{ marginTop: 10, marginBottom: 10 }}>
+        <Typography variant="h4" component="h2">
+          Details
+        </Typography>
+      </Box>
+      <Box style={{ marginBottom: 20 }}>
+        <Link to="/bookmarks">
+          <Button variant="contained" color="primary" size="small">
+            Go back
+          </Button>
+        </Link>
+      </Box>
+      <BookmarkDetails bookmark={bookmark} />
+    </>
   );
 };
