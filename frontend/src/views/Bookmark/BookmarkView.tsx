@@ -11,15 +11,16 @@ import { BoxStyled } from '../../components/styled/Box.styled';
 export const BookmarkView = () => {
   const dispatch = useDispatch();
   const { id } = useParams() as { id: string };
-  const { bookmark, loading, error } = useAppSelector((state) => state.bookmarks);
+  const { bookmark, error } = useAppSelector((state) => state.bookmarks);
 
   useEffect(() => {
     dispatch(getBookmark(id));
   }, [dispatch, id]);
 
-  if (loading) {
-    return <p>Loading bookmark with id: {id}...</p>;
-  }
+  // TODO: Handle loading
+  // if (loading) {
+  //   return <p>Loading bookmark with id: {id}...</p>;
+  // }
 
   if (error || !bookmark) {
     return <p>Error occurred while loading bookmark</p>;

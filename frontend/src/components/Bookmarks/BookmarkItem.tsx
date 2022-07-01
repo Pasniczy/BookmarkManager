@@ -1,4 +1,3 @@
-import { MouseEvent } from 'react';
 import { BookmarkEntity } from 'Models';
 import { useNavigate } from 'react-router-dom';
 import { useDispatch } from 'react-redux';
@@ -10,7 +9,7 @@ import ButtonGroup from '@mui/material/ButtonGroup';
 import Button from '@mui/material/Button';
 import StarOutlineSharpIcon from '@mui/icons-material/StarOutlineSharp';
 import StarSharpIcon from '@mui/icons-material/StarSharp';
-import { deleteBookmark } from '../../actions/bookmarks';
+import { editBookmark, deleteBookmark } from '../../actions/bookmarks';
 
 type Props = {
   bookmark: BookmarkEntity;
@@ -20,17 +19,20 @@ export const BookmarkItem = ({ bookmark }: Props) => {
   const dispatch = useDispatch();
   const navigate = useNavigate();
 
-  const handleBookmarkSelect = () => {
+  const handleSeeDetails = () => {
     navigate(bookmark.id);
   };
 
-  const handleEditButtonClick = (e: MouseEvent<HTMLButtonElement>) => {
-    e.stopPropagation();
+  const handleAddBookmarkToFavorites = () => {
+    const updatedBookmark = { ...bookmark, favorite: !bookmark.favorite };
+    dispatch(editBookmark(bookmark.id, updatedBookmark));
+  };
+
+  const handleEditBookmark = () => {
     navigate(`/bookmarks/edit/${bookmark.id}`);
   };
 
-  const handleDeleteButtonClick = (e: MouseEvent<HTMLButtonElement>) => {
-    e.stopPropagation();
+  const handleDeleteBookmark = () => {
     dispatch(deleteBookmark(bookmark.id, navigate));
   };
 
@@ -45,19 +47,19 @@ export const BookmarkItem = ({ bookmark }: Props) => {
           </Link>
         </Box>
         {bookmark.favorite ? (
-          <StarSharpIcon color="warning" style={{ cursor: 'pointer' }} />
+          <StarSharpIcon color="warning" style={{ cursor: 'pointer' }} onClick={handleAddBookmarkToFavorites} />
         ) : (
-          <StarOutlineSharpIcon style={{ cursor: 'pointer' }} />
+          <StarOutlineSharpIcon style={{ cursor: 'pointer' }} onClick={handleAddBookmarkToFavorites} />
         )}
       </Box>
       <ButtonGroup variant="outlined" size="small" aria-label="outlined primary button group" style={{ marginTop: 10 }}>
-        <Button onClick={handleBookmarkSelect} color="primary">
+        <Button onClick={handleSeeDetails} color="primary">
           See details
         </Button>
-        <Button onClick={handleEditButtonClick} color="warning">
+        <Button onClick={handleEditBookmark} color="warning">
           Edit
         </Button>
-        <Button onClick={handleDeleteButtonClick} color="error">
+        <Button onClick={handleDeleteBookmark} color="error">
           Delete
         </Button>
       </ButtonGroup>

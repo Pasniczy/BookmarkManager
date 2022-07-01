@@ -86,7 +86,7 @@ export const addBookmark = (
 export const editBookmark = (
   id: string,
   editedBookmark: NewBookmarkEntity,
-  navigate: NavigateFunction
+  navigate?: NavigateFunction
 ): ThunkAction<Promise<void>, RootState, unknown, BookmarksAction> => {
   return async (dispatch: Dispatch<BookmarksAction>) => {
     const config = {
@@ -104,7 +104,7 @@ export const editBookmark = (
         type: BookmarksActionType.BOOKMARK_EDITED,
         payload: { id, bookmark },
       });
-      navigate('/bookmarks');
+      if (navigate) navigate('/bookmarks');
     } catch (err) {
       console.error(err);
       dispatch({
@@ -117,7 +117,7 @@ export const editBookmark = (
 
 export const deleteBookmark = (
   id: string,
-  navigate: NavigateFunction
+  navigate?: NavigateFunction
 ): ThunkAction<Promise<void>, RootState, unknown, BookmarksAction> => {
   return async (dispatch: Dispatch<BookmarksAction>) => {
     try {
@@ -129,7 +129,7 @@ export const deleteBookmark = (
         type: BookmarksActionType.BOOKMARK_DELETED,
         payload: { id },
       });
-      navigate('/bookmarks');
+      if (navigate) navigate('/bookmarks');
     } catch (err) {
       console.error(err);
       dispatch({

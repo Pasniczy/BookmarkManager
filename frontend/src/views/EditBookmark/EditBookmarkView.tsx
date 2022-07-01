@@ -1,5 +1,5 @@
 import { ChangeEvent, FormEvent, useEffect, useState } from 'react';
-import { Link, useNavigate, useParams } from 'react-router-dom';
+import { useNavigate, useParams } from 'react-router-dom';
 import { useDispatch } from 'react-redux';
 import { NewBookmarkEntity } from 'Models';
 import Button from '@mui/material/Button';
@@ -13,7 +13,6 @@ export const EditBookmarkView = () => {
   const navigate = useNavigate();
   const dispatch = useDispatch();
   const params = useParams();
-  // TODO: Add routes types
   const id = params.id as string;
   const { bookmark, error } = useAppSelector((state) => state.bookmarks);
 
@@ -58,11 +57,9 @@ export const EditBookmarkView = () => {
     <>
       <ViewHeading>Edit bookmark</ViewHeading>
       <BoxStyled>
-        <Link to="/bookmarks">
-          <Button type="button" variant="contained" color="primary" size="small">
-            Go back
-          </Button>
-        </Link>
+        <Button type="button" variant="contained" color="primary" size="small" onClick={() => navigate(-1)}>
+          Go back
+        </Button>
       </BoxStyled>
       <BookmarksForm formType="edit" formState={formState} onInputChange={handleInputChange} onSubmit={handleSubmit} />
     </>

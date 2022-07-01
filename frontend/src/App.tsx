@@ -1,4 +1,7 @@
+import { useEffect } from 'react';
+import { useDispatch } from 'react-redux';
 import { BrowserRouter, Routes, Route } from 'react-router-dom';
+import { getBookmarks } from './actions/bookmarks';
 import { HomeView } from './views/Home/HomeView';
 import { BookmarksView } from './views/Bookmarks/BookmarksView';
 import { BookmarkView } from './views/Bookmark/BookmarkView';
@@ -9,6 +12,12 @@ import { Container } from './components/Layout/Container';
 import './App.css';
 
 const App = () => {
+  const dispatch = useDispatch();
+
+  useEffect(() => {
+    dispatch(getBookmarks());
+  }, [dispatch]);
+
   return (
     <BrowserRouter>
       <Header />

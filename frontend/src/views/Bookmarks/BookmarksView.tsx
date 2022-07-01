@@ -17,11 +17,12 @@ export const BookmarksView = () => {
     dispatch(getBookmarks());
   }, [dispatch]);
 
-  const { bookmarks, loading, error } = useAppSelector((state) => state.bookmarks);
+  const { bookmarks, error } = useAppSelector((state) => state.bookmarks);
 
-  if (loading) {
-    return <p>Loading bookmarks...</p>;
-  }
+  // TODO: Handle loading
+  // if (loading) {
+  //   return <p>Loading bookmarks...</p>;
+  // }
 
   if (error) {
     return <p>Error occurred while loading bookmarks</p>;
