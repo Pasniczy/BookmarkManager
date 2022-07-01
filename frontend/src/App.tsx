@@ -4,7 +4,7 @@ import { BookmarksView } from './views/Bookmarks/BookmarksView';
 import { BookmarkView } from './views/Bookmark/BookmarkView';
 import { AddBookmarkView } from './views/AddBookmark/AddBookmarkView';
 import { EditBookmarkView } from './views/EditBookmark/EditBookmarkView';
-import { Header } from './components/Layout/Header';
+import { Header } from './components/Layout/Header/Header';
 import { Container } from './components/Layout/Container';
 import './App.css';
 

@@ -1,12 +1,12 @@
 import { useEffect } from 'react';
 import { Link, useParams } from 'react-router-dom';
 import { useDispatch } from 'react-redux';
-import Box from '@mui/material/Box';
 import Button from '@mui/material/Button';
-import Typography from '@mui/material/Typography';
 import { useAppSelector } from '../../store';
 import { getBookmark } from '../../actions/bookmarks';
 import { BookmarkDetails } from '../../components/Bookmarks/BookmarkDetails';
+import { ViewHeading } from '../../components/ViewHeading/ViewHeading';
+import { BoxStyled } from '../../components/styled/Box.styled';
 
 export const BookmarkView = () => {
   const dispatch = useDispatch();
@@ -27,18 +27,14 @@ export const BookmarkView = () => {
 
   return (
     <>
-      <Box style={{ marginTop: 10, marginBottom: 10 }}>
-        <Typography variant="h4" component="h2">
-          Details
-        </Typography>
-      </Box>
-      <Box style={{ marginBottom: 20 }}>
+      <ViewHeading>Bookmark Details</ViewHeading>
+      <BoxStyled>
         <Link to="/bookmarks">
           <Button variant="contained" color="primary" size="small">
             Go back
           </Button>
         </Link>
-      </Box>
+      </BoxStyled>
       <BookmarkDetails bookmark={bookmark} />
     </>
   );

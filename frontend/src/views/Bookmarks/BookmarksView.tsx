@@ -1,14 +1,14 @@
 import { useEffect } from 'react';
 import { Link } from 'react-router-dom';
 import { useDispatch } from 'react-redux';
-import Box from '@mui/material/Box';
 import Button from '@mui/material/Button';
 import Stack from '@mui/material/Stack';
-import Typography from '@mui/material/Typography';
 import AddIcon from '@mui/icons-material/Add';
 import { useAppSelector } from '../../store';
 import { getBookmarks } from '../../actions/bookmarks';
 import { BookmarkItem } from '../../components/Bookmarks/BookmarkItem';
+import { ViewHeading } from '../../components/ViewHeading/ViewHeading';
+import { BoxStyled } from '../../components/styled/Box.styled';
 
 export const BookmarksView = () => {
   const dispatch = useDispatch();
@@ -29,18 +29,14 @@ export const BookmarksView = () => {
 
   return (
     <>
-      <Box style={{ marginTop: 10, marginBottom: 10 }}>
-        <Typography variant="h4" component="h2">
-          Bookmarks
-        </Typography>
-      </Box>
-      <Box style={{ marginBottom: 20 }}>
+      <ViewHeading>Bookmarks</ViewHeading>
+      <BoxStyled>
         <Link to="/bookmarks/add">
           <Button variant="contained" color="success" size="small" endIcon={<AddIcon />}>
             Add Bookmark
           </Button>
         </Link>
-      </Box>
+      </BoxStyled>
       <Stack spacing={4}>
         {bookmarks.map((bookmark) => (
           <BookmarkItem key={bookmark.id} bookmark={bookmark} />
