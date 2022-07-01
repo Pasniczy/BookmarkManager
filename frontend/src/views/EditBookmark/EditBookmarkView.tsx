@@ -1,10 +1,13 @@
 import { ChangeEvent, FormEvent, useEffect, useState } from 'react';
-import { useNavigate, useParams } from 'react-router-dom';
+import { Link, useNavigate, useParams } from 'react-router-dom';
 import { useDispatch } from 'react-redux';
 import { NewBookmarkEntity } from 'Models';
+import Button from '@mui/material/Button';
 import { useAppSelector } from '../../store';
 import { editBookmark, getBookmark } from '../../actions/bookmarks';
 import { BookmarksForm } from '../../components/Bookmarks/BookmarksForm';
+import { BoxStyled } from '../../components/styled/Box.styled';
+import { ViewHeading } from '../../components/ViewHeading/ViewHeading';
 
 export const EditBookmarkView = () => {
   const navigate = useNavigate();
@@ -52,13 +55,16 @@ export const EditBookmarkView = () => {
   }
 
   return (
-    <div>
-      <BookmarksForm
-        title="Edit bookmark"
-        formState={formState}
-        onSubmit={handleSubmit}
-        onInputChange={handleInputChange}
-      />
-    </div>
+    <>
+      <ViewHeading>Edit bookmark</ViewHeading>
+      <BoxStyled>
+        <Link to="/bookmarks">
+          <Button type="button" variant="contained" color="primary" size="small">
+            Go back
+          </Button>
+        </Link>
+      </BoxStyled>
+      <BookmarksForm formType="edit" formState={formState} onInputChange={handleInputChange} onSubmit={handleSubmit} />
+    </>
   );
 };

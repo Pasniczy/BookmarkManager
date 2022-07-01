@@ -37,9 +37,9 @@ export const updateBookmark = async (req: Request, res: Response) => {
 
   if (!bookmark) throw new ValidationError('Bookmark not found');
 
-  bookmark.name = name || bookmark.name;
-  bookmark.url = url || bookmark.url;
-  bookmark.favorite = favorite || bookmark.favorite;
+  if (bookmark.name !== undefined) bookmark.name = name;
+  if (bookmark.url !== undefined) bookmark.url = url;
+  if (bookmark.favorite !== undefined) bookmark.favorite = favorite;
 
   bookmark = await bookmark.update();
 

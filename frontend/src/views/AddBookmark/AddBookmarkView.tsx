@@ -5,6 +5,7 @@ import { NewBookmarkEntity } from 'Models';
 import { addBookmark } from '../../actions/bookmarks';
 import { useAppSelector } from '../../store';
 import { BookmarksForm } from '../../components/Bookmarks/BookmarksForm';
+import { ViewHeading } from '../../components/ViewHeading/ViewHeading';
 
 export const AddBookmarkView = () => {
   const navigate = useNavigate();
@@ -38,13 +39,9 @@ export const AddBookmarkView = () => {
   }
 
   return (
-    <div>
-      <BookmarksForm
-        title="Add Bookmark"
-        formState={formState}
-        onSubmit={handleSubmit}
-        onInputChange={handleInputChange}
-      />
-    </div>
+    <>
+      <ViewHeading>Add Bookmark</ViewHeading>
+      <BookmarksForm formType="add" formState={formState} onInputChange={handleInputChange} onSubmit={handleSubmit} />
+    </>
   );
 };

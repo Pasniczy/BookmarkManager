@@ -1,44 +1,46 @@
 import { NewBookmarkEntity } from 'Models';
 import { ChangeEvent, FormEvent } from 'react';
+import Paper from '@mui/material/Paper';
+import FormControl from '@mui/material/FormControl';
+import FormLabel from '@mui/material/FormLabel';
+import Switch from '@mui/material/Switch';
+import TextField from '@mui/material/TextField';
+import Button from '@mui/material/Button';
+import { FormGroupStyled } from '../styled/FormGroup.styled';
 
 type Props = {
-  title: string;
+  formType: string;
   formState: NewBookmarkEntity;
   onInputChange: (e: ChangeEvent<HTMLInputElement>) => void;
   onSubmit: (e: FormEvent<HTMLFormElement>) => void;
 };
 
-export const BookmarksForm = ({ title, formState, onInputChange, onSubmit }: Props) => {
+export const BookmarksForm = ({ formType, formState, onInputChange, onSubmit }: Props) => {
   return (
-    <div>
-      <h2>{title}</h2>
+    <Paper style={{ padding: 20 }} elevation={6}>
       <form onSubmit={onSubmit}>
-        <div className="group-form">
-          <label htmlFor="#bookmark__name-input">
-            <span>Name: </span>
-            <input id="bookmark__name-input" type="text" name="name" value={formState.name} onChange={onInputChange} />
-          </label>
-        </div>
-        <div className="group-form">
-          <label htmlFor="#bookmark__url-input">
-            <span>URL: </span>
-            <input id="bookmark__url-input" type="text" name="url" value={formState.url} onChange={onInputChange} />
-          </label>
-        </div>
-        <div className="group-form">
-          <label htmlFor="#bookmark__favorite-input">
-            <span>Favorite: </span>
-            <input
-              id="#bookmark__favorite-input"
-              type="checkbox"
-              name="favorite"
-              checked={!!formState.favorite}
-              onChange={onInputChange}
-            />
-          </label>
-        </div>
-        <button type="submit">{title}</button>
+        <FormGroupStyled>
+          <FormControl>
+            <TextField name="name" label="Name" variant="standard" value={formState.name} onChange={onInputChange} />
+          </FormControl>
+        </FormGroupStyled>
+        <FormGroupStyled>
+          <FormControl>
+            <TextField name="url" label="URL" variant="standard" value={formState.url} onChange={onInputChange} />
+          </FormControl>
+        </FormGroupStyled>
+        <FormGroupStyled>
+          <FormControl>
+            <FormLabel>
+              Favorite:
+              <Switch color="warning" name="favorite" checked={Boolean(formState.favorite)} onChange={onInputChange} />
+            </FormLabel>
+          </FormControl>
+        </FormGroupStyled>
+        <Button type="submit" variant="contained" color="success" size="small">
+          {formType}
+        </Button>
       </form>
-    </div>
+    </Paper>
   );
 };
