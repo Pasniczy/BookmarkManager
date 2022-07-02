@@ -3,11 +3,11 @@ import { useNavigate } from 'react-router-dom';
 import { useDispatch } from 'react-redux';
 import { NewBookmarkEntity } from 'Models';
 import Button from '@mui/material/Button';
-import { addBookmark } from '../../actions/bookmarks';
-import { useAppSelector } from '../../store';
-import { ViewHeading } from '../../components/ViewHeading/ViewHeading';
-import { BoxStyled } from '../../components/styled/Box.styled';
-import { BookmarksForm } from '../../components/Bookmarks/BookmarksForm';
+import { addBookmark } from 'Actions';
+import { useAppSelector } from 'Hooks';
+import { ViewHeading } from 'Components/ViewHeading/ViewHeading';
+import { BoxStyled } from 'Components/styled/Box.styled';
+import { BookmarksForm } from 'Components/Bookmarks/BookmarksForm';
 
 export const AddBookmarkView = () => {
   const navigate = useNavigate();

@@ -6,7 +6,7 @@ import FormLabel from '@mui/material/FormLabel';
 import Switch from '@mui/material/Switch';
 import TextField from '@mui/material/TextField';
 import Button from '@mui/material/Button';
-import { FormGroupStyled } from '../styled/FormGroup.styled';
+import { FormGroupStyled } from 'Components/styled/FormGroup.styled';
 
 type Props = {
   formType: string;

@@ -2,9 +2,9 @@ import { Dispatch } from 'react';
 import { NavigateFunction } from 'react-router';
 import { ThunkAction } from 'redux-thunk';
 import axios from 'axios';
-import { RootState } from 'src/store';
 import { BookmarkEntity, NewBookmarkEntity } from 'Models';
-import { BookmarksAction, BookmarksActionType } from './types';
+import { RootState } from 'Store';
+import { BookmarksAction, BookmarksActionType } from 'ActionTypes';
 
 export const getBookmarks = (): ThunkAction<Promise<void>, RootState, unknown, BookmarksAction> => {
   return async (dispatch) => {

@@ -12,11 +12,12 @@ module.exports = {
     'plugin:@typescript-eslint/recommended-requiring-type-checking',
     'airbnb-typescript',
   ],
-  plugins: ['prettier', 'unused-imports', '@typescript-eslint/eslint-plugin'],
+  plugins: ['prettier', 'unused-imports', 'import', 'module-resolver', '@typescript-eslint/eslint-plugin'],
   parser: '@typescript-eslint/parser',
   parserOptions: {
     project: './tsconfig.json',
     tsconfigRootDir: __dirname,
+    sourceType: 'module',
   },
   rules: {
     'max-len': [2, 120],
@@ -34,7 +35,7 @@ module.exports = {
     'import/no-extraneous-dependencies': 0,
     'unused-imports/no-unused-imports': 1,
     'react/function-component-definition': 0,
-    'react/jsx-filename-extension': [0, { extensions: ['.js', '.jsx'] }],
+    'react/jsx-filename-extension': [0, { extensions: ['.js', '.jsx', '.ts', '.tsx'] }],
     'react/jsx-one-expression-per-line': 0,
     'jsx-a11y/click-events-have-key-events': 0,
     'jsx-a11y/no-static-element-interactions': 0,

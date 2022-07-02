@@ -1,6 +1,6 @@
 import { BookmarkEntity } from 'Models';
-import { Nullable } from '../types';
-import { BookmarksAction, BookmarksActionType } from '../actions/types';
+import { Nullable } from 'Types';
+import { BookmarksAction, BookmarksActionType } from 'ActionTypes';
 
 interface BookmarksResetState {
   bookmark: Nullable<BookmarkEntity>;

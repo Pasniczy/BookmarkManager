@@ -1,14 +1,14 @@
 import { useEffect } from 'react';
 import { useDispatch } from 'react-redux';
 import { BrowserRouter, Routes, Route } from 'react-router-dom';
-import { getBookmarks } from './actions/bookmarks';
-import { HomeView } from './views/Home/HomeView';
-import { BookmarksView } from './views/Bookmarks/BookmarksView';
-import { BookmarkView } from './views/Bookmark/BookmarkView';
-import { AddBookmarkView } from './views/AddBookmark/AddBookmarkView';
-import { EditBookmarkView } from './views/EditBookmark/EditBookmarkView';
-import { Header } from './components/Layout/Header/Header';
-import { Container } from './components/Layout/Container';
+import { getBookmarks } from 'Actions';
+import { HomeView } from 'Views/Home/HomeView';
+import { BookmarksView } from 'Views/Bookmarks/BookmarksView';
+import { BookmarkView } from 'Views/Bookmark/BookmarkView';
+import { AddBookmarkView } from 'Views/AddBookmark/AddBookmarkView';
+import { EditBookmarkView } from 'Views/EditBookmark/EditBookmarkView';
+import { Header } from 'Components/Layout/Header/Header';
+import { Container } from 'Components/Layout/Container';
 import './App.css';
 
 const App = () => {

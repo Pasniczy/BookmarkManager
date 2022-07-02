@@ -4,10 +4,10 @@ import { BookmarkEntity } from 'Models';
 import Typography from '@mui/material/Typography';
 import Link from '@mui/material/Link';
 import Button from '@mui/material/Button';
-import { deleteBookmark } from '../../actions/bookmarks';
-import { PaperStyled } from '../styled/Paper.styled';
-import { BoxStyled } from '../styled/Box.styled';
-import { StyledButtonGroup } from '../styled/ButtonGroup.styled';
+import { deleteBookmark } from 'Actions';
+import { PaperStyled } from 'Components/styled/Paper.styled';
+import { BoxStyled } from 'Components/styled/Box.styled';
+import { StyledButtonGroup } from 'Components/styled/ButtonGroup.styled';
 
 type Props = {
   bookmark: BookmarkEntity;

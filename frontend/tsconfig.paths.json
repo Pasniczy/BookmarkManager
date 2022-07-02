@@ -2,7 +2,17 @@
   "compilerOptions": {
     "baseUrl": ".",
     "paths": {
-      "Models": ["../backend/types"]
+      "Models": ["../backend/types"],
+      "Actions": ["./src/actions"],
+      "ActionTypes": ["./src/actions/types"],
+      "Components/*": ["./src/components/*"],
+      "Hooks": ["./src/hooks"],
+      "Reducers/*": ["./src/reducers/*"],
+      "Store": ["./src/store.ts"],
+      "Tests/*": ["./src/tests/*"],
+      "Types": ["./src/types"],
+      "Utils/*": ["./src/utils/*"],
+      "Views/*": ["./src/views/*"]
     }
   }
 }

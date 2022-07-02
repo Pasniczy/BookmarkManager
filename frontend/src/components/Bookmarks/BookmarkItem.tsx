@@ -9,7 +9,7 @@ import ButtonGroup from '@mui/material/ButtonGroup';
 import Button from '@mui/material/Button';
 import StarOutlineSharpIcon from '@mui/icons-material/StarOutlineSharp';
 import StarSharpIcon from '@mui/icons-material/StarSharp';
-import { editBookmark, deleteBookmark } from '../../actions/bookmarks';
+import { editBookmark, deleteBookmark } from 'Actions';
 
 type Props = {
   bookmark: BookmarkEntity;
