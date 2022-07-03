@@ -38,7 +38,16 @@ export const login = async (req: Request, res: Response) => {
 
   const token = user.getSignedJWTToken();
   req.session.token = token;
-  res.status(200).json({ token });
+  res.status(200).json({ message: 'User logged in', token });
+};
+
+// @desc Logout user
+// @route POST /auth/logout
+export const logout = async (req: Request, res: Response) => {
+  req.session.user = null;
+  req.session.token = null;
+
+  res.status(200).json({ message: 'User logged out' });
 };
 
 export const testAuth = async (req: Request, res: Response) => {
