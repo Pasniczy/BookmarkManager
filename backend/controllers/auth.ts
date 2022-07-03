@@ -1,5 +1,5 @@
 import { Request, Response } from 'express';
-import { NewUserEntity } from 'types';
+import { NewUserEntity } from '../types';
 import { ValidationError } from '../utils/errors';
 import { UserRecord } from '../records/user.record';
 
@@ -37,11 +37,11 @@ export const login = async (req: Request, res: Response) => {
   }
 
   const token = user.getSignedJWTToken();
-  const cookieOptions = {
-    secure: process.env.NODE_ENV === 'production',
-    expires: new Date(Date.now() + Number(process.env.JWT_COOKIE_EXPIRE)),
-    httpOnly: process.env.NODE_ENV === 'development',
-  };
+  req.session.token = token;
+  res.status(200).json({ token });
+};
 
-  res.status(200).cookie('token', token, cookieOptions).json({ token });
+export const testAuth = async (req: Request, res: Response) => {
+  const { user } = req.session;
+  res.status(201).json({ user });
 };
