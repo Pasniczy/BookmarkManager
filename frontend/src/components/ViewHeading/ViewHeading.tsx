@@ -1,5 +1,5 @@
 import { ReactNode } from 'react';
-import Typography from '@mui/material/Typography';
+import { Typography } from '@mui/material';
 import { BoxStyled } from 'Components/styled/Box.styled';
 
 type Props = {

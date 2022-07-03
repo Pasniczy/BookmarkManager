@@ -1,9 +1,6 @@
 import { NavLink } from 'react-router-dom';
-import AppBar from '@mui/material/AppBar';
-import Box from '@mui/material/Box';
-import Toolbar from '@mui/material/Toolbar';
-import Typography from '@mui/material/Typography';
-import SearchIcon from '@mui/icons-material/Search';
+import { AppBar, Toolbar, Box, Typography } from '@mui/material';
+import { Search as SearchIcon } from '@mui/icons-material';
 import { Search, SearchIconWrapper, StyledInputBase } from './Header.styled';
 
 export const Header = () => {

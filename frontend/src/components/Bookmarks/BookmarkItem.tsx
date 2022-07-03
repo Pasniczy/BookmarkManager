@@ -1,15 +1,9 @@
 import { BookmarkEntity } from 'Models';
 import { useNavigate } from 'react-router-dom';
 import { useDispatch } from 'react-redux';
-import Paper from '@mui/material/Paper';
-import Box from '@mui/material/Box';
-import Typography from '@mui/material/Typography';
-import Link from '@mui/material/Link';
-import ButtonGroup from '@mui/material/ButtonGroup';
-import Button from '@mui/material/Button';
-import StarOutlineSharpIcon from '@mui/icons-material/StarOutlineSharp';
-import StarSharpIcon from '@mui/icons-material/StarSharp';
 import { editBookmark, deleteBookmark } from 'Actions';
+import { Paper, Box, ButtonGroup, Button, Link, Typography } from '@mui/material';
+import { StarOutlineSharp as StarOutlineSharpIcon, StarSharp as StarSharpIcon } from '@mui/icons-material';
 
 type Props = {
   bookmark: BookmarkEntity;

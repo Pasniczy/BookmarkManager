@@ -1,11 +1,6 @@
 import { NewBookmarkEntity } from 'Models';
 import { ChangeEvent, FormEvent } from 'react';
-import Paper from '@mui/material/Paper';
-import FormControl from '@mui/material/FormControl';
-import FormLabel from '@mui/material/FormLabel';
-import Switch from '@mui/material/Switch';
-import TextField from '@mui/material/TextField';
-import Button from '@mui/material/Button';
+import { Paper, FormControl, FormLabel, Switch, TextField, Button } from '@mui/material';
 import { FormGroupStyled } from 'Components/styled/FormGroup.styled';
 
 type Props = {

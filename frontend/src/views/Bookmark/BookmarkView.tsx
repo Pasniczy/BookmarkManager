@@ -1,9 +1,9 @@
 import { useEffect } from 'react';
 import { Link, useParams } from 'react-router-dom';
 import { useDispatch } from 'react-redux';
-import Button from '@mui/material/Button';
 import { useAppSelector } from 'Hooks';
 import { getBookmark } from 'Actions';
+import { Button } from '@mui/material';
 import { BookmarkDetails } from 'Components/Bookmarks/BookmarkDetails';
 import { ViewHeading } from 'Components/ViewHeading/ViewHeading';
 import { BoxStyled } from 'Components/styled/Box.styled';

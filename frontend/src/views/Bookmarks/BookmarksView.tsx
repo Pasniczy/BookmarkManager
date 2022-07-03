@@ -1,11 +1,10 @@
 import { useEffect } from 'react';
 import { Link } from 'react-router-dom';
 import { useDispatch } from 'react-redux';
-import Button from '@mui/material/Button';
-import Stack from '@mui/material/Stack';
-import AddIcon from '@mui/icons-material/Add';
 import { useAppSelector } from 'Hooks';
 import { getBookmarks } from 'Actions';
+import { Stack, Button } from '@mui/material';
+import { Add as AddIcon } from '@mui/icons-material';
 import { BookmarkItem } from 'Components/Bookmarks/BookmarkItem';
 import { ViewHeading } from 'Components/ViewHeading/ViewHeading';
 import { BoxStyled } from 'Components/styled/Box.styled';

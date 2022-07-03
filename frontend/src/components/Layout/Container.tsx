@@ -1,5 +1,5 @@
-import MUContainer from '@mui/material/Container';
 import { Outlet } from 'react-router-dom';
+import { Container as MUContainer } from '@mui/material';
 
 export const Container = () => {
   return (

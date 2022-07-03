@@ -1,5 +1,5 @@
 import { ReactNode } from 'react';
-import ButtonGroup from '@mui/material/ButtonGroup';
+import { ButtonGroup } from '@mui/material';
 
 type Props = {
   children: ReactNode;
