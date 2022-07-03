@@ -68,9 +68,9 @@ describe('UserRecord.create()', () => {
     expect(user instanceof UserRecord).toBe(true);
   });
   it('should create BookmarkRecord in db', async () => {
-    const noUser = await UserRecord.getOne(testUserId);
-    expect(noUser).toBeNull();
-    const user = await testUserRecord.create();
+    let user = await UserRecord.getOne(testUserId);
+    expect(user).toBeNull();
+    user = await testUserRecord.create();
     expect(user).toStrictEqual(testUserRecord);
     expect(user.id).toBe(testUserRecord.id);
     expect(user.username).toBe(testUserRecord.username);

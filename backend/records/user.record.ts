@@ -1,8 +1,8 @@
 import { FieldPacket } from 'mysql2';
 import { v4 } from 'uuid';
 import { pool } from '../utils/db';
-import { NewUserEntity, UserEntity } from '../types';
 import { ValidationError } from '../utils/errors';
+import { UserEntity, NewUserEntity } from '../types';
 import { encryptPassword } from '../utils/user';
 
 type UserRecordResults = [UserEntity[], FieldPacket[]];
@@ -44,7 +44,7 @@ export class UserRecord implements UserEntity {
     this.createdAt = createdAt || new Date();
   }
 
-  async create(): Promise<UserEntity> {
+  async create(): Promise<UserRecord> {
     this.password = await encryptPassword(this.password);
     await pool.execute(
       'INSERT INTO `users`(`id`,`username`,`email`, `password`) VALUES(:id, :username, :email, :password)',

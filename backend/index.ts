@@ -2,8 +2,9 @@ import express from 'express';
 import cors from 'cors';
 import 'express-async-errors';
 import * as dotenv from 'dotenv';
-import { bookmarksRouter } from './routes/bookmarks';
 import { handleError } from './utils/errors';
+import { bookmarksRouter } from './routes/bookmarks';
+import { authRouter } from './routes/auth';
 
 dotenv.config({ path: './config/config.env' });
 const APP_PORT = (process.env.APP_PORT && parseInt(process.env.APP_PORT, 10)) || 5000;
@@ -20,6 +21,7 @@ app.use(
 );
 
 app.use('/bookmarks', bookmarksRouter);
+app.use('/auth', authRouter);
 
 app.use(handleError);
 
