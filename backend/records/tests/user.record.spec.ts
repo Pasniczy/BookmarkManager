@@ -14,10 +14,16 @@ const testUserEntity: UserEntity = {
   id: testUserId,
   username: 'test username',
   email: 'test@email.com',
-  password: '123456789012345678901234567890123456789012345678901234567890',
+  password: '123456',
 };
+const testUserRecord = new UserRecord(testUserEntity);
+
+beforeAll(async () => {
+  await testUserRecord.create();
+});
 
 afterAll(async () => {
+  await testUserRecord.delete();
   pool.end();
 });
 
@@ -44,11 +50,43 @@ describe('UserRecord.getOne() static', () => {
     expect(user?.id).toBe(testUserEntity.id);
     expect(user?.username).toBe(testUserEntity.username);
     expect(user?.email).toBe(testUserEntity.email);
-    expect(user?.password).toBe(testUserEntity.password);
+    expect(user?.password.length).toBe(60);
   });
 
   it('should return null for non existing test id param', async () => {
     const bookmark = await BookmarkRecord.getOne('------------------------------------');
     expect(bookmark).toBeNull();
+  });
+});
+
+describe('UserRecord.create()', () => {
+  beforeEach(async () => {
+    await testUserRecord.delete();
+  });
+  it('should return UserRecord', async () => {
+    const user = await testUserRecord.create();
+    expect(user instanceof UserRecord).toBe(true);
+  });
+  it('should create BookmarkRecord in db', async () => {
+    const noUser = await UserRecord.getOne(testUserId);
+    expect(noUser).toBeNull();
+    const user = await testUserRecord.create();
+    expect(user).toStrictEqual(testUserRecord);
+    expect(user.id).toBe(testUserRecord.id);
+    expect(user.username).toBe(testUserRecord.username);
+    expect(user.email).toBe(testUserRecord.email);
+    expect(user.password.length).toBe(60);
+    expect(user.createdAt instanceof Date).toBe(true);
+  });
+});
+
+describe('UserRecord.delete()', () => {
+  afterAll(async () => {
+    await testUserRecord.create();
+  });
+  it('should delete UserRecord with given id in db', async () => {
+    expect(await UserRecord.getOne(testUserId)).toBeDefined();
+    await testUserRecord.delete();
+    expect(await UserRecord.getOne(testUserId)).toBeNull();
   });
 });
