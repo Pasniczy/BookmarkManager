@@ -1,6 +1,5 @@
 import { UserRecord } from '../user.record';
 import { UserEntity, NewUserEntity } from '../../types';
-import { BookmarkRecord } from '../bookmark.record';
 import { pool } from '../../utils/db';
 
 const newUserEntityMock: NewUserEntity = {
@@ -43,9 +42,9 @@ describe('UserRecord', () => {
   });
 });
 
-describe('UserRecord.getOne() static', () => {
+describe('UserRecord.findOneById() static', () => {
   it('should return test UserRecord entry for existing test id param', async () => {
-    const user = await UserRecord.getOne(testUserId);
+    const user = await UserRecord.findOneById(testUserId);
     expect(typeof user === 'object').toBe(true);
     expect(user?.id).toBe(testUserEntity.id);
     expect(user?.username).toBe(testUserEntity.username);
@@ -54,8 +53,24 @@ describe('UserRecord.getOne() static', () => {
   });
 
   it('should return null for non existing test id param', async () => {
-    const bookmark = await BookmarkRecord.getOne('------------------------------------');
-    expect(bookmark).toBeNull();
+    const user = await UserRecord.findOneById('------------------------------------');
+    expect(user).toBeNull();
+  });
+});
+
+describe('UserRecord.findOneByEmail() static', () => {
+  it('should return test UserRecord entry for existing test email param', async () => {
+    const user = await UserRecord.findOneByEmail(testUserRecord.email);
+    expect(typeof user === 'object').toBe(true);
+    expect(user?.id).toBe(testUserEntity.id);
+    expect(user?.username).toBe(testUserEntity.username);
+    expect(user?.email).toBe(testUserEntity.email);
+    expect(user?.password.length).toBe(60);
+  });
+
+  it('should return null for non existing test id param', async () => {
+    const user = await UserRecord.findOneByEmail('------------------------------------');
+    expect(user).toBeNull();
   });
 });
 
@@ -68,7 +83,7 @@ describe('UserRecord.create()', () => {
     expect(user instanceof UserRecord).toBe(true);
   });
   it('should create BookmarkRecord in db', async () => {
-    let user = await UserRecord.getOne(testUserId);
+    let user = await UserRecord.findOneById(testUserId);
     expect(user).toBeNull();
     user = await testUserRecord.create();
     expect(user).toStrictEqual(testUserRecord);
@@ -85,8 +100,8 @@ describe('UserRecord.delete()', () => {
     await testUserRecord.create();
   });
   it('should delete UserRecord with given id in db', async () => {
-    expect(await UserRecord.getOne(testUserId)).toBeDefined();
+    expect(await UserRecord.findOneById(testUserId)).toBeDefined();
     await testUserRecord.delete();
-    expect(await UserRecord.getOne(testUserId)).toBeNull();
+    expect(await UserRecord.findOneById(testUserId)).toBeNull();
   });
 });

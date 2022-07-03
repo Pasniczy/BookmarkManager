@@ -3,7 +3,7 @@ import { v4 } from 'uuid';
 import { pool } from '../utils/db';
 import { ValidationError } from '../utils/errors';
 import { UserEntity, NewUserEntity } from '../types';
-import { encryptPassword } from '../utils/user';
+import { encryptPassword, comparePassword } from '../utils/user';
 
 type UserRecordResults = [UserEntity[], FieldPacket[]];
 
@@ -59,9 +59,22 @@ export class UserRecord implements UserEntity {
     await pool.execute('DELETE FROM `users` WHERE `id` = :id', this);
   }
 
-  static async getOne(id: string): Promise<UserRecord | null> {
+  async matchPassword(password: string): Promise<boolean> {
+    const isPasswordCorrect = await comparePassword(password, this.password);
+    return isPasswordCorrect;
+  }
+
+  static async findOneById(id: string): Promise<UserRecord | null> {
     const [results] = (await pool.execute('SELECT * from `users` WHERE `id` = :id', {
       id,
+    })) as UserRecordResults;
+    if (!results[0]) return null;
+    return new UserRecord(results[0]);
+  }
+
+  static async findOneByEmail(email: string): Promise<UserRecord | null> {
+    const [results] = (await pool.execute('SELECT * from `users` WHERE `email` = :email', {
+      email,
     })) as UserRecordResults;
     if (!results[0]) return null;
     return new UserRecord(results[0]);
