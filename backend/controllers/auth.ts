@@ -36,5 +36,12 @@ export const login = async (req: Request, res: Response) => {
     throw new ValidationError('Incorrect password');
   }
 
-  res.status(200).json(user);
+  const token = user.getSignedJWTToken();
+  const cookieOptions = {
+    secure: process.env.NODE_ENV === 'production',
+    expires: new Date(Date.now() + Number(process.env.JWT_COOKIE_EXPIRE)),
+    httpOnly: process.env.NODE_ENV === 'development',
+  };
+
+  res.status(200).cookie('token', token, cookieOptions).json({ token });
 };

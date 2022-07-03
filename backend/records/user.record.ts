@@ -1,5 +1,6 @@
 import { FieldPacket } from 'mysql2';
 import { v4 } from 'uuid';
+import { sign, Secret } from 'jsonwebtoken';
 import { pool } from '../utils/db';
 import { ValidationError } from '../utils/errors';
 import { UserEntity, NewUserEntity } from '../types';
@@ -62,6 +63,11 @@ export class UserRecord implements UserEntity {
   async matchPassword(password: string): Promise<boolean> {
     const isPasswordCorrect = await comparePassword(password, this.password);
     return isPasswordCorrect;
+  }
+
+  getSignedJWTToken() {
+    const JWTToken = sign({ id: this.id }, process.env.JWT_SECRET as Secret, { expiresIn: process.env.JWT_EXPIRE });
+    return JWTToken;
   }
 
   static async findOneById(id: string): Promise<UserRecord | null> {
