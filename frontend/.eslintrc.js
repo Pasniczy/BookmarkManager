@@ -45,6 +45,7 @@ module.exports = {
     '@typescript-eslint/comma-dangle': 0,
     '@typescript-eslint/default-param-last': 0,
     '@typescript-eslint/no-floating-promises': 0,
+    '@typescript-eslint/no-shadow': 0,
     '@typescript-eslint/lines-between-class-members': 0,
   },
 };

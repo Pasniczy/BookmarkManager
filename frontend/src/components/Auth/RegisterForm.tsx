@@ -15,7 +15,13 @@ export const RegisterForm = ({ formState, onInputChange, onSubmit }: Props) => {
       <form onSubmit={onSubmit}>
         <FormGroupStyled>
           <FormControl>
-            <TextField name="name" label="Name" variant="standard" value={formState.name} onChange={onInputChange} />
+            <TextField
+              name="username"
+              label="Name"
+              variant="standard"
+              value={formState.username}
+              onChange={onInputChange}
+            />
           </FormControl>
         </FormGroupStyled>
         <FormGroupStyled>
