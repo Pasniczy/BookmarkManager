@@ -40,6 +40,7 @@ app.use(express.json());
 app.use(
   cors({
     origin: `http://localhost:${process.env.FRONTEND_APP_PORT || 3000}`,
+    credentials: true,
   })
 );
 

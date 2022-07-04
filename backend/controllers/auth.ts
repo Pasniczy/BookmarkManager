@@ -1,5 +1,5 @@
 import { Request, Response } from 'express';
-import { NewUserEntity } from '../types';
+import { NewUserEntity, UserLoginRequestData } from '../types';
 import { ValidationError } from '../utils/errors';
 import { UserRecord } from '../records/user.record';
 
@@ -8,13 +8,17 @@ import { UserRecord } from '../records/user.record';
 export const register = async (req: Request, res: Response) => {
   let user = new UserRecord(req.body as NewUserEntity);
   user = await user.create();
-  res.status(201).json(user);
+
+  const token = user.getSignedJWTToken();
+  req.session.token = token;
+  req.session.user = user;
+  res.status(200).json({ message: 'User logged in', token });
 };
 
 // @desc Login user
 // @route POST /auth/login
 export const login = async (req: Request, res: Response) => {
-  const { email, password } = req.body as { email?: string; password?: string };
+  const { email, password } = req.body as UserLoginRequestData;
 
   if (!email || !password) {
     throw new ValidationError('Email and password must be provided');
@@ -38,19 +42,19 @@ export const login = async (req: Request, res: Response) => {
 
   const token = user.getSignedJWTToken();
   req.session.token = token;
+  req.session.user = user;
   res.status(200).json({ message: 'User logged in', token });
 };
 
 // @desc Logout user
 // @route POST /auth/logout
 export const logout = async (req: Request, res: Response) => {
-  req.session.user = null;
   req.session.token = null;
-
+  req.session.user = null;
   res.status(200).json({ message: 'User logged out' });
 };
 
 export const testAuth = async (req: Request, res: Response) => {
-  const { user } = req.session;
-  res.status(201).json({ user });
+  const { token } = req.session;
+  res.status(201).json({ token });
 };

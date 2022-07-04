@@ -3,7 +3,7 @@ import { Nullable } from 'Types';
 import { AuthAction, AuthActionType } from 'ActionTypes';
 
 export interface AuthState {
-  // TODO: Remove details from register response
+  token: Nullable<string>;
   user: Nullable<UserEntity>;
   loading: boolean;
   // TODO: Model error
@@ -11,6 +11,7 @@ export interface AuthState {
 }
 
 const initialState: AuthState = {
+  token: null,
   user: null,
   loading: false,
   error: null,
@@ -18,17 +19,25 @@ const initialState: AuthState = {
 
 export const authReducer = (state: AuthState = initialState, action: AuthAction) => {
   switch (action.type) {
-    case AuthActionType.REGISTER_USER:
-      return {
-        ...state,
-        loading: true,
-        error: null,
-      };
+    case AuthActionType.USER_LOGGED_IN:
     case AuthActionType.USER_REGISTERED:
       return {
         ...state,
-        user: action.payload.user,
+        token: action.payload.token,
         loading: false,
+        error: null,
+      };
+    case AuthActionType.USER_LOGGED_OUT:
+      return {
+        ...state,
+        token: null,
+        loading: false,
+        error: null,
+      };
+    case AuthActionType.USER_LOADING:
+      return {
+        ...state,
+        loading: true,
         error: null,
       };
     default:

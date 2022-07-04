@@ -9,3 +9,8 @@ export interface UserEntity {
 export type NewUserEntity = Omit<UserEntity, 'id'> & {
   id?: string;
 };
+
+export type UserLoginRequestData = {
+  email?: string;
+  password?: string;
+};

@@ -1,22 +1,27 @@
-import { UserEntity } from 'Models';
-
 export enum AuthActionType {
-  REGISTER_USER = 'REGISTER_USER',
   USER_REGISTERED = 'USER_REGISTERED',
+  USER_LOGGED_IN = 'USER_LOGGED_IN',
+  USER_LOGGED_OUT = 'USER_LOGGED_OUT',
   USER_LOADING = 'USER_LOADING',
   USER_ERROR = 'USER_ERROR',
 }
 
-export type RegisterUser = {
-  type: AuthActionType.REGISTER_USER;
-};
-
 export type UserRegistered = {
   type: AuthActionType.USER_REGISTERED;
   payload: {
-    // TODO: Remove details from register response
-    user: UserEntity;
+    token: string;
   };
+};
+
+export type UserLoggedIn = {
+  type: AuthActionType.USER_LOGGED_IN;
+  payload: {
+    token: string;
+  };
+};
+
+export type UserLoggedOut = {
+  type: AuthActionType.USER_LOGGED_OUT;
 };
 
 export type UserLoading = {
@@ -30,4 +35,4 @@ export type UserError = {
   };
 };
 
-export type AuthAction = RegisterUser | UserRegistered | UserLoading | UserError;
+export type AuthAction = UserRegistered | UserLoggedIn | UserLoggedOut | UserLoading | UserError;

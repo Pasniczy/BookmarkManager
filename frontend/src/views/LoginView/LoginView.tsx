@@ -1,19 +1,18 @@
 import { useState, ChangeEvent, FormEvent } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
+import { useDispatch } from 'react-redux';
+import { UserLoginRequestData } from 'Models';
+import { loginUser } from 'Actions';
 import { Button, Typography } from '@mui/material';
 import { BoxStyled } from 'Components/styled/Box.styled';
 import { ViewHeading } from 'Components/ViewHeading/ViewHeading';
 import { LoginForm } from 'Components/Auth/LoginForm';
 
-export type LoginFormState = {
-  email: string;
-  password: string;
-};
-
 export const LoginView = () => {
   const navigate = useNavigate();
+  const dispatch = useDispatch();
 
-  const [formState, setFormState] = useState<LoginFormState>({
+  const [formState, setFormState] = useState<UserLoginRequestData>({
     email: '',
     password: '',
   });
@@ -35,7 +34,7 @@ export const LoginView = () => {
     if (formState.password.length < 6) {
       return console.error('User password must be at least 6 characters');
     }
-    console.log(formState);
+    dispatch(loginUser(formState, navigate));
   };
 
   return (
