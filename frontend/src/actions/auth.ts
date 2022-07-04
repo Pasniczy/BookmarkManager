@@ -82,3 +82,24 @@ export const loginUser = (
     }
   };
 };
+
+export const logoutUser = (navigate: NavigateFunction): ThunkAction<Promise<void>, RootState, unknown, AuthAction> => {
+  return async (dispatch) => {
+    const config = {
+      withCredentials: true,
+    };
+    try {
+      await axios.get('http://localhost:3001/auth/logout', config);
+      dispatch({
+        type: AuthActionType.USER_LOGGED_OUT,
+      });
+      navigate('/');
+    } catch (err) {
+      console.error(err);
+      dispatch({
+        type: AuthActionType.USER_ERROR,
+        payload: { error: 'Failed to logout user' },
+      });
+    }
+  };
+};
