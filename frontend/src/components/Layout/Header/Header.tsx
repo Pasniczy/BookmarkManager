@@ -1,4 +1,4 @@
-import { NavLink } from 'react-router-dom';
+import { Link } from 'react-router-dom';
 import { AppBar, Toolbar, Box, Typography } from '@mui/material';
 import { Search as SearchIcon } from '@mui/icons-material';
 import { Search, SearchIconWrapper, StyledInputBase } from './Header.styled';
@@ -13,7 +13,9 @@ export const Header = ({ isHomePage }: Props) => {
       <AppBar position="static">
         <Toolbar>
           <Typography variant="h6" component="h1" noWrap sx={{ flexGrow: 1, display: { xs: 'none', sm: 'block' } }}>
-            <NavLink to="/">Bookmarks Manager</NavLink>
+            <Link to="/" style={{ color: '#fff' }}>
+              Bookmarks Manager
+            </Link>
           </Typography>
           {!isHomePage && (
             <Search>

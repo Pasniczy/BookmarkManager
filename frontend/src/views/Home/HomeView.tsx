@@ -1,3 +1,4 @@
+import { Link } from 'react-router-dom';
 import { Button, Stack, Typography } from '@mui/material';
 
 export const HomeView = () => {
@@ -12,12 +13,16 @@ export const HomeView = () => {
         quaerat similique.
       </Typography>
       <Stack direction="row" spacing={2} justifyContent="center">
-        <Button variant="contained" size="large">
-          Sign In
-        </Button>
-        <Button variant="contained" size="large">
-          Sign Up
-        </Button>
+        <Link to="/login">
+          <Button variant="contained" size="large">
+            Sign In
+          </Button>
+        </Link>
+        <Link to="/register">
+          <Button variant="contained" size="large">
+            Sign Up
+          </Button>
+        </Link>
       </Stack>
     </>
   );
