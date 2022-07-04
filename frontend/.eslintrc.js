@@ -34,6 +34,7 @@ module.exports = {
     'import/prefer-default-export': 0,
     'import/no-extraneous-dependencies': 0,
     'unused-imports/no-unused-imports': 1,
+    'react/require-default-props': 0,
     'react/function-component-definition': 0,
     'react/jsx-filename-extension': [0, { extensions: ['.js', '.jsx', '.ts', '.tsx'] }],
     'react/jsx-one-expression-per-line': 0,
