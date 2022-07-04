@@ -65,8 +65,3 @@ export const logout = async (req: Request, res: Response) => {
   req.session.user = null;
   res.status(200).json({ message: 'User logged out' });
 };
-
-export const testAuth = async (req: Request, res: Response) => {
-  const { token } = req.session;
-  res.status(201).json({ token });
-};

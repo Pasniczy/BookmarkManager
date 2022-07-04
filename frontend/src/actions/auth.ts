@@ -72,7 +72,7 @@ export const loginUser = (
       dispatch({
         type: AuthActionType.USER_LOADING,
       });
-      await axios.post('http://localhost:3001/auth/login', loginData, config);
+      await axios.post('http://localhost:3001/auth/login', JSON.stringify(loginData), config);
       await dispatch(loadUser());
       navigate('/bookmarks');
     } catch (err) {
