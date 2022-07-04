@@ -1,7 +1,7 @@
 import { useEffect } from 'react';
 import { useDispatch } from 'react-redux';
 import { BrowserRouter, Routes, Route } from 'react-router-dom';
-import { getBookmarks } from 'Actions';
+import { getBookmarks, loadUser } from 'Actions';
 import { ViewFlex } from 'Components/Layout/ViewFlex';
 import { MainContainer } from 'Components/Layout/MainContainer';
 import { HomeView } from 'Views/Home/HomeView';
@@ -18,6 +18,7 @@ const App = () => {
 
   useEffect(() => {
     dispatch(getBookmarks());
+    dispatch(loadUser());
   }, [dispatch]);
 
   return (

@@ -17,6 +17,7 @@ export const loadUser = async (req: Request, res: Response) => {
 
 // @desc Register user
 // @route POST /auth/register
+// @access Public
 export const register = async (req: Request, res: Response) => {
   let user = new UserRecord(req.body as NewUserEntity);
   user = await user.create();
@@ -29,6 +30,7 @@ export const register = async (req: Request, res: Response) => {
 
 // @desc Login user
 // @route POST /auth/login
+// @access Public
 export const login = async (req: Request, res: Response) => {
   const { email, password } = req.body as LoginUserRequestData;
 
@@ -59,7 +61,8 @@ export const login = async (req: Request, res: Response) => {
 };
 
 // @desc Logout user
-// @route POST /auth/logout
+// @route GET /auth/logout
+// @access Public
 export const logout = async (req: Request, res: Response) => {
   req.session.token = null;
   req.session.user = null;

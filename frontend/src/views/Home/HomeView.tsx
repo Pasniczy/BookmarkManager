@@ -1,7 +1,14 @@
-import { Link } from 'react-router-dom';
+import { Link, Navigate } from 'react-router-dom';
 import { Button, Stack, Typography } from '@mui/material';
+import { useAppSelector } from 'Hooks';
 
 export const HomeView = () => {
+  const { user } = useAppSelector((state) => state.auth);
+
+  if (user) {
+    return <Navigate to="/bookmarks" />;
+  }
+
   return (
     <>
       <Typography variant="h4" component="h2" align="center" color="primary" gutterBottom>
