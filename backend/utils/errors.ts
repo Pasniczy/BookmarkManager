@@ -13,7 +13,7 @@ export const handleError = (err: Error, req: Request, res: Response, next: NextF
   }
 
   if (err instanceof AuthError) {
-    return res.status(401).json({ message: err.message });
+    return res.status(401).json({ message: err.message || 'User unauthorized' });
   }
 
   res.status(500).json({ message: 'Internal Server Error' });

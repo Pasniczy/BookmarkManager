@@ -1,17 +1,15 @@
-import { UserEntity } from 'Models';
+import { LoadUserResponseData } from 'Models';
 import { Nullable } from 'Types';
 import { AuthAction, AuthActionType } from 'ActionTypes';
 
 export interface AuthState {
-  token: Nullable<string>;
-  user: Nullable<UserEntity>;
+  user: Nullable<LoadUserResponseData>;
   loading: boolean;
   // TODO: Model error
   error: Nullable<string>;
 }
 
 const initialState: AuthState = {
-  token: null,
   user: null,
   loading: false,
   error: null,
@@ -19,18 +17,17 @@ const initialState: AuthState = {
 
 export const authReducer = (state: AuthState = initialState, action: AuthAction) => {
   switch (action.type) {
-    case AuthActionType.USER_LOGGED_IN:
-    case AuthActionType.USER_REGISTERED:
+    case AuthActionType.USER_LOADED:
       return {
         ...state,
-        token: action.payload.token,
+        user: action.payload.user,
         loading: false,
         error: null,
       };
     case AuthActionType.USER_LOGGED_OUT:
       return {
         ...state,
-        token: null,
+        user: null,
         loading: false,
         error: null,
       };
@@ -39,6 +36,12 @@ export const authReducer = (state: AuthState = initialState, action: AuthAction)
         ...state,
         loading: true,
         error: null,
+      };
+    case AuthActionType.USER_ERROR:
+      return {
+        ...state,
+        loading: false,
+        error: action.payload.error,
       };
     default:
       return state;

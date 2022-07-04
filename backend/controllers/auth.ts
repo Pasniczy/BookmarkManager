@@ -1,7 +1,19 @@
 import { Request, Response } from 'express';
-import { NewUserEntity, UserLoginRequestData } from '../types';
-import { ValidationError } from '../utils/errors';
+import { NewUserEntity, LoginUserRequestData, LoadUserResponseData } from '../types';
+import { AuthError, ValidationError } from '../utils/errors';
 import { UserRecord } from '../records/user.record';
+
+// @desc Load user
+// @route GET /auth
+// @access Private
+export const loadUser = async (req: Request, res: Response) => {
+  if (!req.session.user) {
+    throw new AuthError();
+  }
+  const { username, email, createdAt } = req.session.user;
+  const loadUserResponseData: LoadUserResponseData = { username, email, createdAt };
+  res.status(200).json({ user: loadUserResponseData });
+};
 
 // @desc Register user
 // @route POST /auth/register
@@ -18,7 +30,7 @@ export const register = async (req: Request, res: Response) => {
 // @desc Login user
 // @route POST /auth/login
 export const login = async (req: Request, res: Response) => {
-  const { email, password } = req.body as UserLoginRequestData;
+  const { email, password } = req.body as LoginUserRequestData;
 
   if (!email || !password) {
     throw new ValidationError('Email and password must be provided');

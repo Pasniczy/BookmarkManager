@@ -1,10 +1,10 @@
 import { ChangeEvent, FormEvent } from 'react';
-import { UserLoginRequestData } from 'Models';
+import { LoginUserRequestData } from 'Models';
 import { Paper, FormControl, TextField, Button } from '@mui/material';
 import { FormGroupStyled } from 'Components/styled/FormGroup.styled';
 
 type Props = {
-  formState: UserLoginRequestData;
+  formState: LoginUserRequestData;
   onInputChange: (e: ChangeEvent<HTMLInputElement>) => void;
   onSubmit: (e: FormEvent<HTMLFormElement>) => void;
 };

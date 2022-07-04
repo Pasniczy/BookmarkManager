@@ -13,7 +13,7 @@ export class UserRecord implements UserEntity {
   username: string;
   email: string;
   password: string;
-  createdAt?: Date;
+  createdAt: Date;
 
   constructor({ id, username, email, password, createdAt }: NewUserEntity) {
     if (!username) {

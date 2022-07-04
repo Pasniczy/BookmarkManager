@@ -1,22 +1,16 @@
+import { LoadUserResponseData } from 'Models';
+
 export enum AuthActionType {
-  USER_REGISTERED = 'USER_REGISTERED',
-  USER_LOGGED_IN = 'USER_LOGGED_IN',
+  USER_LOADED = 'USER_LOADED',
   USER_LOGGED_OUT = 'USER_LOGGED_OUT',
   USER_LOADING = 'USER_LOADING',
   USER_ERROR = 'USER_ERROR',
 }
 
-export type UserRegistered = {
-  type: AuthActionType.USER_REGISTERED;
+export type UserLoaded = {
+  type: AuthActionType.USER_LOADED;
   payload: {
-    token: string;
-  };
-};
-
-export type UserLoggedIn = {
-  type: AuthActionType.USER_LOGGED_IN;
-  payload: {
-    token: string;
+    user: LoadUserResponseData;
   };
 };
 
@@ -35,4 +29,4 @@ export type UserError = {
   };
 };
 
-export type AuthAction = UserRegistered | UserLoggedIn | UserLoggedOut | UserLoading | UserError;
+export type AuthAction = UserLoaded | UserLoggedOut | UserLoading | UserError;

@@ -10,7 +10,8 @@ export type NewUserEntity = Omit<UserEntity, 'id'> & {
   id?: string;
 };
 
-export type UserLoginRequestData = {
-  email?: string;
-  password?: string;
+export type LoginUserRequestData = Pick<UserEntity, 'email' | 'password'>;
+
+export type LoadUserResponseData = Pick<UserEntity, 'username' | 'email'> & {
+  createdAt: Date;
 };

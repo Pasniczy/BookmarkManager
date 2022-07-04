@@ -1,7 +1,7 @@
 import { useState, ChangeEvent, FormEvent } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
 import { useDispatch } from 'react-redux';
-import { UserLoginRequestData } from 'Models';
+import { LoginUserRequestData } from 'Models';
 import { loginUser } from 'Actions';
 import { Button, Typography } from '@mui/material';
 import { BoxStyled } from 'Components/styled/Box.styled';
@@ -12,7 +12,7 @@ export const LoginView = () => {
   const navigate = useNavigate();
   const dispatch = useDispatch();
 
-  const [formState, setFormState] = useState<UserLoginRequestData>({
+  const [formState, setFormState] = useState<LoginUserRequestData>({
     email: '',
     password: '',
   });

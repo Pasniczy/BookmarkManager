@@ -1,9 +1,33 @@
 import { NavigateFunction } from 'react-router';
 import { ThunkAction } from 'redux-thunk';
 import axios from 'axios';
-import { NewUserEntity, UserLoginRequestData } from 'Models';
+import { NewUserEntity, LoginUserRequestData, LoadUserResponseData } from 'Models';
 import { RootState } from 'Store';
 import { AuthAction, AuthActionType } from 'ActionTypes';
+
+export const loadUser = (): ThunkAction<Promise<void>, RootState, unknown, AuthAction> => {
+  return async (dispatch) => {
+    const config = {
+      withCredentials: true,
+    };
+    try {
+      const res = await axios.get('http://localhost:3001/auth', config);
+      console.log('RES: ', res);
+      const user = res.data as LoadUserResponseData;
+      console.log('USER: ', user);
+      dispatch({
+        type: AuthActionType.USER_LOADED,
+        payload: { user },
+      });
+    } catch (err) {
+      console.error(err);
+      dispatch({
+        type: AuthActionType.USER_ERROR,
+        payload: { error: 'Failed to load user' },
+      });
+    }
+  };
+};
 
 export const registerUser = (
   user: NewUserEntity,
@@ -20,14 +44,8 @@ export const registerUser = (
       dispatch({
         type: AuthActionType.USER_LOADING,
       });
-      const res = await axios.post('http://localhost:3001/auth/register', JSON.stringify(user), config);
-      const data = res.data as { message: string; token: string };
-      const token = data.token;
-      dispatch({
-        type: AuthActionType.USER_REGISTERED,
-        payload: { token },
-      });
-      // TODO: load user
+      await axios.post('http://localhost:3001/auth/register', JSON.stringify(user), config);
+      await dispatch(loadUser());
       navigate('/bookmarks');
     } catch (err) {
       console.error(err);
@@ -40,7 +58,7 @@ export const registerUser = (
 };
 
 export const loginUser = (
-  loginData: UserLoginRequestData,
+  loginData: LoginUserRequestData,
   navigate: NavigateFunction
 ): ThunkAction<Promise<void>, RootState, unknown, AuthAction> => {
   return async (dispatch) => {
@@ -54,14 +72,8 @@ export const loginUser = (
       dispatch({
         type: AuthActionType.USER_LOADING,
       });
-      const res = await axios.post('http://localhost:3001/auth/login', loginData, config);
-      const data = res.data as { message: string; token: string };
-      const token = data.token;
-      dispatch({
-        type: AuthActionType.USER_LOGGED_IN,
-        payload: { token },
-      });
-      // TODO: load user
+      await axios.post('http://localhost:3001/auth/login', loginData, config);
+      await dispatch(loadUser());
       navigate('/bookmarks');
     } catch (err) {
       console.error(err);
