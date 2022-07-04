@@ -1,5 +1,5 @@
 import { ChangeEvent, FormEvent } from 'react';
-import { RegisterFormState } from 'Views/RegisterView/RegisterView';
+import { RegisterFormState } from 'Views/RegisterView';
 import { Paper, FormControl, TextField, Button } from '@mui/material';
 import { FormGroupStyled } from 'Components/styled/FormGroup.styled';
 

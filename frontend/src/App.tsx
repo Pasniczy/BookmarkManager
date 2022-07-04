@@ -4,14 +4,14 @@ import { BrowserRouter, Routes, Route } from 'react-router-dom';
 import { getBookmarks, loadUser } from 'Actions';
 import { ViewFlex } from 'Components/Layout/ViewFlex';
 import { MainContainer } from 'Components/Layout/MainContainer';
-import { HomeView } from 'Views/Home/HomeView';
-import { RegisterView } from 'Views/RegisterView/RegisterView';
-import { LoginView } from 'Views/LoginView/LoginView';
-import { AccountView } from 'Views/AccountView/AccountView';
-import { BookmarksView } from 'Views/Bookmarks/BookmarksView';
-import { BookmarkView } from 'Views/Bookmark/BookmarkView';
-import { AddBookmarkView } from 'Views/AddBookmark/AddBookmarkView';
-import { EditBookmarkView } from 'Views/EditBookmark/EditBookmarkView';
+import { HomeView } from 'Views/HomeView';
+import { RegisterView } from 'Views/RegisterView';
+import { LoginView } from 'Views/LoginView';
+import { AccountView } from 'Views/AccountView';
+import { BookmarksView } from 'Views/BookmarksView';
+import { BookmarkView } from 'Views/BookmarkView';
+import { AddBookmarkView } from 'Views/AddBookmarkView';
+import { EditBookmarkView } from 'Views/EditBookmarkView';
 import './App.css';
 
 const App = () => {
