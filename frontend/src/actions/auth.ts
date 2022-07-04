@@ -12,7 +12,8 @@ export const loadUser = (): ThunkAction<Promise<void>, RootState, unknown, AuthA
     };
     try {
       const res = await axios.get('http://localhost:3001/auth', config);
-      const user = res.data as LoadUserResponseData;
+      const data = res.data as { user: LoadUserResponseData };
+      const user = data.user;
       dispatch({
         type: AuthActionType.USER_LOADED,
         payload: { user },

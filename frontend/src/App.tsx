@@ -7,6 +7,7 @@ import { MainContainer } from 'Components/Layout/MainContainer';
 import { HomeView } from 'Views/Home/HomeView';
 import { RegisterView } from 'Views/RegisterView/RegisterView';
 import { LoginView } from 'Views/LoginView/LoginView';
+import { AccountView } from 'Views/AccountView/AccountView';
 import { BookmarksView } from 'Views/Bookmarks/BookmarksView';
 import { BookmarkView } from 'Views/Bookmark/BookmarkView';
 import { AddBookmarkView } from 'Views/AddBookmark/AddBookmarkView';
@@ -36,6 +37,9 @@ const App = () => {
           </Route>
           <Route path="/login" element={<MainContainer />}>
             <Route index element={<LoginView />} />
+          </Route>
+          <Route path="/account" element={<MainContainer />}>
+            <Route index element={<AccountView />} />
           </Route>
           <Route path="/" element={<MainContainer center />}>
             <Route index element={<HomeView />} />

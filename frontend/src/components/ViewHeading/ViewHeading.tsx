@@ -9,7 +9,7 @@ type Props = {
 export const ViewHeading = ({ children }: Props) => {
   return (
     <BoxStyled>
-      <Typography variant="h4" component="h2">
+      <Typography variant="h4" component="h2" sx={{ marginTop: 2 }}>
         {children}
       </Typography>
     </BoxStyled>
