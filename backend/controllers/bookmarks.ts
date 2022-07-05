@@ -5,6 +5,7 @@ import { ValidationError } from '../utils/errors';
 
 // @desc Get single bookmark
 // @route GET /bookmarks/:id
+// @access Private
 export const getBookmark = async (req: Request, res: Response) => {
   const bookmark = await BookmarkRecord.getOne(req.params.id);
   res.status(200).json(bookmark);
@@ -14,6 +15,7 @@ export const getBookmark = async (req: Request, res: Response) => {
 // @route GET /bookmarks
 // @desc Get bookmarks by name
 // @route GET /bookmarks?name=...
+// @access Private
 export const getBookmarks = async (req: Request, res: Response) => {
   const { name } = req.query;
   const bookmarks = await BookmarkRecord.getAll((name && name.toString()) || '');
@@ -21,7 +23,8 @@ export const getBookmarks = async (req: Request, res: Response) => {
 };
 
 // @desc Add bookmark
-// @route POST /bookmarks/
+// @route POST /bookmarks
+// @access Private
 export const addBookmark = async (req: Request, res: Response) => {
   const bookmark = new BookmarkRecord(req.body as BookmarkEntity);
   await bookmark.add();
@@ -30,6 +33,7 @@ export const addBookmark = async (req: Request, res: Response) => {
 
 // @desc Update bookmark
 // @route PUT /bookmarks/:id
+// @access Private
 export const updateBookmark = async (req: Request, res: Response) => {
   const { name, url, favorite } = req.body as BookmarkEntity;
 
@@ -48,6 +52,7 @@ export const updateBookmark = async (req: Request, res: Response) => {
 
 // @desc Delete bookmark
 // @route DELETE /bookmarks/:id
+// @access Private
 export const deleteBookmark = async (req: Request, res: Response) => {
   const bookmark = await BookmarkRecord.getOne(req.params.id);
 

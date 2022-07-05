@@ -8,14 +8,17 @@ import { BookmarksAction, BookmarksActionType } from 'ActionTypes';
 
 export const getBookmarks = (): ThunkAction<Promise<void>, RootState, unknown, BookmarksAction> => {
   return async (dispatch) => {
+    const config = {
+      withCredentials: true,
+    };
     try {
       dispatch({
         type: BookmarksActionType.BOOKMARKS_LOADING,
       });
-      const res = await axios.get('http://localhost:3001/bookmarks');
+      const res = await axios.get('http://localhost:3001/bookmarks', config);
       const bookmarks = res.data as BookmarkEntity[];
       dispatch({
-        type: BookmarksActionType.GET_BOOKMARKS,
+        type: BookmarksActionType.BOOKMARKS_LOADED,
         payload: { bookmarks },
       });
     } catch (err) {
@@ -32,14 +35,17 @@ export const getBookmark = (
   id: BookmarkEntity['id']
 ): ThunkAction<Promise<void>, RootState, unknown, BookmarksAction> => {
   return async (dispatch: Dispatch<BookmarksAction>) => {
+    const config = {
+      withCredentials: true,
+    };
     try {
       dispatch({
         type: BookmarksActionType.BOOKMARKS_LOADING,
       });
-      const res = await axios.get(`http://localhost:3001/bookmarks/${id}`);
+      const res = await axios.get(`http://localhost:3001/bookmarks/${id}`, config);
       const bookmark = res.data as BookmarkEntity;
       dispatch({
-        type: BookmarksActionType.GET_BOOKMARK,
+        type: BookmarksActionType.BOOKMARK_LOADED,
         payload: { bookmark },
       });
     } catch (err) {
@@ -61,6 +67,7 @@ export const addBookmark = (
       headers: {
         'Content-Type': 'application/json',
       },
+      withCredentials: true,
     };
     try {
       dispatch({
@@ -93,6 +100,7 @@ export const editBookmark = (
       headers: {
         'Content-Type': 'application/json',
       },
+      withCredentials: true,
     };
     try {
       dispatch({
@@ -120,11 +128,14 @@ export const deleteBookmark = (
   navigate?: NavigateFunction
 ): ThunkAction<Promise<void>, RootState, unknown, BookmarksAction> => {
   return async (dispatch: Dispatch<BookmarksAction>) => {
+    const config = {
+      withCredentials: true,
+    };
     try {
       dispatch({
         type: BookmarksActionType.BOOKMARKS_LOADING,
       });
-      await axios.delete(`http://localhost:3001/bookmarks/${id}`);
+      await axios.delete(`http://localhost:3001/bookmarks/${id}`, config);
       dispatch({
         type: BookmarksActionType.BOOKMARK_DELETED,
         payload: { id },
