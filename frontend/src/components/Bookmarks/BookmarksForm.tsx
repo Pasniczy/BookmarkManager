@@ -1,11 +1,11 @@
-import { NewBookmarkEntity } from 'Models';
+import { NewBookmarkData } from 'Models';
 import { ChangeEvent, FormEvent } from 'react';
 import { Paper, FormControl, FormLabel, Switch, TextField, Button } from '@mui/material';
 import { FormGroupStyled } from 'Components/styled/FormGroup.styled';
 
 type Props = {
   formType: string;
-  formState: NewBookmarkEntity;
+  formState: NewBookmarkData;
   onInputChange: (e: ChangeEvent<HTMLInputElement>) => void;
   onSubmit: (e: FormEvent<HTMLFormElement>) => void;
 };

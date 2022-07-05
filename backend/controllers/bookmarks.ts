@@ -1,7 +1,7 @@
 import { Request, Response } from 'express';
 import { BookmarkRecord } from '../records/bookmark.record';
-import { BookmarkEntity } from '../types';
-import { ValidationError } from '../utils/errors';
+import { BookmarkEntity, NewBookmarkData } from '../types';
+import { AuthError, ValidationError } from '../utils/errors';
 
 // @desc Get single bookmark
 // @route GET /bookmarks/:id
@@ -18,7 +18,11 @@ export const getBookmark = async (req: Request, res: Response) => {
 // @access Private
 export const getBookmarks = async (req: Request, res: Response) => {
   const { name } = req.query;
-  const bookmarks = await BookmarkRecord.getAll((name && name.toString()) || '');
+  const { user } = req.session;
+
+  if (!user) throw new AuthError();
+
+  const bookmarks = await BookmarkRecord.getAllByUser(user.id, (name && name.toString()) || '');
   res.status(200).json(bookmarks);
 };
 
@@ -26,7 +30,11 @@ export const getBookmarks = async (req: Request, res: Response) => {
 // @route POST /bookmarks
 // @access Private
 export const addBookmark = async (req: Request, res: Response) => {
-  const bookmark = new BookmarkRecord(req.body as BookmarkEntity);
+  const { user } = req.session;
+
+  if (!user) throw new AuthError();
+
+  const bookmark = new BookmarkRecord({ ...(req.body as NewBookmarkData), user: user.id });
   await bookmark.add();
   res.status(201).json(bookmark);
 };

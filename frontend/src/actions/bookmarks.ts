@@ -2,7 +2,7 @@ import { Dispatch } from 'react';
 import { NavigateFunction } from 'react-router';
 import { ThunkAction } from 'redux-thunk';
 import axios from 'axios';
-import { BookmarkEntity, NewBookmarkEntity } from 'Models';
+import { BookmarkEntity, NewBookmarkData } from 'Models';
 import { RootState } from 'Store';
 import { BookmarksAction, BookmarksActionType } from 'ActionTypes';
 
@@ -17,6 +17,7 @@ export const getBookmarks = (): ThunkAction<Promise<void>, RootState, unknown, B
       });
       const res = await axios.get('http://localhost:3001/bookmarks', config);
       const bookmarks = res.data as BookmarkEntity[];
+      console.log(bookmarks);
       dispatch({
         type: BookmarksActionType.BOOKMARKS_LOADED,
         payload: { bookmarks },
@@ -59,7 +60,7 @@ export const getBookmark = (
 };
 
 export const addBookmark = (
-  newBookmark: NewBookmarkEntity,
+  newBookmark: NewBookmarkData,
   navigate: NavigateFunction
 ): ThunkAction<Promise<void>, RootState, unknown, BookmarksAction> => {
   return async (dispatch: Dispatch<BookmarksAction>) => {
@@ -92,7 +93,7 @@ export const addBookmark = (
 
 export const editBookmark = (
   id: string,
-  editedBookmark: NewBookmarkEntity,
+  editedBookmark: NewBookmarkData,
   navigate?: NavigateFunction
 ): ThunkAction<Promise<void>, RootState, unknown, BookmarksAction> => {
   return async (dispatch: Dispatch<BookmarksAction>) => {
