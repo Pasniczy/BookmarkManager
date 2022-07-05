@@ -7,7 +7,14 @@ import { AuthError, ValidationError } from '../utils/errors';
 // @route GET /bookmarks/:id
 // @access Private
 export const getBookmark = async (req: Request, res: Response) => {
+  const { user } = req.session;
+
+  if (!user) throw new AuthError();
+
   const bookmark = await BookmarkRecord.getOne(req.params.id);
+
+  if (user.id !== bookmark?.user) throw new AuthError('User unauthorized to access requested bookmark');
+
   res.status(200).json(bookmark);
 };
 
