@@ -1,7 +1,7 @@
 import { Link } from 'react-router-dom';
 import { useAppSelector } from 'Hooks';
 import { Stack, Button } from '@mui/material';
-import { Add as AddIcon } from '@mui/icons-material';
+import { BookmarkAdd as BookmarkAddIcon } from '@mui/icons-material';
 import { BookmarkItem } from 'Components/Bookmarks/BookmarkItem';
 import { ViewHeading } from 'Components/ViewHeading/ViewHeading';
 import { BoxStyled } from 'Components/styled/Box.styled';
@@ -23,7 +23,7 @@ export const BookmarksView = () => {
       <ViewHeading>Bookmarks</ViewHeading>
       <BoxStyled>
         <Link to="/bookmarks/add">
-          <Button variant="contained" color="success" size="small" endIcon={<AddIcon />}>
+          <Button variant="contained" color="success" size="small" endIcon={<BookmarkAddIcon />}>
             Add Bookmark
           </Button>
         </Link>
