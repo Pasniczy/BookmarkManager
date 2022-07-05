@@ -30,7 +30,8 @@ export const AddBookmarkView = () => {
 
   const handleSubmit = (e: FormEvent<HTMLFormElement>) => {
     e.preventDefault();
-    if (!formState.name || !formState) {
+    // TODO: handle validation
+    if (!formState.name || !formState.url) {
       return console.error('Name and URL inputs cannot be empty');
     }
     dispatch(addBookmark(formState, navigate));
