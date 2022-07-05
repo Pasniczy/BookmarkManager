@@ -51,8 +51,12 @@ export const addBookmark = async (req: Request, res: Response) => {
 // @access Private
 export const updateBookmark = async (req: Request, res: Response) => {
   const { name, url, favorite } = req.body as BookmarkEntity;
+  const { user } = req.session;
+
+  if (!user) throw new AuthError();
 
   let bookmark = await BookmarkRecord.getOne(req.params.id);
+  if (user.id !== bookmark?.user) throw new AuthError('User unauthorized to access requested bookmark');
 
   if (!bookmark) throw new ValidationError('Bookmark not found');
 
