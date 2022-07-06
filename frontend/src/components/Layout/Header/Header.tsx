@@ -1,5 +1,5 @@
 import * as React from 'react';
-import { useNavigate } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 import { useDispatch } from 'react-redux';
 import { logoutUser } from 'Actions';
 import { useAppSelector } from 'Hooks';
@@ -17,7 +17,7 @@ import {
 } from '@mui/material';
 import { Bookmark as BookmarkIcon } from '@mui/icons-material';
 
-const settings = ['Account', 'Logout'] as const;
+const settings = ['Bookmarks', 'Account', 'Logout'] as const;
 
 type Setting = typeof settings[number];
 
@@ -50,12 +50,14 @@ export const Header = () => {
     <AppBar position="static">
       <Container maxWidth="xl">
         <Toolbar disableGutters sx={{ justifyContent: 'space-between' }}>
-          <Box sx={{ display: 'flex', alignItems: 'center', mr: 2 }}>
-            <BookmarkIcon sx={{ mr: 1 }} />
-            <Typography variant="h6" component="a" href="/" color="white">
-              BookmarkManager
-            </Typography>
-          </Box>
+          <Link to="/">
+            <Box sx={{ display: 'flex', alignItems: 'center', mr: 2 }}>
+              <BookmarkIcon sx={{ mr: 1, color: 'white' }} />
+              <Typography variant="h6" component="h1" color="white">
+                BookmarkManager
+              </Typography>
+            </Box>
+          </Link>
           {user && (
             <Box sx={{ flexGrow: 0 }}>
               <Tooltip title="Open settings">

@@ -1,6 +1,7 @@
 import { useEffect } from 'react';
 import { useDispatch } from 'react-redux';
 import { BrowserRouter, Routes, Route } from 'react-router-dom';
+import { PrivateRoute } from 'Components/routing/PrivateRoute';
 import { loadUser } from 'Actions';
 import { AppContainer } from 'Components/Layout/AppContainer';
 import { MainContainer } from 'Components/Layout/MainContainer';
@@ -14,7 +15,6 @@ import { BookmarkView } from 'Views/BookmarkView';
 import { AddBookmarkView } from 'Views/AddBookmarkView';
 import { EditBookmarkView } from 'Views/EditBookmarkView';
 import './App.css';
-import { PrivateRoute } from 'Components/routing/PrivateRoute';
 
 const App = () => {
   const dispatch = useDispatch();
