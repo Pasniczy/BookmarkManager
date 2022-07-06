@@ -1,6 +1,7 @@
 import { Link, Navigate } from 'react-router-dom';
 import { Button, Stack, Typography } from '@mui/material';
 import { useAppSelector } from 'Hooks';
+import { ViewGrow } from 'Components/Layout/ViewGrow';
 
 export const HomeView = () => {
   const { user } = useAppSelector((state) => state.auth);
@@ -10,7 +11,7 @@ export const HomeView = () => {
   }
 
   return (
-    <>
+    <ViewGrow justify="center">
       <Typography variant="h4" component="h2" align="center" color="primary" gutterBottom>
         Welcome to Bookmark Manager
       </Typography>
@@ -31,6 +32,6 @@ export const HomeView = () => {
           </Button>
         </Link>
       </Stack>
-    </>
+    </ViewGrow>
   );
 };
