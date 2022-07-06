@@ -26,7 +26,7 @@ const initialState: BookmarksState = {
   error: null,
 };
 
-export const bookmarksReducer = (state: BookmarksState = initialState, action: BookmarksAction) => {
+export const bookmarksReducer = (state: BookmarksState = initialState, action: BookmarksAction): BookmarksState => {
   switch (action.type) {
     case BookmarksActionType.BOOKMARKS_LOADED:
       return {
