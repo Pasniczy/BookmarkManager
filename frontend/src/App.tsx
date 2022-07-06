@@ -41,7 +41,7 @@ const App = () => {
             <Route path="/login">
               <Route index element={<LoginView />} />
             </Route>
-            <Route path="/account">
+            <Route path="/account" element={<PrivateRoute />}>
               <Route index element={<AccountView />} />
             </Route>
             <Route path="/">
