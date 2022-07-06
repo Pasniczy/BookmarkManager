@@ -8,12 +8,12 @@ import { AuthError, ValidationError } from '../utils/errors';
 // @access Private
 export const getBookmark = async (req: Request, res: Response) => {
   const { user } = req.session;
-
   if (!user) throw new AuthError();
 
   const bookmark = await BookmarkRecord.getOne(req.params.id);
+  if (!bookmark) throw new ValidationError('Bookmark not found');
 
-  if (user.id !== bookmark?.user) throw new AuthError('User unauthorized to access requested bookmark');
+  if (user.id !== bookmark.user) throw new AuthError('User unauthorized to access requested bookmark');
 
   res.status(200).json(bookmark);
 };
@@ -56,9 +56,9 @@ export const updateBookmark = async (req: Request, res: Response) => {
   if (!user) throw new AuthError();
 
   let bookmark = await BookmarkRecord.getOne(req.params.id);
-  if (user.id !== bookmark?.user) throw new AuthError('User unauthorized to access requested bookmark');
-
   if (!bookmark) throw new ValidationError('Bookmark not found');
+
+  if (user.id !== bookmark.user) throw new AuthError('User unauthorized to access requested bookmark');
 
   if (bookmark.name !== undefined) bookmark.name = name;
   if (bookmark.url !== undefined) bookmark.url = url;
@@ -73,9 +73,13 @@ export const updateBookmark = async (req: Request, res: Response) => {
 // @route DELETE /bookmarks/:id
 // @access Private
 export const deleteBookmark = async (req: Request, res: Response) => {
-  const bookmark = await BookmarkRecord.getOne(req.params.id);
+  const { user } = req.session;
+  if (!user) throw new AuthError();
 
+  const bookmark = await BookmarkRecord.getOne(req.params.id);
   if (!bookmark) throw new ValidationError('Bookmark not found');
+
+  if (user.id !== bookmark.user) throw new AuthError('User unauthorized to access requested bookmark');
 
   await bookmark.delete();
 
