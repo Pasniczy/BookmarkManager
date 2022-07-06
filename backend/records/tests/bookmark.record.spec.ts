@@ -2,10 +2,7 @@ import { pool } from '../../utils/db';
 import { BookmarkRecord } from '../bookmark.record';
 import { BookmarkEntity, NewBookmarkEntity } from '../../types';
 
-const newBookmarkEntityMock: NewBookmarkEntity = {
-  name: 'test name',
-  url: 'http://example.com',
-};
+const TEST_USER_ID = '12345678-1234-1234-1234-123456789abc'; // existing test user ID
 
 const testBookmarkId = '12345678-1234-1234-1234-123456789abc';
 const testBookmarkEntity: BookmarkEntity = {
@@ -13,6 +10,7 @@ const testBookmarkEntity: BookmarkEntity = {
   name: 'test bookmark',
   url: 'http://test.com',
   favorite: false,
+  user: TEST_USER_ID,
 };
 const testBookmarkRecord = new BookmarkRecord(testBookmarkEntity);
 
@@ -27,31 +25,30 @@ afterAll(async () => {
 
 describe('BookmarkRecord', () => {
   it('should create BookmarkRecord instance', () => {
-    const bookmark = new BookmarkRecord(newBookmarkEntityMock);
-    expect(bookmark.name).toBe('test name');
-    expect(bookmark.url).toBe('http://example.com');
+    const bookmark = new BookmarkRecord(testBookmarkEntity);
+    expect(bookmark.name).toBe(testBookmarkEntity.name);
+    expect(bookmark.url).toBe(testBookmarkEntity.url);
     expect(bookmark.favorite).toBe(false);
+    expect(bookmark.user).toBe(testBookmarkEntity.user);
   });
 
   it('should generate id for BookmarkRecord instance if no id passed', () => {
-    const newBookmarkEntity: NewBookmarkEntity = { ...newBookmarkEntityMock, id: undefined };
+    const newBookmarkEntity: NewBookmarkEntity = { ...testBookmarkEntity, id: undefined };
     expect(newBookmarkEntity.id).toBeUndefined();
     const bookmark = new BookmarkRecord(newBookmarkEntity);
     expect(typeof bookmark.id === 'string').toBe(true);
   });
 
-  it('should create BookmarkRecord instance with favorite set to true', () => {
-    const bookmark = new BookmarkRecord({ ...newBookmarkEntityMock, favorite: true });
-    expect(bookmark.name).toBe('test name');
-    expect(bookmark.url).toBe('http://example.com');
-    expect(bookmark.favorite).toBe(true);
+  it('should parse SQL number to boolean', () => {
+    const bookmarkTruthyBoolean = new BookmarkRecord({ ...testBookmarkEntity, favorite: 1 });
+    expect(bookmarkTruthyBoolean.favorite).toBe(true);
+    const bookmarkFalsyBoolean = new BookmarkRecord({ ...testBookmarkEntity, favorite: 0 });
+    expect(bookmarkFalsyBoolean.favorite).toBe(false);
   });
 
-  it('should parse SQL number to boolean', () => {
-    const bookmarkTruthyBoolean = new BookmarkRecord({ ...newBookmarkEntityMock, favorite: 1 });
-    const bookmarkFalsyBoolean = new BookmarkRecord({ ...newBookmarkEntityMock, favorite: 0 });
-    expect(bookmarkTruthyBoolean.favorite).toBe(true);
-    expect(bookmarkFalsyBoolean.favorite).toBe(false);
+  it('should create BookmarkRecord instance with favorite set to true', () => {
+    const bookmark = new BookmarkRecord({ ...testBookmarkEntity, favorite: true });
+    expect(bookmark.favorite).toBe(true);
   });
 });
 
@@ -111,12 +108,12 @@ describe('BookmarkRecord.update()', () => {
     if (!bookmark) throw new Error('No bookmark found');
     expect(bookmark.url).toBe(testBookmarkRecord.url);
     expect(bookmark.favorite).toBe(testBookmarkRecord.favorite);
-    bookmark.name = newBookmarkEntityMock.name;
-    bookmark.url = newBookmarkEntityMock.url;
+    bookmark.name = testBookmarkEntity.name;
+    bookmark.url = testBookmarkEntity.url;
     bookmark.favorite = true;
     const { name, url, favorite } = await bookmark.update();
-    expect(name).toBe(newBookmarkEntityMock.name);
-    expect(url).toBe(newBookmarkEntityMock.url);
+    expect(name).toBe(testBookmarkEntity.name);
+    expect(url).toBe(testBookmarkEntity.url);
     expect(favorite).toBe(true);
   });
 });

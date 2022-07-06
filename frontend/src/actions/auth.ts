@@ -4,6 +4,7 @@ import axios from 'axios';
 import { NewUserEntity, LoginUserRequestData, LoadUserResponseData } from 'Models';
 import { RootState } from 'Store';
 import { AuthAction, AuthActionType } from 'ActionTypes';
+import { getBookmarks } from 'Actions';
 
 export const loadUser = (): ThunkAction<Promise<void>, RootState, unknown, AuthAction> => {
   return async (dispatch) => {
@@ -18,6 +19,7 @@ export const loadUser = (): ThunkAction<Promise<void>, RootState, unknown, AuthA
         type: AuthActionType.USER_LOADED,
         payload: { user },
       });
+      dispatch(getBookmarks());
     } catch (err) {
       console.error(err);
       dispatch({

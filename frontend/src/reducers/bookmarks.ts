@@ -22,19 +22,19 @@ const resetState: BookmarksResetState = {
 const initialState: BookmarksState = {
   bookmarks: [],
   bookmark: null,
-  loading: true,
+  loading: false,
   error: null,
 };
 
 export const bookmarksReducer = (state: BookmarksState = initialState, action: BookmarksAction) => {
   switch (action.type) {
-    case BookmarksActionType.GET_BOOKMARKS:
+    case BookmarksActionType.BOOKMARKS_LOADED:
       return {
         ...state,
         ...resetState,
         bookmarks: action.payload.bookmarks,
       };
-    case BookmarksActionType.GET_BOOKMARK:
+    case BookmarksActionType.BOOKMARK_LOADED:
       return {
         ...state,
         ...resetState,

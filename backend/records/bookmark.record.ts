@@ -2,7 +2,7 @@ import { FieldPacket } from 'mysql2';
 import { v4 } from 'uuid';
 import { pool } from '../utils/db';
 import { ValidationError } from '../utils/errors';
-import { BookmarkEntity, NewBookmarkEntity } from '../types';
+import { BookmarkEntity, NewBookmarkEntity, UserEntity } from '../types';
 
 type BookmarkRecordResults = [BookmarkEntity[], FieldPacket[]];
 
@@ -11,8 +11,9 @@ export class BookmarkRecord implements BookmarkEntity {
   name: string;
   url: string;
   favorite = false;
+  user: UserEntity['id'];
 
-  constructor({ id, name, url, favorite }: NewBookmarkEntity) {
+  constructor({ id, name, url, favorite, user }: NewBookmarkEntity) {
     if (!name) {
       throw new ValidationError('Bookmark name is required');
     }
@@ -25,16 +26,20 @@ export class BookmarkRecord implements BookmarkEntity {
     if (url.length > 500) {
       throw new ValidationError('Bookmark url cannot be more that 500 characters');
     }
+    if (!user) {
+      throw new ValidationError('Bookmark must be assigned to user');
+    }
 
     this.id = id ?? v4();
     this.name = name;
     this.url = url;
     this.favorite = !!favorite;
+    this.user = user;
   }
 
   async add(): Promise<BookmarkRecord> {
     await pool.execute(
-      'INSERT INTO `bookmarks`(`id`,`name`,`url`,`favorite`) VALUES(:id, :name, :url, :favorite)',
+      'INSERT INTO `bookmarks`(`id`,`name`,`url`,`favorite`,`user`) VALUES(:id, :name, :url, :favorite, :user)',
       this
     );
     return this;
@@ -64,14 +69,35 @@ export class BookmarkRecord implements BookmarkEntity {
   static async getAll(name?: BookmarkEntity['name']): Promise<BookmarkRecord[]> {
     if (name) {
       const [results] = (await pool.execute(
-        'SELECT `id`, `name`, `url`, `favorite` FROM `bookmarks` WHERE `name` LIKE :name',
+        'SELECT `id`, `name`, `url`, `favorite`, `user` FROM `bookmarks` WHERE `name` LIKE :name',
         { name: `%${name}%` }
       )) as BookmarkRecordResults;
       return results.map((result) => new BookmarkRecord(result));
     }
 
     const [results] = (await pool.execute(
-      'SELECT `id`, `name`, `url`, `favorite` FROM `bookmarks`'
+      'SELECT `id`, `name`, `url`, `favorite`, `user` FROM `bookmarks`'
+    )) as BookmarkRecordResults;
+    return results.map((result) => new BookmarkRecord(result));
+  }
+
+  static async getAllByUser(user: UserEntity['id'], name?: BookmarkEntity['name']): Promise<BookmarkRecord[]> {
+    if (name) {
+      const [results] = (await pool.execute(
+        'SELECT `id`, `name`, `url`, `favorite`, `user` FROM `bookmarks` WHERE `user` = :user && `name` LIKE :name',
+        {
+          user,
+          name: `%${name}%`,
+        }
+      )) as BookmarkRecordResults;
+      return results.map((result) => new BookmarkRecord(result));
+    }
+
+    const [results] = (await pool.execute(
+      'SELECT `id`, `name`, `url`, `favorite`, `user` FROM `bookmarks` WHERE `user` = :user',
+      {
+        user,
+      }
     )) as BookmarkRecordResults;
     return results.map((result) => new BookmarkRecord(result));
   }

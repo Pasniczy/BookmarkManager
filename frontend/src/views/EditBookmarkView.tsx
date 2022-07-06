@@ -1,7 +1,7 @@
 import { ChangeEvent, FormEvent, useEffect, useState } from 'react';
 import { useNavigate, useParams } from 'react-router-dom';
 import { useDispatch } from 'react-redux';
-import { NewBookmarkEntity } from 'Models';
+import { NewBookmarkData } from 'Models';
 import { useAppSelector } from 'Hooks';
 import { editBookmark, getBookmark } from 'Actions';
 import { Button } from '@mui/material';
@@ -16,7 +16,7 @@ export const EditBookmarkView = () => {
   const id = params.id as string;
   const { bookmark, error } = useAppSelector((state) => state.bookmarks);
 
-  const [formState, setFormState] = useState<NewBookmarkEntity>({
+  const [formState, setFormState] = useState<NewBookmarkData>({
     name: '',
     url: '',
     favorite: false,

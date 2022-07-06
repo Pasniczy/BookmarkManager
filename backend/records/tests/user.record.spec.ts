@@ -2,40 +2,30 @@ import { UserRecord } from '../user.record';
 import { UserEntity, NewUserEntity } from '../../types';
 import { pool } from '../../utils/db';
 
-const newUserEntityMock: NewUserEntity = {
-  username: 'test username',
-  email: 'test@email.pl',
-  password: 'test password',
-};
+const TEST_USER_ID = '12345678-1234-1234-1234-123456789abc'; // existing test user ID
 
-const testUserId = '12345678-1234-1234-1234-123456789abc';
 const testUserEntity: UserEntity = {
-  id: testUserId,
+  id: TEST_USER_ID,
   username: 'test username',
   email: 'test@email.com',
   password: '123456',
 };
 const testUserRecord = new UserRecord(testUserEntity);
 
-beforeAll(async () => {
-  await testUserRecord.create();
-});
-
 afterAll(async () => {
-  await testUserRecord.delete();
   pool.end();
 });
 
 describe('UserRecord', () => {
   it('should create UserRecord instance', () => {
-    const user = new UserRecord(newUserEntityMock);
-    expect(user.username).toBe(newUserEntityMock.username);
-    expect(user.email).toBe(newUserEntityMock.email);
-    expect(user.password).toBe(newUserEntityMock.password);
+    const user = new UserRecord(testUserEntity);
+    expect(user.username).toBe(testUserEntity.username);
+    expect(user.email).toBe(testUserEntity.email);
+    expect(user.password).toBe(testUserEntity.password);
   });
 
   it('should generate id for UserRecord instance if no id passed', () => {
-    const newUserEntity: NewUserEntity = { ...newUserEntityMock, id: undefined };
+    const newUserEntity: NewUserEntity = { ...testUserEntity, id: undefined };
     expect(newUserEntity.id).toBeUndefined();
     const user = new UserRecord(newUserEntity);
     expect(typeof user.id === 'string').toBe(true);
@@ -44,7 +34,7 @@ describe('UserRecord', () => {
 
 describe('UserRecord.findOneById() static', () => {
   it('should return test UserRecord entry for existing test id param', async () => {
-    const user = await UserRecord.findOneById(testUserId);
+    const user = await UserRecord.findOneById(testUserRecord.id);
     expect(typeof user === 'object').toBe(true);
     expect(user?.id).toBe(testUserEntity.id);
     expect(user?.username).toBe(testUserEntity.username);
@@ -83,7 +73,7 @@ describe('UserRecord.create()', () => {
     expect(user instanceof UserRecord).toBe(true);
   });
   it('should create BookmarkRecord in db', async () => {
-    let user = await UserRecord.findOneById(testUserId);
+    let user = await UserRecord.findOneById(testUserEntity.id);
     expect(user).toBeNull();
     user = await testUserRecord.create();
     expect(user).toStrictEqual(testUserRecord);
@@ -100,8 +90,8 @@ describe('UserRecord.delete()', () => {
     await testUserRecord.create();
   });
   it('should delete UserRecord with given id in db', async () => {
-    expect(await UserRecord.findOneById(testUserId)).toBeDefined();
+    expect(await UserRecord.findOneById(testUserEntity.id)).toBeDefined();
     await testUserRecord.delete();
-    expect(await UserRecord.findOneById(testUserId)).toBeNull();
+    expect(await UserRecord.findOneById(testUserEntity.id)).toBeNull();
   });
 });

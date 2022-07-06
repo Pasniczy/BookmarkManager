@@ -5,6 +5,6 @@ type Props = {
   children: ReactNode;
 };
 
-export const ViewFlex = ({ children }: Props) => {
+export const AppContainer = ({ children }: Props) => {
   return <Box sx={{ display: 'flex', flexDirection: 'column', minHeight: '100vh' }}>{children}</Box>;
 };

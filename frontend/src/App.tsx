@@ -1,9 +1,11 @@
 import { useEffect } from 'react';
 import { useDispatch } from 'react-redux';
 import { BrowserRouter, Routes, Route } from 'react-router-dom';
-import { getBookmarks, loadUser } from 'Actions';
-import { ViewFlex } from 'Components/Layout/ViewFlex';
+import { PrivateRoute } from 'Components/routing/PrivateRoute';
+import { loadUser } from 'Actions';
+import { AppContainer } from 'Components/Layout/AppContainer';
 import { MainContainer } from 'Components/Layout/MainContainer';
+import { Header } from 'Components/Layout/Header/Header';
 import { HomeView } from 'Views/HomeView';
 import { RegisterView } from 'Views/RegisterView';
 import { LoginView } from 'Views/LoginView';
@@ -18,34 +20,36 @@ const App = () => {
   const dispatch = useDispatch();
 
   useEffect(() => {
-    dispatch(getBookmarks());
     dispatch(loadUser());
   }, [dispatch]);
 
   return (
     <BrowserRouter>
-      <ViewFlex>
-        <Routes>
-          <Route path="/bookmarks" element={<MainContainer />}>
-            <Route index element={<BookmarksView />} />
-            <Route path="add" element={<AddBookmarkView />} />
-            <Route path="edit/:id" element={<EditBookmarkView />} />
-            <Route path=":id" element={<BookmarkView />} />
-          </Route>
-          <Route path="/register" element={<MainContainer />}>
-            <Route index element={<RegisterView />} />
-          </Route>
-          <Route path="/login" element={<MainContainer />}>
-            <Route index element={<LoginView />} />
-          </Route>
-          <Route path="/account" element={<MainContainer />}>
-            <Route index element={<AccountView />} />
-          </Route>
-          <Route path="/" element={<MainContainer center />}>
-            <Route index element={<HomeView />} />
-          </Route>
-        </Routes>
-      </ViewFlex>
+      <AppContainer>
+        <Header />
+        <MainContainer>
+          <Routes>
+            <Route path="/bookmarks" element={<PrivateRoute />}>
+              <Route index element={<BookmarksView />} />
+              <Route path="add" element={<AddBookmarkView />} />
+              <Route path="edit/:id" element={<EditBookmarkView />} />
+              <Route path=":id" element={<BookmarkView />} />
+            </Route>
+            <Route path="/register">
+              <Route index element={<RegisterView />} />
+            </Route>
+            <Route path="/login">
+              <Route index element={<LoginView />} />
+            </Route>
+            <Route path="/account" element={<PrivateRoute />}>
+              <Route index element={<AccountView />} />
+            </Route>
+            <Route path="/">
+              <Route index element={<HomeView />} />
+            </Route>
+          </Routes>
+        </MainContainer>
+      </AppContainer>
     </BrowserRouter>
   );
 };

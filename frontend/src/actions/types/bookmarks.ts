@@ -1,8 +1,8 @@
 import { BookmarkEntity } from 'Models';
 
 export enum BookmarksActionType {
-  GET_BOOKMARKS = 'GET_BOOKMARKS',
-  GET_BOOKMARK = 'GET_BOOKMARK',
+  BOOKMARKS_LOADED = 'BOOKMARKS_LOADED',
+  BOOKMARK_LOADED = 'BOOKMARK_LOADED',
   BOOKMARK_ADDED = 'BOOKMARK_ADDED',
   BOOKMARK_EDITED = 'BOOKMARK_EDITED',
   BOOKMARK_DELETED = 'BOOKMARK_DELETED',
@@ -10,15 +10,15 @@ export enum BookmarksActionType {
   BOOKMARKS_ERROR = 'BOOKMARKS_ERROR',
 }
 
-export type GetAllBookmarks = {
-  type: BookmarksActionType.GET_BOOKMARKS;
+export type BookmarksLoaded = {
+  type: BookmarksActionType.BOOKMARKS_LOADED;
   payload: {
     bookmarks: BookmarkEntity[];
   };
 };
 
-export type GetBookmark = {
-  type: BookmarksActionType.GET_BOOKMARK;
+export type BookmarkLoaded = {
+  type: BookmarksActionType.BOOKMARK_LOADED;
   payload: {
     bookmark: BookmarkEntity;
   };
@@ -58,8 +58,8 @@ export type BookmarksError = {
 };
 
 export type BookmarksAction =
-  | GetAllBookmarks
-  | GetBookmark
+  | BookmarksLoaded
+  | BookmarkLoaded
   | BookmarkAdded
   | BookmarkEdited
   | BookmarkDeleted

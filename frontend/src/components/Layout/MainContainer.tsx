@@ -1,26 +1,21 @@
-import { Outlet } from 'react-router-dom';
+import { ReactNode } from 'react';
 import { Container as MUContainer } from '@mui/material';
-import { Header } from 'Components/Layout/Header/Header';
 
 type Props = {
-  center?: boolean;
+  children: ReactNode;
 };
 
-export const MainContainer = ({ center = false }: Props) => {
+export const MainContainer = ({ children }: Props) => {
   return (
-    <>
-      <Header />
-      <MUContainer
-        maxWidth="lg"
-        sx={{
-          flexGrow: 1,
-          display: 'flex',
-          flexDirection: 'column',
-          justifyContent: center ? 'center' : 'flex-start',
-        }}
-      >
-        <Outlet />
-      </MUContainer>
-    </>
+    <MUContainer
+      maxWidth="lg"
+      sx={{
+        flexGrow: 1,
+        display: 'flex',
+        flexDirection: 'column',
+      }}
+    >
+      {children}
+    </MUContainer>
   );
 };
