@@ -1,9 +1,9 @@
-import { Paper, FormControl, TextField, Button } from '@mui/material';
+import { Paper, TextField, Button } from '@mui/material';
 import { FormGroupStyled } from 'Components/styled/FormGroup.styled';
 import * as yup from 'yup';
 import { useDispatch } from 'react-redux';
 import { useNavigate } from 'react-router-dom';
-import { SubmitHandler, useForm } from 'react-hook-form';
+import { Controller, SubmitHandler, useForm } from 'react-hook-form';
 import { NewUserEntity } from 'Models';
 import { yupResolver } from '@hookform/resolvers/yup';
 import { RegisterFormState } from 'Views/RegisterView';
@@ -22,12 +22,9 @@ const registerSchema = yup.object().shape({
 export const RegisterForm = () => {
   const dispatch = useDispatch();
   const navigate = useNavigate();
-  const {
-    register,
-    handleSubmit,
-    formState: { errors },
-  } = useForm<RegisterFormState>({
+  const { control, handleSubmit } = useForm<RegisterFormState>({
     resolver: yupResolver(registerSchema),
+    defaultValues: { username: '', email: '', password: '', passwordConfirmed: '' },
   });
 
   const submitForm: SubmitHandler<RegisterFormState> = (data) => {
@@ -42,33 +39,85 @@ export const RegisterForm = () => {
   return (
     <Paper style={{ padding: 20 }} elevation={6}>
       <form onSubmit={handleSubmit(submitForm)}>
-        <FormGroupStyled>
-          <FormControl>
-            <TextField type="text" label="Name" variant="standard" {...register('username')} />
-          </FormControl>
-          {errors.username && <FormInputError>{errors.username.message}</FormInputError>}
-        </FormGroupStyled>
+        <Controller
+          control={control}
+          name="username"
+          render={({ field: { onChange, onBlur, value, name, ref }, fieldState: { error } }) => (
+            <FormGroupStyled>
+              <TextField
+                name={name}
+                onChange={onChange}
+                onBlur={onBlur}
+                value={value}
+                inputRef={ref}
+                type="text"
+                label="Name"
+                variant="standard"
+              />
+              {error && <FormInputError>{error.message}</FormInputError>}
+            </FormGroupStyled>
+          )}
+        />
 
-        <FormGroupStyled>
-          <FormControl>
-            <TextField type="email" label="Email" variant="standard" {...register('email')} />
-          </FormControl>
-          {errors.email && <FormInputError>{errors.email.message}</FormInputError>}
-        </FormGroupStyled>
+        <Controller
+          control={control}
+          name="email"
+          render={({ field: { onChange, onBlur, value, name, ref }, fieldState: { error } }) => (
+            <FormGroupStyled>
+              <TextField
+                name={name}
+                onChange={onChange}
+                onBlur={onBlur}
+                value={value}
+                inputRef={ref}
+                type="email"
+                label="Email"
+                variant="standard"
+              />
+              {error && <FormInputError>{error.message}</FormInputError>}
+            </FormGroupStyled>
+          )}
+        />
 
-        <FormGroupStyled>
-          <FormControl>
-            <TextField type="password" label="Password" variant="standard" {...register('password')} />
-          </FormControl>
-          {errors.password && <FormInputError>{errors.password.message}</FormInputError>}
-        </FormGroupStyled>
+        <Controller
+          control={control}
+          name="password"
+          render={({ field: { onChange, onBlur, value, name, ref }, fieldState: { error } }) => (
+            <FormGroupStyled>
+              <TextField
+                name={name}
+                onChange={onChange}
+                onBlur={onBlur}
+                value={value}
+                inputRef={ref}
+                type="password"
+                label="Password"
+                variant="standard"
+              />
+              {error && <FormInputError>{error.message}</FormInputError>}
+            </FormGroupStyled>
+          )}
+        />
 
-        <FormGroupStyled>
-          <FormControl>
-            <TextField type="password" label="Confirm Password" variant="standard" {...register('passwordConfirmed')} />
-          </FormControl>
-          {errors.passwordConfirmed && <FormInputError>{errors.passwordConfirmed.message}</FormInputError>}
-        </FormGroupStyled>
+        <Controller
+          control={control}
+          name="passwordConfirmed"
+          render={({ field: { onChange, onBlur, value, name, ref }, fieldState: { error } }) => (
+            <FormGroupStyled>
+              <TextField
+                name={name}
+                onChange={onChange}
+                onBlur={onBlur}
+                value={value}
+                inputRef={ref}
+                type="password"
+                label="Confirm Password"
+                variant="standard"
+              />
+              {error && <FormInputError>{error.message}</FormInputError>}
+            </FormGroupStyled>
+          )}
+        />
 
         <Button type="submit" variant="contained" color="success" size="small">
           Register
