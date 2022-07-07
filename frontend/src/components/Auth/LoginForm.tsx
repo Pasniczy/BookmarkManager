@@ -2,8 +2,8 @@ import { LoginUserRequestData } from 'Models';
 import { useNavigate } from 'react-router-dom';
 import { useDispatch } from 'react-redux';
 import { SubmitHandler, useForm } from 'react-hook-form';
-import * as yup from 'yup';
 import { yupResolver } from '@hookform/resolvers/yup';
+import * as yup from 'yup';
 import { loginUser } from 'Actions';
 import { Paper, FormControl, TextField, Button } from '@mui/material';
 import { FormGroupStyled } from 'Components/styled/FormGroup.styled';
@@ -38,12 +38,14 @@ export const LoginForm = () => {
           </FormControl>
           {errors.email && <FormInputError>{errors.email.message}</FormInputError>}
         </FormGroupStyled>
+
         <FormGroupStyled>
           <FormControl>
             <TextField type="password" label="Password" variant="standard" {...register('password')} />
           </FormControl>
           {errors.password && <FormInputError>{errors.password.message}</FormInputError>}
         </FormGroupStyled>
+
         <Button type="submit" variant="contained" color="success" size="small">
           Login
         </Button>
