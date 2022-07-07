@@ -40,6 +40,7 @@ module.exports = {
     'react/function-component-definition': 0,
     'react/jsx-filename-extension': [0, { extensions: ['.js', '.jsx', '.ts', '.tsx'] }],
     'react/jsx-one-expression-per-line': 0,
+    'react/jsx-props-no-spreading': 0,
     'jsx-a11y/click-events-have-key-events': 0,
     'jsx-a11y/no-static-element-interactions': 0,
     '@typescript-eslint/comma-dangle': 0,
@@ -47,5 +48,13 @@ module.exports = {
     '@typescript-eslint/no-floating-promises': 0,
     '@typescript-eslint/no-shadow': 0,
     '@typescript-eslint/lines-between-class-members': 0,
+    // no-misused-promises disabled due to problems with React Hook Form Library:
+    // https://github.com/react-hook-form/react-hook-form/discussions/8020
+    '@typescript-eslint/no-misused-promises': [
+      'error',
+      {
+        checksVoidReturn: false,
+      },
+    ],
   },
 };
