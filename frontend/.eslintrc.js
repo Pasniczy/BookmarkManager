@@ -31,15 +31,18 @@ module.exports = {
     'no-nested-ternary': 2,
     'no-trailing-spaces': 2,
     'object-curly-newline': 0,
+    'operator-linebreak': 0,
     'prefer-destructuring': 0,
     'import/prefer-default-export': 0,
     'import/no-extraneous-dependencies': 0,
     'unused-imports/no-unused-imports': 1,
     'react/require-default-props': 0,
     'react/no-unescaped-entities': 0,
+    'react/destructuring-assignment': 0,
     'react/function-component-definition': 0,
     'react/jsx-filename-extension': [0, { extensions: ['.js', '.jsx', '.ts', '.tsx'] }],
     'react/jsx-one-expression-per-line': 0,
+    'react/jsx-props-no-spreading': 0,
     'jsx-a11y/click-events-have-key-events': 0,
     'jsx-a11y/no-static-element-interactions': 0,
     '@typescript-eslint/comma-dangle': 0,
@@ -47,5 +50,13 @@ module.exports = {
     '@typescript-eslint/no-floating-promises': 0,
     '@typescript-eslint/no-shadow': 0,
     '@typescript-eslint/lines-between-class-members': 0,
+    // no-misused-promises disabled due to problems with React Hook Form Library:
+    // https://github.com/react-hook-form/react-hook-form/discussions/8020
+    '@typescript-eslint/no-misused-promises': [
+      'error',
+      {
+        checksVoidReturn: false,
+      },
+    ],
   },
 };

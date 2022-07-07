@@ -1,39 +1,51 @@
-import { Paper, TextField, Button } from '@mui/material';
-import { FormGroupStyled } from 'Components/styled/FormGroup.styled';
-import * as yup from 'yup';
 import { useDispatch } from 'react-redux';
 import { useNavigate } from 'react-router-dom';
 import { Controller, SubmitHandler, useForm } from 'react-hook-form';
-import { NewUserEntity } from 'Models';
 import { yupResolver } from '@hookform/resolvers/yup';
-import { RegisterFormState } from 'Views/RegisterView';
-import { registerUser } from 'Actions';
+import * as yup from 'yup';
+import { NewBookmarkData } from 'Models';
+import { addBookmark, editBookmark } from 'Actions';
+import { Paper, FormLabel, Switch, TextField, Button } from '@mui/material';
+import { FormGroupStyled } from 'Components/styled/FormGroup.styled';
 import { FormInputError } from 'Components/styled/FormInputError';
 
-// TODO: Add Redux register error UI indicator
+// TODO: Add Redux bookmark error UI indicator
 
-const registerSchema = yup.object().shape({
-  username: yup.string().required('Name is required'),
-  email: yup.string().email('Invalid email').required('Email is required'),
-  password: yup.string().min(6, 'Password must be at least 6 characters').required('Password is required'),
-  passwordConfirmed: yup.string().oneOf([yup.ref('password')], 'Passwords do not match.'),
+type AddBookmarkProps = {
+  formType: 'add';
+};
+
+type EditBookmarkProps = {
+  formType: 'edit';
+  id: string;
+  defaultValues: NewBookmarkData;
+};
+
+type Props = AddBookmarkProps | EditBookmarkProps;
+
+const bookmarkSchema = yup.object().shape({
+  name: yup.string().required('Bookmark name is required'),
+  url: yup.string().url('Invalid url').required('Url is required'),
+  favorite: yup.boolean().required('Favorite value is required'),
 });
 
-export const RegisterForm = () => {
+export const BookmarkForm = (props: Props) => {
   const dispatch = useDispatch();
   const navigate = useNavigate();
-  const { control, handleSubmit } = useForm<RegisterFormState>({
-    resolver: yupResolver(registerSchema),
-    defaultValues: { username: '', email: '', password: '', passwordConfirmed: '' },
+
+  const defaultValues: NewBookmarkData =
+    props.formType === 'edit' ? props.defaultValues : { name: '', url: '', favorite: false };
+
+  const { control, handleSubmit } = useForm<NewBookmarkData>({
+    resolver: yupResolver(bookmarkSchema),
+    defaultValues,
   });
 
-  const submitForm: SubmitHandler<RegisterFormState> = (data) => {
-    const newUserEntity: NewUserEntity = {
-      username: data.username,
-      email: data.email,
-      password: data.password,
-    };
-    dispatch(registerUser(newUserEntity, navigate));
+  const submitForm: SubmitHandler<NewBookmarkData> = (data) => {
+    console.log(data);
+    return props.formType === 'edit'
+      ? dispatch(editBookmark(props.id, data, navigate))
+      : dispatch(addBookmark(data, navigate));
   };
 
   return (
@@ -41,7 +53,7 @@ export const RegisterForm = () => {
       <form onSubmit={handleSubmit(submitForm)}>
         <Controller
           control={control}
-          name="username"
+          name="name"
           render={({ field: { onChange, onBlur, value, name, ref }, fieldState: { error } }) => (
             <FormGroupStyled>
               <TextField
@@ -61,7 +73,7 @@ export const RegisterForm = () => {
 
         <Controller
           control={control}
-          name="email"
+          name="url"
           render={({ field: { onChange, onBlur, value, name, ref }, fieldState: { error } }) => (
             <FormGroupStyled>
               <TextField
@@ -70,8 +82,8 @@ export const RegisterForm = () => {
                 onBlur={onBlur}
                 value={value}
                 inputRef={ref}
-                type="email"
-                label="Email"
+                type="text"
+                label="url"
                 variant="standard"
               />
               {error && <FormInputError>{error.message}</FormInputError>}
@@ -81,38 +93,17 @@ export const RegisterForm = () => {
 
         <Controller
           control={control}
-          name="password"
+          name="favorite"
           render={({ field: { onChange, onBlur, value, name, ref }, fieldState: { error } }) => (
             <FormGroupStyled>
-              <TextField
+              <FormLabel>Favorite:</FormLabel>
+              <Switch
                 name={name}
-                onChange={onChange}
                 onBlur={onBlur}
-                value={value}
-                inputRef={ref}
-                type="password"
-                label="Password"
-                variant="standard"
-              />
-              {error && <FormInputError>{error.message}</FormInputError>}
-            </FormGroupStyled>
-          )}
-        />
-
-        <Controller
-          control={control}
-          name="passwordConfirmed"
-          render={({ field: { onChange, onBlur, value, name, ref }, fieldState: { error } }) => (
-            <FormGroupStyled>
-              <TextField
-                name={name}
                 onChange={onChange}
-                onBlur={onBlur}
-                value={value}
+                checked={Boolean(value)}
                 inputRef={ref}
-                type="password"
-                label="Confirm Password"
-                variant="standard"
+                color="warning"
               />
               {error && <FormInputError>{error.message}</FormInputError>}
             </FormGroupStyled>
@@ -120,7 +111,7 @@ export const RegisterForm = () => {
         />
 
         <Button type="submit" variant="contained" color="success" size="small">
-          Register
+          {props.formType}
         </Button>
       </form>
     </Paper>

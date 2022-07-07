@@ -5,16 +5,19 @@ import { ViewHeading } from 'Components/ViewHeading/ViewHeading';
 
 export const PrivateRoute = () => {
   const { user } = useAppSelector((state) => state.auth);
-  return user ? (
-    <Outlet />
-  ) : (
-    <>
-      <ViewHeading>User unauthorized</ViewHeading>
-      <Link to="/">
-        <Button variant="contained" size="medium">
-          Go back to homepage
-        </Button>
-      </Link>
-    </>
-  );
+
+  if (!user) {
+    return (
+      <>
+        <ViewHeading>User unauthorized</ViewHeading>
+        <Link to="/">
+          <Button variant="contained" size="medium">
+            Go back to homepage
+          </Button>
+        </Link>
+      </>
+    );
+  }
+
+  return <Outlet />;
 };
