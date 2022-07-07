@@ -1,5 +1,5 @@
-import { Dispatch } from 'react';
 import { NavigateFunction } from 'react-router';
+import { Dispatch } from 'redux';
 import { ThunkAction } from 'redux-thunk';
 import axios from 'axios';
 import { BookmarkEntity, NewBookmarkData } from 'Models';
