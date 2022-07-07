@@ -1,45 +1,11 @@
-import { ChangeEvent, FormEvent, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
-import { useDispatch } from 'react-redux';
-import { NewBookmarkData } from 'Models';
-import { addBookmark } from 'Actions';
-import { useAppSelector } from 'Hooks';
 import { Button } from '@mui/material';
 import { ViewHeading } from 'Components/ViewHeading/ViewHeading';
 import { BoxStyled } from 'Components/styled/Box.styled';
-import { BookmarksForm } from 'Components/Bookmarks/BookmarksForm';
+import { BookmarkForm } from 'Components/Bookmarks/BookmarkForm';
 
 export const AddBookmarkView = () => {
   const navigate = useNavigate();
-  const dispatch = useDispatch();
-  const { error } = useAppSelector((state) => state.bookmarks);
-
-  const [formState, setFormState] = useState<NewBookmarkData>({
-    name: '',
-    url: '',
-    favorite: false,
-  });
-
-  const handleInputChange = (e: ChangeEvent<HTMLInputElement>) => {
-    const value = e.target.type === 'checkbox' ? e.target.checked : e.target.value;
-    setFormState((prevState) => ({
-      ...prevState,
-      [e.target.name]: value,
-    }));
-  };
-
-  const handleSubmit = (e: FormEvent<HTMLFormElement>) => {
-    e.preventDefault();
-    // TODO: handle validation
-    if (!formState.name || !formState.url) {
-      return console.error('Name and URL inputs cannot be empty');
-    }
-    dispatch(addBookmark(formState, navigate));
-  };
-
-  if (error) {
-    return <p>Error occurred while adding bookmark</p>;
-  }
 
   return (
     <>
@@ -49,7 +15,7 @@ export const AddBookmarkView = () => {
           Go back
         </Button>
       </BoxStyled>
-      <BookmarksForm formType="add" formState={formState} onInputChange={handleInputChange} onSubmit={handleSubmit} />
+      <BookmarkForm formType="add" />
     </>
   );
 };

@@ -10,12 +10,12 @@ import { RegisterFormState } from 'Views/RegisterView';
 import { registerUser } from 'Actions';
 import { FormInputError } from 'Components/styled/FormInputError';
 
-// TODO: Add Redux login error UI indicator
+// TODO: Add Redux register error UI indicator
 
 const registerSchema = yup.object().shape({
   username: yup.string().required('Name is required'),
   email: yup.string().email('Invalid email').required('Email is required'),
-  password: yup.string().min(6, 'Password must be at least 6 characters').required('Password required'),
+  password: yup.string().min(6, 'Password must be at least 6 characters').required('Password is required'),
   passwordConfirmed: yup.string().oneOf([yup.ref('password')], 'Passwords do not match.'),
 });
 
