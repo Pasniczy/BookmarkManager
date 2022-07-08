@@ -6,5 +6,7 @@ type Props = {
 };
 
 export const AppContainer = ({ children }: Props) => {
-  return <Box sx={{ display: 'flex', flexDirection: 'column', minHeight: '100vh' }}>{children}</Box>;
+  return (
+    <Box sx={{ position: 'relative', display: 'flex', flexDirection: 'column', minHeight: '100vh' }}>{children}</Box>
+  );
 };
