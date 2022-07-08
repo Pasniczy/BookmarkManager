@@ -1,10 +1,44 @@
-import { Dispatch } from 'react';
 import { NavigateFunction } from 'react-router';
 import { ThunkAction } from 'redux-thunk';
 import axios from 'axios';
 import { BookmarkEntity, NewBookmarkData } from 'Models';
 import { RootState } from 'Store';
-import { BookmarksAction, BookmarksActionType } from 'ActionTypes';
+import { BookmarksActionType, BookmarksAction, UiAction } from 'ActionTypes';
+import { setAlert } from './ui';
+
+const bookmarksLoading = (): BookmarksAction => ({
+  type: BookmarksActionType.BOOKMARKS_LOADING,
+});
+
+const bookmarksLoaded = (bookmarks: BookmarkEntity[]): BookmarksAction => ({
+  type: BookmarksActionType.BOOKMARKS_LOADED,
+  payload: { bookmarks },
+});
+
+const bookmarkLoaded = (bookmark: BookmarkEntity): BookmarksAction => ({
+  type: BookmarksActionType.BOOKMARK_LOADED,
+  payload: { bookmark },
+});
+
+const bookmarkAdded = (bookmark: BookmarkEntity): BookmarksAction => ({
+  type: BookmarksActionType.BOOKMARK_ADDED,
+  payload: { bookmark },
+});
+
+const bookmarkEdited = (id: string, bookmark: BookmarkEntity): BookmarksAction => ({
+  type: BookmarksActionType.BOOKMARK_EDITED,
+  payload: { id, bookmark },
+});
+
+const bookmarkDeleted = (id: string): BookmarksAction => ({
+  type: BookmarksActionType.BOOKMARK_DELETED,
+  payload: { id },
+});
+
+const bookmarkError = (error: string): BookmarksAction => ({
+  type: BookmarksActionType.BOOKMARKS_ERROR,
+  payload: { error },
+});
 
 export const getBookmarks = (): ThunkAction<Promise<void>, RootState, unknown, BookmarksAction> => {
   return async (dispatch) => {
@@ -12,22 +46,13 @@ export const getBookmarks = (): ThunkAction<Promise<void>, RootState, unknown, B
       withCredentials: true,
     };
     try {
-      dispatch({
-        type: BookmarksActionType.BOOKMARKS_LOADING,
-      });
+      dispatch(bookmarksLoading());
       const res = await axios.get('http://localhost:3001/bookmarks', config);
       const bookmarks = res.data as BookmarkEntity[];
-      console.log(bookmarks);
-      dispatch({
-        type: BookmarksActionType.BOOKMARKS_LOADED,
-        payload: { bookmarks },
-      });
+      dispatch(bookmarksLoaded(bookmarks));
     } catch (err) {
       console.error(err);
-      dispatch({
-        type: BookmarksActionType.BOOKMARKS_ERROR,
-        payload: { error: 'Failed to fetch bookmarks' },
-      });
+      dispatch(bookmarkError('Failed to fetch bookmarks'));
     }
   };
 };
@@ -35,26 +60,18 @@ export const getBookmarks = (): ThunkAction<Promise<void>, RootState, unknown, B
 export const getBookmark = (
   id: BookmarkEntity['id']
 ): ThunkAction<Promise<void>, RootState, unknown, BookmarksAction> => {
-  return async (dispatch: Dispatch<BookmarksAction>) => {
+  return async (dispatch) => {
     const config = {
       withCredentials: true,
     };
     try {
-      dispatch({
-        type: BookmarksActionType.BOOKMARKS_LOADING,
-      });
+      dispatch(bookmarksLoading());
       const res = await axios.get(`http://localhost:3001/bookmarks/${id}`, config);
       const bookmark = res.data as BookmarkEntity;
-      dispatch({
-        type: BookmarksActionType.BOOKMARK_LOADED,
-        payload: { bookmark },
-      });
+      dispatch(bookmarkLoaded(bookmark));
     } catch (err) {
       console.error(err);
-      dispatch({
-        type: BookmarksActionType.BOOKMARKS_ERROR,
-        payload: { error: 'Failed to fetch bookmarks' },
-      });
+      dispatch(bookmarkError('Failed to fetch bookmark'));
     }
   };
 };
@@ -62,8 +79,8 @@ export const getBookmark = (
 export const addBookmark = (
   newBookmark: NewBookmarkData,
   navigate: NavigateFunction
-): ThunkAction<Promise<void>, RootState, unknown, BookmarksAction> => {
-  return async (dispatch: Dispatch<BookmarksAction>) => {
+): ThunkAction<Promise<void>, RootState, unknown, BookmarksAction | UiAction> => {
+  return async (dispatch) => {
     const config = {
       headers: {
         'Content-Type': 'application/json',
@@ -71,22 +88,15 @@ export const addBookmark = (
       withCredentials: true,
     };
     try {
-      dispatch({
-        type: BookmarksActionType.BOOKMARKS_LOADING,
-      });
+      dispatch(bookmarksLoading());
       const res = await axios.post('http://localhost:3001/bookmarks', newBookmark, config);
       const bookmark = res.data as BookmarkEntity;
-      dispatch({
-        type: BookmarksActionType.BOOKMARK_ADDED,
-        payload: { bookmark },
-      });
+      dispatch(bookmarkAdded(bookmark));
+      dispatch(setAlert('success', 'Bookmark edited!'));
       navigate(`/bookmarks/${bookmark.id}`);
     } catch (err) {
       console.error(err);
-      dispatch({
-        type: BookmarksActionType.BOOKMARKS_ERROR,
-        payload: { error: 'Failed to add bookmark' },
-      });
+      dispatch(bookmarkError('Failed to add bookmark'));
     }
   };
 };
@@ -95,8 +105,8 @@ export const editBookmark = (
   id: string,
   editedBookmark: NewBookmarkData,
   navigate?: NavigateFunction
-): ThunkAction<Promise<void>, RootState, unknown, BookmarksAction> => {
-  return async (dispatch: Dispatch<BookmarksAction>) => {
+): ThunkAction<Promise<void>, RootState, unknown, BookmarksAction | UiAction> => {
+  return async (dispatch) => {
     const config = {
       headers: {
         'Content-Type': 'application/json',
@@ -104,22 +114,15 @@ export const editBookmark = (
       withCredentials: true,
     };
     try {
-      dispatch({
-        type: BookmarksActionType.BOOKMARKS_LOADING,
-      });
+      dispatch(bookmarksLoading());
       const res = await axios.put(`http://localhost:3001/bookmarks/${id}`, editedBookmark, config);
       const bookmark = res.data as BookmarkEntity;
-      dispatch({
-        type: BookmarksActionType.BOOKMARK_EDITED,
-        payload: { id, bookmark },
-      });
+      dispatch(bookmarkEdited(id, bookmark));
+      dispatch(setAlert('success', 'Bookmark edited!'));
       if (navigate) navigate('/bookmarks');
     } catch (err) {
       console.error(err);
-      dispatch({
-        type: BookmarksActionType.BOOKMARKS_ERROR,
-        payload: { error: 'Failed to edit bookmark' },
-      });
+      dispatch(bookmarkError('Failed to edit bookmark'));
     }
   };
 };
@@ -127,27 +130,20 @@ export const editBookmark = (
 export const deleteBookmark = (
   id: string,
   navigate?: NavigateFunction
-): ThunkAction<Promise<void>, RootState, unknown, BookmarksAction> => {
-  return async (dispatch: Dispatch<BookmarksAction>) => {
+): ThunkAction<Promise<void>, RootState, unknown, BookmarksAction | UiAction> => {
+  return async (dispatch) => {
     const config = {
       withCredentials: true,
     };
     try {
-      dispatch({
-        type: BookmarksActionType.BOOKMARKS_LOADING,
-      });
+      dispatch(bookmarksLoading());
       await axios.delete(`http://localhost:3001/bookmarks/${id}`, config);
-      dispatch({
-        type: BookmarksActionType.BOOKMARK_DELETED,
-        payload: { id },
-      });
+      dispatch(bookmarkDeleted(id));
+      dispatch(setAlert('error', 'Bookmark deleted!'));
       if (navigate) navigate('/bookmarks');
     } catch (err) {
       console.error(err);
-      dispatch({
-        type: BookmarksActionType.BOOKMARKS_ERROR,
-        payload: { error: 'Failed to edit bookmark' },
-      });
+      dispatch(bookmarkError('Failed to delete bookmark'));
     }
   };
 };

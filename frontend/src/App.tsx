@@ -1,11 +1,8 @@
 import { useEffect } from 'react';
 import { useDispatch } from 'react-redux';
 import { BrowserRouter, Routes, Route } from 'react-router-dom';
-import { PrivateRoute } from 'Components/routing/PrivateRoute';
 import { loadUser } from 'Actions';
-import { AppContainer } from 'Components/Layout/AppContainer';
-import { MainContainer } from 'Components/Layout/MainContainer';
-import { Header } from 'Components/Layout/Header/Header';
+import { useAppSelector } from 'Hooks';
 import { HomeView } from 'Views/HomeView';
 import { RegisterView } from 'Views/RegisterView';
 import { LoginView } from 'Views/LoginView';
@@ -14,10 +11,16 @@ import { BookmarksView } from 'Views/BookmarksView';
 import { BookmarkView } from 'Views/BookmarkView';
 import { AddBookmarkView } from 'Views/AddBookmarkView';
 import { EditBookmarkView } from 'Views/EditBookmarkView';
+import { PrivateRoute } from 'Components/routing/PrivateRoute';
+import { AppContainer } from 'Components/Layout/AppContainer';
+import { MainContainer } from 'Components/Layout/MainContainer';
+import { Header } from 'Components/Layout/Header/Header';
+import { AlertStyled } from 'Components/styled/Alert.styled';
 import './App.css';
 
 const App = () => {
   const dispatch = useDispatch();
+  const alert = useAppSelector((state) => state.ui.alert);
 
   useEffect(() => {
     dispatch(loadUser());
@@ -28,6 +31,7 @@ const App = () => {
       <AppContainer>
         <Header />
         <MainContainer>
+          {alert && <AlertStyled type={alert.type} message={alert.message} />}
           <Routes>
             <Route path="/bookmarks" element={<PrivateRoute />}>
               <Route index element={<BookmarksView />} />

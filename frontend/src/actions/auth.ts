@@ -6,6 +6,24 @@ import { RootState } from 'Store';
 import { AuthAction, AuthActionType } from 'ActionTypes';
 import { getBookmarks } from 'Actions';
 
+const userLoading = (): AuthAction => ({
+  type: AuthActionType.USER_LOADING,
+});
+
+const userLoaded = (user: LoadUserResponseData): AuthAction => ({
+  type: AuthActionType.USER_LOADED,
+  payload: { user },
+});
+
+const userLoggedOut = (): AuthAction => ({
+  type: AuthActionType.USER_LOGGED_OUT,
+});
+
+const userError = (error: string): AuthAction => ({
+  type: AuthActionType.USER_ERROR,
+  payload: { error },
+});
+
 export const loadUser = (): ThunkAction<Promise<void>, RootState, unknown, AuthAction> => {
   return async (dispatch) => {
     const config = {
@@ -15,17 +33,11 @@ export const loadUser = (): ThunkAction<Promise<void>, RootState, unknown, AuthA
       const res = await axios.get('http://localhost:3001/auth', config);
       const data = res.data as { user: LoadUserResponseData };
       const user = data.user;
-      dispatch({
-        type: AuthActionType.USER_LOADED,
-        payload: { user },
-      });
+      dispatch(userLoaded(user));
       dispatch(getBookmarks());
     } catch (err) {
       console.error(err);
-      dispatch({
-        type: AuthActionType.USER_ERROR,
-        payload: { error: 'Failed to load user' },
-      });
+      dispatch(userError('Failed to load user'));
     }
   };
 };
@@ -42,18 +54,13 @@ export const registerUser = (
       withCredentials: true,
     };
     try {
-      dispatch({
-        type: AuthActionType.USER_LOADING,
-      });
+      dispatch(userLoading());
       await axios.post('http://localhost:3001/auth/register', JSON.stringify(user), config);
       await dispatch(loadUser());
       navigate('/bookmarks');
     } catch (err) {
       console.error(err);
-      dispatch({
-        type: AuthActionType.USER_ERROR,
-        payload: { error: 'Failed to register user' },
-      });
+      dispatch(userError('Failed to register user'));
     }
   };
 };
@@ -70,18 +77,13 @@ export const loginUser = (
       withCredentials: true,
     };
     try {
-      dispatch({
-        type: AuthActionType.USER_LOADING,
-      });
+      dispatch(userLoading());
       await axios.post('http://localhost:3001/auth/login', JSON.stringify(loginData), config);
       await dispatch(loadUser());
       navigate('/bookmarks');
     } catch (err) {
       console.error(err);
-      dispatch({
-        type: AuthActionType.USER_ERROR,
-        payload: { error: 'Failed to login user' },
-      });
+      dispatch(userError('Failed to login user'));
     }
   };
 };
@@ -93,16 +95,11 @@ export const logoutUser = (navigate: NavigateFunction): ThunkAction<Promise<void
     };
     try {
       await axios.get('http://localhost:3001/auth/logout', config);
-      dispatch({
-        type: AuthActionType.USER_LOGGED_OUT,
-      });
+      dispatch(userLoggedOut());
       navigate('/');
     } catch (err) {
       console.error(err);
-      dispatch({
-        type: AuthActionType.USER_ERROR,
-        payload: { error: 'Failed to logout user' },
-      });
+      dispatch(userError('Failed to logout user'));
     }
   };
 };
