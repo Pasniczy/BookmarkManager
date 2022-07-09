@@ -1,9 +1,9 @@
 import { useRef } from 'react';
 
-export const useDebounce = (fn: Function, timeout: number) => {
+export const useDebounce = () => {
   const timeoutRef = useRef<ReturnType<typeof setTimeout>>();
 
-  return () => {
+  return (fn: Function, timeout: number) => {
     clearTimeout(timeoutRef.current);
 
     timeoutRef.current = setTimeout(() => {
