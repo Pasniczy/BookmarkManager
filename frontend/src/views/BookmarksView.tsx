@@ -3,7 +3,7 @@ import { useAppSelector } from 'Hooks/useAppSelector';
 import { Stack, Button } from '@mui/material';
 import { BookmarkAdd as BookmarkAddIcon } from '@mui/icons-material';
 import { ViewHeading } from 'Components/ViewHeading/ViewHeading';
-import { BookmarksSearch } from 'Components/Bookmarks/BookmarksSearch';
+import { BookmarksSearch } from 'Components/Bookmarks/BookmarksSearch/BookmarksSearch';
 import { BookmarkItem } from 'Components/Bookmarks/BookmarkItem';
 import { BoxStyled } from 'Components/styled/Box.styled';
 
