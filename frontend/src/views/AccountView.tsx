@@ -1,4 +1,4 @@
-import { useAppSelector } from 'Hooks';
+import { useAppSelector } from 'Hooks/useAppSelector';
 import { Typography } from '@mui/material';
 import { ViewHeading } from 'Components/ViewHeading/ViewHeading';
 import { BoxStyled } from 'Components/styled/Box.styled';

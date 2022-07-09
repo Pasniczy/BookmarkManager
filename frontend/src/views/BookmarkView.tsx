@@ -1,7 +1,7 @@
 import { useEffect } from 'react';
 import { Link, useParams } from 'react-router-dom';
 import { useDispatch } from 'react-redux';
-import { useAppSelector } from 'Hooks';
+import { useAppSelector } from 'Hooks/useAppSelector';
 import { getBookmark } from 'Actions';
 import { Button } from '@mui/material';
 import { BookmarkDetails } from 'Components/Bookmarks/BookmarkDetails';

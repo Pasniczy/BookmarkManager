@@ -42,7 +42,6 @@ export const BookmarkForm = (props: Props) => {
   });
 
   const submitForm: SubmitHandler<NewBookmarkData> = (data) => {
-    console.log(data);
     return props.formType === 'edit'
       ? dispatch(editBookmark(props.id, data, navigate))
       : dispatch(addBookmark(data, navigate));

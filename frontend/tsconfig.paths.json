@@ -6,7 +6,7 @@
       "Actions": ["./src/actions"],
       "ActionTypes": ["./src/actions/types"],
       "Components/*": ["./src/components/*"],
-      "Hooks": ["./src/hooks"],
+      "Hooks/*": ["./src/hooks/*"],
       "Reducers/*": ["./src/reducers/*"],
       "Store": ["./src/store.ts"],
       "Tests/*": ["./src/tests/*"],

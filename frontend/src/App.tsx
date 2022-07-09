@@ -2,7 +2,7 @@ import { useEffect } from 'react';
 import { useDispatch } from 'react-redux';
 import { BrowserRouter, Routes, Route } from 'react-router-dom';
 import { loadUser } from 'Actions';
-import { useAppSelector } from 'Hooks';
+import { useAppSelector } from 'Hooks/useAppSelector';
 import { HomeView } from 'Views/HomeView';
 import { RegisterView } from 'Views/RegisterView';
 import { LoginView } from 'Views/LoginView';
