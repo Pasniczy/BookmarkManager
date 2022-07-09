@@ -2,7 +2,7 @@ import * as React from 'react';
 import { Link, useNavigate } from 'react-router-dom';
 import { useDispatch } from 'react-redux';
 import { logoutUser } from 'Actions';
-import { useAppSelector } from 'Hooks';
+import { useAppSelector } from 'Hooks/useAppSelector';
 import {
   AppBar,
   Box,

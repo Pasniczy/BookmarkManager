@@ -1,6 +1,6 @@
 import { Link, Navigate } from 'react-router-dom';
 import { Button, Stack, Typography } from '@mui/material';
-import { useAppSelector } from 'Hooks';
+import { useAppSelector } from 'Hooks/useAppSelector';
 import { ViewGrow } from 'Components/Layout/ViewGrow';
 
 export const HomeView = () => {
