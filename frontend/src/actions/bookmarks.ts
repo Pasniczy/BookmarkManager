@@ -40,14 +40,20 @@ const bookmarkError = (error: string): BookmarksAction => ({
   payload: { error },
 });
 
-export const getBookmarks = (name?: string): ThunkAction<Promise<void>, RootState, unknown, BookmarksAction> => {
+export const getBookmarks = (
+  name?: string,
+  shouldSearchFavorites?: boolean
+): ThunkAction<Promise<void>, RootState, unknown, BookmarksAction> => {
   return async (dispatch) => {
     const config = {
       withCredentials: true,
     };
     try {
       dispatch(bookmarksLoading());
-      const url = name ? `http://localhost:3001/bookmarks?name=${name}` : 'http://localhost:3001/bookmarks';
+      const searchNameQuery = name ? `name=${encodeURIComponent(name)}` : '';
+      const searchFavoritesQuery = shouldSearchFavorites ? 'favorites' : '';
+      const queryUrl = [searchNameQuery, searchFavoritesQuery].filter((query) => query !== '').join('&');
+      const url = queryUrl ? `http://localhost:3001/bookmarks?${queryUrl}` : 'http://localhost:3001/bookmarks';
       const res = await axios.get(url, config);
       const bookmarks = res.data as BookmarkEntity[];
       dispatch(bookmarksLoaded(bookmarks));

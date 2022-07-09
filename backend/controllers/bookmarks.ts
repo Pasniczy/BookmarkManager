@@ -20,8 +20,6 @@ export const getBookmark = async (req: Request, res: Response) => {
 
 // @desc Get all bookmarks
 // @route GET /bookmarks
-// @desc Get bookmarks by name
-// @route GET /bookmarks?name=...
 // @access Private
 export const getBookmarks = async (req: Request, res: Response) => {
   const { name, favorites } = req.query;
