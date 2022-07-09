@@ -40,14 +40,15 @@ const bookmarkError = (error: string): BookmarksAction => ({
   payload: { error },
 });
 
-export const getBookmarks = (): ThunkAction<Promise<void>, RootState, unknown, BookmarksAction> => {
+export const getBookmarks = (name?: string): ThunkAction<Promise<void>, RootState, unknown, BookmarksAction> => {
   return async (dispatch) => {
     const config = {
       withCredentials: true,
     };
     try {
       dispatch(bookmarksLoading());
-      const res = await axios.get('http://localhost:3001/bookmarks', config);
+      const url = name ? `http://localhost:3001/bookmarks?name=${name}` : 'http://localhost:3001/bookmarks';
+      const res = await axios.get(url, config);
       const bookmarks = res.data as BookmarkEntity[];
       dispatch(bookmarksLoaded(bookmarks));
     } catch (err) {
