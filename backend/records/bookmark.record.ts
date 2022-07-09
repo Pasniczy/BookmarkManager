@@ -66,11 +66,28 @@ export class BookmarkRecord implements BookmarkEntity {
     return new BookmarkRecord(results[0]);
   }
 
-  static async getAll(name?: BookmarkEntity['name']): Promise<BookmarkRecord[]> {
+  static async getAll(name?: BookmarkEntity['name'], favorites?: boolean): Promise<BookmarkRecord[]> {
+    if (name && favorites) {
+      const [results] = (await pool.execute(
+        'SELECT `id`, `name`, `url`, `favorite`, `user` FROM `bookmarks` WHERE `name` LIKE :name && `favorite` = 1',
+        {
+          name: `%${name}%`,
+        }
+      )) as BookmarkRecordResults;
+      return results.map((result) => new BookmarkRecord(result));
+    }
+
     if (name) {
       const [results] = (await pool.execute(
         'SELECT `id`, `name`, `url`, `favorite`, `user` FROM `bookmarks` WHERE `name` LIKE :name',
         { name: `%${name}%` }
+      )) as BookmarkRecordResults;
+      return results.map((result) => new BookmarkRecord(result));
+    }
+
+    if (favorites) {
+      const [results] = (await pool.execute(
+        'SELECT `id`, `name`, `url`, `favorite`, `user` FROM `bookmarks` WHERE `favorite` = 1'
       )) as BookmarkRecordResults;
       return results.map((result) => new BookmarkRecord(result));
     }
@@ -81,13 +98,38 @@ export class BookmarkRecord implements BookmarkEntity {
     return results.map((result) => new BookmarkRecord(result));
   }
 
-  static async getAllByUser(user: UserEntity['id'], name?: BookmarkEntity['name']): Promise<BookmarkRecord[]> {
+  static async getAllByUser(
+    user: UserEntity['id'],
+    name?: BookmarkEntity['name'],
+    favorites?: boolean
+  ): Promise<BookmarkRecord[]> {
+    if (name && favorites) {
+      const [results] = (await pool.execute(
+        'SELECT `id`, `name`, `url`, `favorite`, `user` FROM `bookmarks` WHERE `user` = :user && `name` LIKE :name && `favorite` = 1',
+        {
+          user,
+          name: `%${name}%`,
+        }
+      )) as BookmarkRecordResults;
+      return results.map((result) => new BookmarkRecord(result));
+    }
+
     if (name) {
       const [results] = (await pool.execute(
         'SELECT `id`, `name`, `url`, `favorite`, `user` FROM `bookmarks` WHERE `user` = :user && `name` LIKE :name',
         {
           user,
           name: `%${name}%`,
+        }
+      )) as BookmarkRecordResults;
+      return results.map((result) => new BookmarkRecord(result));
+    }
+
+    if (favorites) {
+      const [results] = (await pool.execute(
+        'SELECT `id`, `name`, `url`, `favorite`, `user` FROM `bookmarks` WHERE `user` = :user && `favorite` = 1',
+        {
+          user,
         }
       )) as BookmarkRecordResults;
       return results.map((result) => new BookmarkRecord(result));

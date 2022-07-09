@@ -24,12 +24,16 @@ export const getBookmark = async (req: Request, res: Response) => {
 // @route GET /bookmarks?name=...
 // @access Private
 export const getBookmarks = async (req: Request, res: Response) => {
-  const { name } = req.query;
+  const { name, favorites } = req.query;
   const { user } = req.session;
 
   if (!user) throw new AuthError();
 
-  const bookmarks = await BookmarkRecord.getAllByUser(user.id, (name && name.toString()) || '');
+  const bookmarks = await BookmarkRecord.getAllByUser(
+    user.id,
+    name && name.toString(),
+    favorites === '' || !!favorites
+  );
   res.status(200).json(bookmarks);
 };
 

@@ -13,7 +13,19 @@ module.exports = {
     tsconfigRootDir: __dirname,
   },
   rules: {
-    'max-len': [2, 120],
+    'max-len': [
+      2,
+      {
+        code: 120,
+        tabWidth: 2,
+        ignoreComments: false,
+        ignoreTrailingComments: false,
+        ignoreUrls: false,
+        ignoreStrings: true, // allow long strings for SQL queries
+        ignoreTemplateLiterals: false,
+        ignoreRegExpLiterals: false,
+      },
+    ],
     'linebreak-style': 0,
     semi: 2,
     'no-undef': 0,

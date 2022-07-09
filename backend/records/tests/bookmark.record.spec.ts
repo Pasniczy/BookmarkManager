@@ -66,6 +66,14 @@ describe('BookmarkRecord.getOne() static', () => {
 });
 
 describe('BookmarkRecord.getAll() static', () => {
+  beforeAll(async () => {
+    testBookmarkRecord.favorite = true;
+    await testBookmarkRecord.update();
+  });
+  afterAll(async () => {
+    testBookmarkRecord.favorite = false;
+    await testBookmarkRecord.update();
+  });
   it('should return array of entries', async () => {
     const bookmarks = await BookmarkRecord.getAll();
     expect(Array.isArray(bookmarks)).toBe(true);
@@ -74,6 +82,12 @@ describe('BookmarkRecord.getAll() static', () => {
 
   it('should return array with test bookmark entry for passed name query', async () => {
     const bookmarks = await BookmarkRecord.getAll(testBookmarkEntity.name);
+    expect(Array.isArray(bookmarks)).toBe(true);
+    expect(bookmarks[0]).toStrictEqual(testBookmarkRecord);
+  });
+
+  it('should return array with test bookmark entry for passed name and favorites query', async () => {
+    const bookmarks = await BookmarkRecord.getAll(testBookmarkRecord.name, true);
     expect(Array.isArray(bookmarks)).toBe(true);
     expect(bookmarks[0]).toStrictEqual(testBookmarkRecord);
   });
