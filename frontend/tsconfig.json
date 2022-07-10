@@ -26,5 +26,9 @@
     "strict": true
   },
   "include": ["**/*", ".eslintrc.js"],
-  "exclude": ["node_modules", "config-overrides.js"]
+  "exclude": ["node_modules", "config-overrides.js"],
+  "files": [
+    "./node_modules/redux-persist/types/integration/react.d.ts",
+    "./node_modules/redux-persist/types/storage/index.d.ts"
+  ]
 }
