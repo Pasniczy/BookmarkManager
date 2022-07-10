@@ -69,7 +69,7 @@ export class BookmarkRecord implements BookmarkEntity {
   static async getAll(name?: BookmarkEntity['name'], favorites?: boolean): Promise<BookmarkRecord[]> {
     if (name && favorites) {
       const [results] = (await pool.execute(
-        'SELECT `id`, `name`, `url`, `favorite`, `user` FROM `bookmarks` WHERE `name` LIKE :name && `favorite` = 1',
+        'SELECT `id`, `name`, `url`, `favorite`, `user` FROM `bookmarks` WHERE `name` LIKE :name && `favorite` = 1 ORDER BY `createdAt` DESC',
         {
           name: `%${name}%`,
         }
@@ -79,7 +79,7 @@ export class BookmarkRecord implements BookmarkEntity {
 
     if (name) {
       const [results] = (await pool.execute(
-        'SELECT `id`, `name`, `url`, `favorite`, `user` FROM `bookmarks` WHERE `name` LIKE :name',
+        'SELECT `id`, `name`, `url`, `favorite`, `user` FROM `bookmarks` WHERE `name` LIKE :name ORDER BY `createdAt` DESC',
         { name: `%${name}%` }
       )) as BookmarkRecordResults;
       return results.map((result) => new BookmarkRecord(result));
@@ -87,13 +87,13 @@ export class BookmarkRecord implements BookmarkEntity {
 
     if (favorites) {
       const [results] = (await pool.execute(
-        'SELECT `id`, `name`, `url`, `favorite`, `user` FROM `bookmarks` WHERE `favorite` = 1'
+        'SELECT `id`, `name`, `url`, `favorite`, `user` FROM `bookmarks` WHERE `favorite` = 1 ORDER BY `createdAt` DESC'
       )) as BookmarkRecordResults;
       return results.map((result) => new BookmarkRecord(result));
     }
 
     const [results] = (await pool.execute(
-      'SELECT `id`, `name`, `url`, `favorite`, `user` FROM `bookmarks`'
+      'SELECT `id`, `name`, `url`, `favorite`, `user` FROM `bookmarks` ORDER BY `createdAt` DESC'
     )) as BookmarkRecordResults;
     return results.map((result) => new BookmarkRecord(result));
   }
@@ -105,7 +105,7 @@ export class BookmarkRecord implements BookmarkEntity {
   ): Promise<BookmarkRecord[]> {
     if (name && favorites) {
       const [results] = (await pool.execute(
-        'SELECT `id`, `name`, `url`, `favorite`, `user` FROM `bookmarks` WHERE `user` = :user && `name` LIKE :name && `favorite` = 1',
+        'SELECT `id`, `name`, `url`, `favorite`, `user` FROM `bookmarks` WHERE `user` = :user && `name` LIKE :name && `favorite` = 1 ORDER BY `createdAt` DESC',
         {
           user,
           name: `%${name}%`,
@@ -116,7 +116,7 @@ export class BookmarkRecord implements BookmarkEntity {
 
     if (name) {
       const [results] = (await pool.execute(
-        'SELECT `id`, `name`, `url`, `favorite`, `user` FROM `bookmarks` WHERE `user` = :user && `name` LIKE :name',
+        'SELECT `id`, `name`, `url`, `favorite`, `user` FROM `bookmarks` WHERE `user` = :user && `name` LIKE :name ORDER BY `createdAt` DESC',
         {
           user,
           name: `%${name}%`,
@@ -127,7 +127,7 @@ export class BookmarkRecord implements BookmarkEntity {
 
     if (favorites) {
       const [results] = (await pool.execute(
-        'SELECT `id`, `name`, `url`, `favorite`, `user` FROM `bookmarks` WHERE `user` = :user && `favorite` = 1',
+        'SELECT `id`, `name`, `url`, `favorite`, `user` FROM `bookmarks` WHERE `user` = :user && `favorite` = 1 ORDER BY `createdAt` DESC',
         {
           user,
         }
@@ -136,7 +136,7 @@ export class BookmarkRecord implements BookmarkEntity {
     }
 
     const [results] = (await pool.execute(
-      'SELECT `id`, `name`, `url`, `favorite`, `user` FROM `bookmarks` WHERE `user` = :user',
+      'SELECT `id`, `name`, `url`, `favorite`, `user` FROM `bookmarks` WHERE `user` = :user ORDER BY `createdAt` DESC',
       {
         user,
       }
