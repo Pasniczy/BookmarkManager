@@ -1,25 +1,33 @@
-import { pool } from '../../utils/db';
+import { UserRecord } from '../user.record';
 import { BookmarkRecord } from '../bookmark.record';
-import { BookmarkEntity, NewBookmarkEntity } from '../../types';
+import { BookmarkEntity, NewBookmarkEntity, UserEntity } from '../../types';
+import { pool } from '../../utils/db';
 
-const TEST_USER_ID = '12345678-1234-1234-1234-123456789abc'; // existing test user ID
+export const testUserEntity: UserEntity = {
+  id: '12345678-1234-1234-1234-123456789xyz',
+  username: 'test username',
+  email: 'bookmark-test@email.com',
+  password: '123456',
+};
+export const testUserRecord = new UserRecord(testUserEntity);
 
-const testBookmarkId = '12345678-1234-1234-1234-123456789abc';
 const testBookmarkEntity: BookmarkEntity = {
-  id: testBookmarkId,
+  id: '12345678-1234-1234-1234-123456789abc',
   name: 'test bookmark',
   url: 'http://test.com',
   favorite: false,
-  user: TEST_USER_ID,
+  user: testUserEntity.id,
 };
 const testBookmarkRecord = new BookmarkRecord(testBookmarkEntity);
 
 beforeAll(async () => {
+  await testUserRecord.create();
   await testBookmarkRecord.add();
 });
 
 afterAll(async () => {
   await testBookmarkRecord.delete();
+  await testUserRecord.delete();
   pool.end();
 });
 
@@ -54,7 +62,7 @@ describe('BookmarkRecord', () => {
 
 describe('BookmarkRecord.getOne() static', () => {
   it('should return test BookmarkRecord entry for existing test id param', async () => {
-    const bookmark = await BookmarkRecord.getOne(testBookmarkId);
+    const bookmark = await BookmarkRecord.getOne(testBookmarkEntity.id);
     expect(typeof bookmark === 'object').toBe(true);
     expect(bookmark).toStrictEqual(testBookmarkRecord);
   });
@@ -102,7 +110,7 @@ describe('BookmarkRecord.add()', () => {
     expect(bookmark instanceof BookmarkRecord).toBe(true);
   });
   it('should add BookmarkRecord to db', async () => {
-    let bookmark = await BookmarkRecord.getOne(testBookmarkId);
+    let bookmark = await BookmarkRecord.getOne(testBookmarkEntity.id);
     expect(bookmark).toBeNull();
     bookmark = await testBookmarkRecord.add();
     expect(bookmark).toStrictEqual(testBookmarkRecord);
@@ -118,7 +126,7 @@ describe('BookmarkRecord.update()', () => {
     expect(bookmark instanceof BookmarkRecord).toBe(true);
   });
   it('should update BookmarkRecord with given id in db', async () => {
-    const bookmark = await BookmarkRecord.getOne(testBookmarkId);
+    const bookmark = await BookmarkRecord.getOne(testBookmarkEntity.id);
     if (!bookmark) throw new Error('No bookmark found');
     expect(bookmark.url).toBe(testBookmarkRecord.url);
     expect(bookmark.favorite).toBe(testBookmarkRecord.favorite);
@@ -137,8 +145,8 @@ describe('BookmarkRecord.delete()', () => {
     await testBookmarkRecord.add();
   });
   it('should delete BookmarkRecord with given id in db', async () => {
-    expect(await BookmarkRecord.getOne(testBookmarkId)).toBeDefined();
+    expect(await BookmarkRecord.getOne(testBookmarkEntity.id)).toBeDefined();
     await testBookmarkRecord.delete();
-    expect(await BookmarkRecord.getOne(testBookmarkId)).toBeNull();
+    expect(await BookmarkRecord.getOne(testBookmarkEntity.id)).toBeNull();
   });
 });

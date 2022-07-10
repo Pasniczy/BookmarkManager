@@ -2,17 +2,16 @@ import { UserRecord } from '../user.record';
 import { UserEntity, NewUserEntity } from '../../types';
 import { pool } from '../../utils/db';
 
-const TEST_USER_ID = '12345678-1234-1234-1234-123456789abc'; // existing test user ID
-
-const testUserEntity: UserEntity = {
-  id: TEST_USER_ID,
+export const testUserEntity: UserEntity = {
+  id: '12345678-1234-1234-1234-123456789abc',
   username: 'test username',
-  email: 'test@email.com',
+  email: 'user-test@email.com',
   password: '123456',
 };
-const testUserRecord = new UserRecord(testUserEntity);
 
-afterAll(async () => {
+export const testUserRecord = new UserRecord(testUserEntity);
+
+afterAll(() => {
   pool.end();
 });
 
@@ -33,6 +32,12 @@ describe('UserRecord', () => {
 });
 
 describe('UserRecord.findOneById() static', () => {
+  beforeAll(async () => {
+    await testUserRecord.create();
+  });
+  afterAll(async () => {
+    await testUserRecord.delete();
+  });
   it('should return test UserRecord entry for existing test id param', async () => {
     const user = await UserRecord.findOneById(testUserRecord.id);
     expect(typeof user === 'object').toBe(true);
@@ -49,6 +54,13 @@ describe('UserRecord.findOneById() static', () => {
 });
 
 describe('UserRecord.findOneByEmail() static', () => {
+  beforeAll(async () => {
+    await testUserRecord.create();
+  });
+  afterAll(async () => {
+    await testUserRecord.delete();
+  });
+
   it('should return test UserRecord entry for existing test email param', async () => {
     const user = await UserRecord.findOneByEmail(testUserRecord.email);
     expect(typeof user === 'object').toBe(true);
@@ -65,7 +77,7 @@ describe('UserRecord.findOneByEmail() static', () => {
 });
 
 describe('UserRecord.create()', () => {
-  beforeEach(async () => {
+  afterEach(async () => {
     await testUserRecord.delete();
   });
   it('should return UserRecord', async () => {
@@ -86,7 +98,7 @@ describe('UserRecord.create()', () => {
 });
 
 describe('UserRecord.delete()', () => {
-  afterAll(async () => {
+  beforeEach(async () => {
     await testUserRecord.create();
   });
   it('should delete UserRecord with given id in db', async () => {
