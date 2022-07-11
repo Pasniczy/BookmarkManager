@@ -50,6 +50,7 @@ module.exports = {
     '@typescript-eslint/no-floating-promises': 0,
     '@typescript-eslint/no-shadow': 0,
     '@typescript-eslint/ban-types': 0,
+    '@typescript-eslint/ban-ts-comment': 0,
     '@typescript-eslint/lines-between-class-members': 0,
     // no-misused-promises disabled due to problems with React Hook Form Library:
     // https://github.com/react-hook-form/react-hook-form/discussions/8020
