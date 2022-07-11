@@ -6,7 +6,6 @@ export enum AuthActionType {
   USER_LOADING = 'USER_LOADING',
   USER_REGISTER_ERROR = 'USER_REGISTER_ERROR',
   USER_LOGIN_ERROR = 'USER_LOGIN_ERROR',
-  USER_LOADING_ERROR = 'USER_LOADING_ERROR',
 }
 
 export type UserLoaded = {
@@ -38,17 +37,4 @@ export type UserLoginError = {
   };
 };
 
-export type UserLoadingError = {
-  type: AuthActionType.USER_LOADING_ERROR;
-  payload: {
-    error: string;
-  };
-};
-
-export type AuthAction =
-  | UserLoaded
-  | UserLoggedOut
-  | UserLoading
-  | UserRegisterError
-  | UserLoginError
-  | UserLoadingError;
+export type AuthAction = UserLoaded | UserLoggedOut | UserLoading | UserRegisterError | UserLoginError;

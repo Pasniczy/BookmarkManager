@@ -4,7 +4,7 @@ import axios from 'axios';
 import { NewUserEntity, LoginUserRequestData, LoadUserResponseData } from 'Models';
 import { RootState } from 'Store';
 import { AuthAction, AuthActionType } from 'ActionTypes';
-import { getBookmarks } from 'Actions';
+import { getBookmarks, setAlert } from 'Actions';
 import { axiosClient } from 'Utils/axiosClient';
 
 // TODO: Fix axios error types (ts-ignores)
@@ -32,11 +32,6 @@ const userLoginError = (error: string): AuthAction => ({
   payload: { error },
 });
 
-const userLoadingError = (error: string): AuthAction => ({
-  type: AuthActionType.USER_LOADING_ERROR,
-  payload: { error },
-});
-
 export const loadUser = (): ThunkAction<Promise<void>, RootState, unknown, AuthAction> => {
   return async (dispatch) => {
     try {
@@ -46,8 +41,7 @@ export const loadUser = (): ThunkAction<Promise<void>, RootState, unknown, AuthA
       dispatch(userLoaded(user));
       dispatch(getBookmarks());
     } catch (err) {
-      console.error(err);
-      dispatch(userLoadingError('Failed to load user'));
+      dispatch(setAlert('error', 'Failed to load user'));
     }
   };
 };
@@ -85,7 +79,6 @@ export const loginUser = (
       await dispatch(loadUser());
       navigate('/bookmarks');
     } catch (err) {
-      console.log(err);
       if (axios.isAxiosError(err)) {
         // @ts-ignore
         // eslint-disable-next-line
@@ -104,8 +97,7 @@ export const logoutUser = (navigate: NavigateFunction): ThunkAction<Promise<void
       dispatch(userLoggedOut());
       navigate('/');
     } catch (err) {
-      console.error(err);
-      dispatch(userLoginError('Failed to logout user'));
+      dispatch(setAlert('error', 'Failed to logout user'));
     }
   };
 };
