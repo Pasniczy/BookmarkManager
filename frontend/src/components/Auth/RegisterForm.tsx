@@ -1,17 +1,16 @@
-import { Paper, TextField, Button } from '@mui/material';
-import { FormGroupStyled } from 'Components/styled/FormGroup.styled';
-import * as yup from 'yup';
 import { useDispatch } from 'react-redux';
 import { useNavigate } from 'react-router-dom';
 import { Controller, SubmitHandler, useForm } from 'react-hook-form';
-import { NewUserEntity } from 'Models';
 import { yupResolver } from '@hookform/resolvers/yup';
-import { RegisterFormState } from 'Views/RegisterView';
+import * as yup from 'yup';
+import { NewUserEntity } from 'Models';
 import { registerUser } from 'Actions';
-import { FormInputError } from 'Components/styled/FormInputError';
 import { useAppSelector } from 'Hooks/useAppSelector';
-
-// TODO: Add Redux register error UI indicator
+import { RegisterFormState } from 'Views/RegisterView';
+import { Paper, TextField, Button } from '@mui/material';
+import { FormGroupStyled } from 'Components/styled/FormGroup.styled';
+import { FormInputError } from 'Components/styled/FormInputError';
+import { Error } from 'Components/styled/Error.styled';
 
 const registerSchema = yup.object().shape({
   username: yup.string().required('Name is required'),
@@ -128,7 +127,7 @@ export const RegisterForm = () => {
         </form>
       </Paper>
 
-      {errors.register && <p style={{ color: 'red' }}>{errors.register}</p>}
+      {errors.register && <Error>{errors.register}</Error>}
     </>
   );
 };
