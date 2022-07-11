@@ -7,6 +7,7 @@ import { Button } from '@mui/material';
 import { BookmarkDetails } from 'Components/Bookmarks/BookmarkDetails';
 import { ViewHeading } from 'Components/ViewHeading/ViewHeading';
 import { BoxStyled } from 'Components/styled/Box.styled';
+import { ErrorView } from 'Components/styled/ErrorView.styled';
 
 export const BookmarkView = () => {
   const dispatch = useDispatch();
@@ -23,7 +24,7 @@ export const BookmarkView = () => {
   // }
 
   if (error || !bookmark) {
-    return <p>Error occurred while loading bookmark</p>;
+    return <ErrorView>Error occurred while loading bookmark</ErrorView>;
   }
 
   return (

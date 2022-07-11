@@ -1,7 +1,8 @@
+import { ReactNode } from 'react';
 import { Alert } from '@mui/material';
 
 type Props = {
-  children: string;
+  children: ReactNode;
 };
 
 export const Error = ({ children }: Props) => {

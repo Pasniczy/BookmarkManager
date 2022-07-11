@@ -5,7 +5,6 @@ import { BookmarksAction, BookmarksActionType } from 'ActionTypes';
 interface BookmarksResetState {
   bookmark: Nullable<BookmarkEntity>;
   loading: boolean;
-  // TODO: Model errors
   error: Nullable<string>;
 }
 
