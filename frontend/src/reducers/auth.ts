@@ -7,6 +7,7 @@ interface AuthResetState {
   errors: {
     register: Nullable<string>;
     login: Nullable<string>;
+    load: Nullable<string>;
   };
 }
 
@@ -19,6 +20,7 @@ const resetState: AuthResetState = {
   errors: {
     register: null,
     login: null,
+    load: null,
   },
 };
 
@@ -28,6 +30,7 @@ const initialState: AuthState = {
   errors: {
     register: null,
     login: null,
+    load: null,
   },
 };
 
@@ -58,6 +61,7 @@ export const authReducer = (state: AuthState = initialState, action: AuthAction)
         errors: {
           register: action.payload.error,
           login: null,
+          load: null,
         },
       };
     case AuthActionType.USER_LOGIN_ERROR:
@@ -67,6 +71,17 @@ export const authReducer = (state: AuthState = initialState, action: AuthAction)
         errors: {
           register: null,
           login: action.payload.error,
+          load: null,
+        },
+      };
+    case AuthActionType.USER_LOAD_ERROR:
+      return {
+        ...state,
+        ...resetState,
+        errors: {
+          register: null,
+          login: null,
+          load: action.payload.error,
         },
       };
     default:

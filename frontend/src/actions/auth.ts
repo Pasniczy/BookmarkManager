@@ -32,6 +32,11 @@ const userLoginError = (error: string): AuthAction => ({
   payload: { error },
 });
 
+const userLoadError = (error: string): AuthAction => ({
+  type: AuthActionType.USER_LOAD_ERROR,
+  payload: { error },
+});
+
 export const loadUser = (): ThunkAction<Promise<void>, RootState, unknown, AuthAction> => {
   return async (dispatch) => {
     try {
@@ -41,7 +46,7 @@ export const loadUser = (): ThunkAction<Promise<void>, RootState, unknown, AuthA
       dispatch(userLoaded(user));
       dispatch(getBookmarks());
     } catch (err) {
-      dispatch(setAlert('error', 'Failed to load user'));
+      dispatch(userLoadError('Failed to load user'));
     }
   };
 };
