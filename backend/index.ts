@@ -17,7 +17,9 @@ declare module 'express-session' {
 
 dotenv.config({ path: './config/config.env' });
 
-const APP_PORT = (process.env.APP_PORT && parseInt(process.env.APP_PORT, 10)) || 5000;
+const APP_PORT = (process.env.APP_PORT && parseInt(process.env.APP_PORT, 10)) || 3001;
+const APP_URL = (process.env.APP_URL && parseInt(process.env.APP_URL, 10)) || 'http://localhost:3001';
+const FRONTEND_APP_URL = process.env.FRONTEND_APP_URL || 'http://localhost:3000';
 
 const app = express();
 
@@ -39,7 +41,7 @@ app.use(express.json());
 
 app.use(
   cors({
-    origin: `http://localhost:${process.env.FRONTEND_APP_PORT || 3000}`,
+    origin: FRONTEND_APP_URL,
     credentials: true,
   })
 );
@@ -49,6 +51,6 @@ app.use('/auth', authRouter);
 
 app.use(handleError);
 
-app.listen(APP_PORT, '0.0.0.0', () => {
-  console.log(`Server listening on http://localhost:${APP_PORT}`);
+app.listen(APP_PORT, 'localhost', () => {
+  console.log(`Server listening on ${APP_URL}`);
 });

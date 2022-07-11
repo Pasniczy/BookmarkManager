@@ -1,10 +1,10 @@
 import { NavigateFunction } from 'react-router';
 import { ThunkAction } from 'redux-thunk';
-import axios from 'axios';
 import { NewUserEntity, LoginUserRequestData, LoadUserResponseData } from 'Models';
 import { RootState } from 'Store';
 import { AuthAction, AuthActionType } from 'ActionTypes';
 import { getBookmarks } from 'Actions';
+import { axiosClient } from 'Utils/axiosClient';
 
 const userLoading = (): AuthAction => ({
   type: AuthActionType.USER_LOADING,
@@ -26,11 +26,8 @@ const userError = (error: string): AuthAction => ({
 
 export const loadUser = (): ThunkAction<Promise<void>, RootState, unknown, AuthAction> => {
   return async (dispatch) => {
-    const config = {
-      withCredentials: true,
-    };
     try {
-      const res = await axios.get('http://localhost:3001/auth', config);
+      const res = await axiosClient.get('/auth');
       const data = res.data as { user: LoadUserResponseData };
       const user = data.user;
       dispatch(userLoaded(user));
@@ -47,15 +44,9 @@ export const registerUser = (
   navigate: NavigateFunction
 ): ThunkAction<Promise<void>, RootState, unknown, AuthAction> => {
   return async (dispatch) => {
-    const config = {
-      headers: {
-        'Content-Type': 'application/json',
-      },
-      withCredentials: true,
-    };
     try {
       dispatch(userLoading());
-      await axios.post('http://localhost:3001/auth/register', JSON.stringify(user), config);
+      await axiosClient.post('/auth/register', JSON.stringify(user));
       await dispatch(loadUser());
       navigate('/bookmarks');
     } catch (err) {
@@ -70,15 +61,9 @@ export const loginUser = (
   navigate: NavigateFunction
 ): ThunkAction<Promise<void>, RootState, unknown, AuthAction> => {
   return async (dispatch) => {
-    const config = {
-      headers: {
-        'Content-Type': 'application/json',
-      },
-      withCredentials: true,
-    };
     try {
       dispatch(userLoading());
-      await axios.post('http://localhost:3001/auth/login', JSON.stringify(loginData), config);
+      await axiosClient.post('/auth/login', JSON.stringify(loginData));
       await dispatch(loadUser());
       navigate('/bookmarks');
     } catch (err) {
@@ -90,11 +75,8 @@ export const loginUser = (
 
 export const logoutUser = (navigate: NavigateFunction): ThunkAction<Promise<void>, RootState, unknown, AuthAction> => {
   return async (dispatch) => {
-    const config = {
-      withCredentials: true,
-    };
     try {
-      await axios.get('http://localhost:3001/auth/logout', config);
+      await axiosClient.get('/auth/logout');
       dispatch(userLoggedOut());
       navigate('/');
     } catch (err) {

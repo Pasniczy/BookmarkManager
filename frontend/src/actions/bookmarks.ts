@@ -1,9 +1,9 @@
 import { NavigateFunction } from 'react-router';
 import { ThunkAction } from 'redux-thunk';
-import axios from 'axios';
 import { BookmarkEntity, NewBookmarkData } from 'Models';
 import { RootState } from 'Store';
 import { BookmarksActionType, BookmarksAction, UiAction } from 'ActionTypes';
+import { axiosClient } from 'Utils/axiosClient';
 import { setAlert } from './ui';
 
 const bookmarksLoading = (): BookmarksAction => ({
@@ -45,16 +45,13 @@ export const getBookmarks = (
   shouldSearchFavorites?: boolean
 ): ThunkAction<Promise<void>, RootState, unknown, BookmarksAction> => {
   return async (dispatch) => {
-    const config = {
-      withCredentials: true,
-    };
     try {
       dispatch(bookmarksLoading());
       const searchNameQuery = name ? `name=${encodeURIComponent(name)}` : '';
       const searchFavoritesQuery = shouldSearchFavorites ? 'favorites' : '';
       const queryUrl = [searchNameQuery, searchFavoritesQuery].filter((query) => query !== '').join('&');
-      const url = queryUrl ? `http://localhost:3001/bookmarks?${queryUrl}` : 'http://localhost:3001/bookmarks';
-      const res = await axios.get(url, config);
+      const url = queryUrl ? `/bookmarks?${queryUrl}` : '/bookmarks';
+      const res = await axiosClient.get(url);
       const bookmarks = res.data as BookmarkEntity[];
       dispatch(bookmarksLoaded(bookmarks));
     } catch (err) {
@@ -68,12 +65,9 @@ export const getBookmark = (
   id: BookmarkEntity['id']
 ): ThunkAction<Promise<void>, RootState, unknown, BookmarksAction> => {
   return async (dispatch) => {
-    const config = {
-      withCredentials: true,
-    };
     try {
       dispatch(bookmarksLoading());
-      const res = await axios.get(`http://localhost:3001/bookmarks/${id}`, config);
+      const res = await axiosClient.get(`/bookmarks/${id}`);
       const bookmark = res.data as BookmarkEntity;
       dispatch(bookmarkLoaded(bookmark));
     } catch (err) {
@@ -88,15 +82,9 @@ export const addBookmark = (
   navigate: NavigateFunction
 ): ThunkAction<Promise<void>, RootState, unknown, BookmarksAction | UiAction> => {
   return async (dispatch) => {
-    const config = {
-      headers: {
-        'Content-Type': 'application/json',
-      },
-      withCredentials: true,
-    };
     try {
       dispatch(bookmarksLoading());
-      const res = await axios.post('http://localhost:3001/bookmarks', newBookmark, config);
+      const res = await axiosClient.post('/bookmarks', newBookmark);
       const bookmark = res.data as BookmarkEntity;
       dispatch(bookmarkAdded(bookmark));
       dispatch(setAlert('success', 'Bookmark edited!'));
@@ -114,15 +102,9 @@ export const editBookmark = (
   navigate?: NavigateFunction
 ): ThunkAction<Promise<void>, RootState, unknown, BookmarksAction | UiAction> => {
   return async (dispatch) => {
-    const config = {
-      headers: {
-        'Content-Type': 'application/json',
-      },
-      withCredentials: true,
-    };
     try {
       dispatch(bookmarksLoading());
-      const res = await axios.put(`http://localhost:3001/bookmarks/${id}`, editedBookmark, config);
+      const res = await axiosClient.put(`/bookmarks/${id}`, editedBookmark);
       const bookmark = res.data as BookmarkEntity;
       dispatch(bookmarkEdited(id, bookmark));
       dispatch(setAlert('success', 'Bookmark edited!'));
@@ -139,12 +121,9 @@ export const deleteBookmark = (
   navigate?: NavigateFunction
 ): ThunkAction<Promise<void>, RootState, unknown, BookmarksAction | UiAction> => {
   return async (dispatch) => {
-    const config = {
-      withCredentials: true,
-    };
     try {
       dispatch(bookmarksLoading());
-      await axios.delete(`http://localhost:3001/bookmarks/${id}`, config);
+      await axiosClient.delete(`/bookmarks/${id}`);
       dispatch(bookmarkDeleted(id));
       dispatch(setAlert('error', 'Bookmark deleted!'));
       if (navigate) navigate('/bookmarks');
