@@ -51,16 +51,6 @@ export const authReducer = (state: AuthState = initialState, action: AuthAction)
         ...resetState,
         loading: true,
       };
-    case AuthActionType.USER_LOGIN_ERROR:
-      return {
-        ...state,
-        ...resetState,
-        errors: {
-          register: null,
-          login: action.payload.error,
-          loading: null,
-        },
-      };
     case AuthActionType.USER_REGISTER_ERROR:
       return {
         ...state,
@@ -68,6 +58,16 @@ export const authReducer = (state: AuthState = initialState, action: AuthAction)
         errors: {
           register: action.payload.error,
           login: null,
+          loading: null,
+        },
+      };
+    case AuthActionType.USER_LOGIN_ERROR:
+      return {
+        ...state,
+        ...resetState,
+        errors: {
+          register: null,
+          login: action.payload.error,
           loading: null,
         },
       };

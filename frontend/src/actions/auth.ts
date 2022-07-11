@@ -67,9 +67,9 @@ export const registerUser = (
         // @ts-ignore
         // eslint-disable-next-line
         dispatch(userRegisterError(err.response?.data?.message || 'Failed to register user'));
-        return;
+      } else {
+        dispatch(userRegisterError('Failed to register user'));
       }
-      dispatch(userRegisterError('Failed to register user'));
     }
   };
 };
@@ -85,8 +85,14 @@ export const loginUser = (
       await dispatch(loadUser());
       navigate('/bookmarks');
     } catch (err) {
-      console.error(err);
-      dispatch(userLoginError('Failed to login user'));
+      console.log(err);
+      if (axios.isAxiosError(err)) {
+        // @ts-ignore
+        // eslint-disable-next-line
+        dispatch(userLoginError(err.response?.data?.message || 'Failed to login user'));
+      } else {
+        dispatch(userLoginError('Failed to login user'));
+      }
     }
   };
 };

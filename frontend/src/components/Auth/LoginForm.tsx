@@ -8,8 +8,8 @@ import { loginUser } from 'Actions';
 import { Paper, TextField, Button } from '@mui/material';
 import { FormGroupStyled } from 'Components/styled/FormGroup.styled';
 import { FormInputError } from 'Components/styled/FormInputError';
-
-// TODO: Add Redux login error UI indicator
+import { Error } from 'Components/styled/Error.styled';
+import { useAppSelector } from 'Hooks/useAppSelector';
 
 const loginSchema = yup.object().shape({
   email: yup.string().email('Invalid email').required('Email is required'),
@@ -19,6 +19,7 @@ const loginSchema = yup.object().shape({
 export const LoginForm = () => {
   const dispatch = useDispatch();
   const navigate = useNavigate();
+  const { errors } = useAppSelector((state) => state.auth);
   const { control, handleSubmit } = useForm<LoginUserRequestData>({
     resolver: yupResolver(loginSchema),
     defaultValues: { email: '', password: '' },
@@ -27,52 +28,56 @@ export const LoginForm = () => {
   const submitForm: SubmitHandler<LoginUserRequestData> = (data) => dispatch(loginUser(data, navigate));
 
   return (
-    <Paper style={{ padding: 20 }} elevation={6}>
-      <form onSubmit={handleSubmit(submitForm)}>
-        <Controller
-          control={control}
-          name="email"
-          render={({ field: { onChange, onBlur, value, name, ref }, fieldState: { error } }) => (
-            <FormGroupStyled>
-              <TextField
-                name={name}
-                onChange={onChange}
-                onBlur={onBlur}
-                value={value}
-                inputRef={ref}
-                type="email"
-                label="Email"
-                variant="standard"
-              />
-              {error && <FormInputError>{error.message}</FormInputError>}
-            </FormGroupStyled>
-          )}
-        />
+    <>
+      <Paper style={{ padding: 20 }} elevation={6}>
+        <form onSubmit={handleSubmit(submitForm)}>
+          <Controller
+            control={control}
+            name="email"
+            render={({ field: { onChange, onBlur, value, name, ref }, fieldState: { error } }) => (
+              <FormGroupStyled>
+                <TextField
+                  name={name}
+                  onChange={onChange}
+                  onBlur={onBlur}
+                  value={value}
+                  inputRef={ref}
+                  type="email"
+                  label="Email"
+                  variant="standard"
+                />
+                {error && <FormInputError>{error.message}</FormInputError>}
+              </FormGroupStyled>
+            )}
+          />
 
-        <Controller
-          control={control}
-          name="password"
-          render={({ field: { onChange, onBlur, value, name, ref }, fieldState: { error } }) => (
-            <FormGroupStyled>
-              <TextField
-                name={name}
-                onChange={onChange}
-                onBlur={onBlur}
-                value={value}
-                inputRef={ref}
-                type="password"
-                label="Password"
-                variant="standard"
-              />
-              {error && <FormInputError>{error.message}</FormInputError>}
-            </FormGroupStyled>
-          )}
-        />
+          <Controller
+            control={control}
+            name="password"
+            render={({ field: { onChange, onBlur, value, name, ref }, fieldState: { error } }) => (
+              <FormGroupStyled>
+                <TextField
+                  name={name}
+                  onChange={onChange}
+                  onBlur={onBlur}
+                  value={value}
+                  inputRef={ref}
+                  type="password"
+                  label="Password"
+                  variant="standard"
+                />
+                {error && <FormInputError>{error.message}</FormInputError>}
+              </FormGroupStyled>
+            )}
+          />
 
-        <Button type="submit" variant="contained" color="success" size="small">
-          Login
-        </Button>
-      </form>
-    </Paper>
+          <Button type="submit" variant="contained" color="success" size="small">
+            Login
+          </Button>
+        </form>
+      </Paper>
+
+      {errors.login && <Error>{errors.login}</Error>}
+    </>
   );
 };
