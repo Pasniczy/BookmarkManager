@@ -2,8 +2,7 @@ import { LoadUserResponseData } from 'Models';
 import { Nullable } from 'Types';
 import { AuthAction, AuthActionType } from 'ActionTypes';
 
-export interface AuthState {
-  user: Nullable<LoadUserResponseData>;
+interface AuthResetState {
   loading: boolean;
   errors: {
     register: Nullable<string>;
@@ -11,17 +10,21 @@ export interface AuthState {
   };
 }
 
-const initialState: AuthState = {
-  user: null,
-  loading: true,
+export interface AuthState extends AuthResetState {
+  user: Nullable<LoadUserResponseData>;
+}
+
+const resetState: AuthResetState = {
+  loading: false,
   errors: {
     register: null,
     login: null,
   },
 };
 
-const resetState = {
-  loading: false,
+const initialState: AuthState = {
+  user: null,
+  loading: true,
   errors: {
     register: null,
     login: null,
