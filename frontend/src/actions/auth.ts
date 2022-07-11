@@ -1,10 +1,13 @@
 import { NavigateFunction } from 'react-router';
 import { ThunkAction } from 'redux-thunk';
+import axios from 'axios';
 import { NewUserEntity, LoginUserRequestData, LoadUserResponseData } from 'Models';
 import { RootState } from 'Store';
 import { AuthAction, AuthActionType } from 'ActionTypes';
-import { getBookmarks } from 'Actions';
+import { getBookmarks, setAlert } from 'Actions';
 import { axiosClient } from 'Utils/axiosClient';
+
+// TODO: Fix axios error types (ts-ignores)
 
 const userLoading = (): AuthAction => ({
   type: AuthActionType.USER_LOADING,
@@ -19,8 +22,18 @@ const userLoggedOut = (): AuthAction => ({
   type: AuthActionType.USER_LOGGED_OUT,
 });
 
-const userError = (error: string): AuthAction => ({
-  type: AuthActionType.USER_ERROR,
+const userRegisterError = (error: string): AuthAction => ({
+  type: AuthActionType.USER_REGISTER_ERROR,
+  payload: { error },
+});
+
+const userLoginError = (error: string): AuthAction => ({
+  type: AuthActionType.USER_LOGIN_ERROR,
+  payload: { error },
+});
+
+const userLoadError = (error: string): AuthAction => ({
+  type: AuthActionType.USER_LOAD_ERROR,
   payload: { error },
 });
 
@@ -33,8 +46,7 @@ export const loadUser = (): ThunkAction<Promise<void>, RootState, unknown, AuthA
       dispatch(userLoaded(user));
       dispatch(getBookmarks());
     } catch (err) {
-      console.error(err);
-      dispatch(userError('Failed to load user'));
+      dispatch(userLoadError('Failed to load user'));
     }
   };
 };
@@ -50,8 +62,13 @@ export const registerUser = (
       await dispatch(loadUser());
       navigate('/bookmarks');
     } catch (err) {
-      console.error(err);
-      dispatch(userError('Failed to register user'));
+      if (axios.isAxiosError(err)) {
+        // @ts-ignore
+        // eslint-disable-next-line
+        dispatch(userRegisterError(err.response?.data?.message || 'Failed to register user'));
+      } else {
+        dispatch(userRegisterError('Failed to register user'));
+      }
     }
   };
 };
@@ -67,8 +84,13 @@ export const loginUser = (
       await dispatch(loadUser());
       navigate('/bookmarks');
     } catch (err) {
-      console.error(err);
-      dispatch(userError('Failed to login user'));
+      if (axios.isAxiosError(err)) {
+        // @ts-ignore
+        // eslint-disable-next-line
+        dispatch(userLoginError(err.response?.data?.message || 'Failed to login user'));
+      } else {
+        dispatch(userLoginError('Failed to login user'));
+      }
     }
   };
 };
@@ -80,8 +102,7 @@ export const logoutUser = (navigate: NavigateFunction): ThunkAction<Promise<void
       dispatch(userLoggedOut());
       navigate('/');
     } catch (err) {
-      console.error(err);
-      dispatch(userError('Failed to logout user'));
+      dispatch(setAlert('error', 'Failed to logout user'));
     }
   };
 };

@@ -2,17 +2,36 @@ import { LoadUserResponseData } from 'Models';
 import { Nullable } from 'Types';
 import { AuthAction, AuthActionType } from 'ActionTypes';
 
-export interface AuthState {
-  user: Nullable<LoadUserResponseData>;
+interface AuthResetState {
   loading: boolean;
-  // TODO: Model error
-  error: Nullable<string>;
+  errors: {
+    register: Nullable<string>;
+    login: Nullable<string>;
+    load: Nullable<string>;
+  };
 }
+
+export interface AuthState extends AuthResetState {
+  user: Nullable<LoadUserResponseData>;
+}
+
+const resetState: AuthResetState = {
+  loading: false,
+  errors: {
+    register: null,
+    login: null,
+    load: null,
+  },
+};
 
 const initialState: AuthState = {
   user: null,
   loading: true,
-  error: null,
+  errors: {
+    register: null,
+    login: null,
+    load: null,
+  },
 };
 
 export const authReducer = (state: AuthState = initialState, action: AuthAction): AuthState => {
@@ -20,28 +39,50 @@ export const authReducer = (state: AuthState = initialState, action: AuthAction)
     case AuthActionType.USER_LOADED:
       return {
         ...state,
+        ...resetState,
         user: action.payload.user,
-        loading: false,
-        error: null,
       };
     case AuthActionType.USER_LOGGED_OUT:
       return {
         ...state,
+        ...resetState,
         user: null,
-        loading: false,
-        error: null,
       };
     case AuthActionType.USER_LOADING:
       return {
         ...state,
+        ...resetState,
         loading: true,
-        error: null,
       };
-    case AuthActionType.USER_ERROR:
+    case AuthActionType.USER_REGISTER_ERROR:
       return {
         ...state,
-        loading: false,
-        error: action.payload.error,
+        ...resetState,
+        errors: {
+          register: action.payload.error,
+          login: null,
+          load: null,
+        },
+      };
+    case AuthActionType.USER_LOGIN_ERROR:
+      return {
+        ...state,
+        ...resetState,
+        errors: {
+          register: null,
+          login: action.payload.error,
+          load: null,
+        },
+      };
+    case AuthActionType.USER_LOAD_ERROR:
+      return {
+        ...state,
+        ...resetState,
+        errors: {
+          register: null,
+          login: null,
+          load: action.payload.error,
+        },
       };
     default:
       return state;

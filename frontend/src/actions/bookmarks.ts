@@ -35,7 +35,7 @@ const bookmarkDeleted = (id: string): BookmarksAction => ({
   payload: { id },
 });
 
-const bookmarkError = (error: string): BookmarksAction => ({
+const bookmarksError = (error: string): BookmarksAction => ({
   type: BookmarksActionType.BOOKMARKS_ERROR,
   payload: { error },
 });
@@ -55,8 +55,7 @@ export const getBookmarks = (
       const bookmarks = res.data as BookmarkEntity[];
       dispatch(bookmarksLoaded(bookmarks));
     } catch (err) {
-      console.error(err);
-      dispatch(bookmarkError('Failed to fetch bookmarks'));
+      dispatch(bookmarksError('Failed to load bookmarks'));
     }
   };
 };
@@ -71,8 +70,7 @@ export const getBookmark = (
       const bookmark = res.data as BookmarkEntity;
       dispatch(bookmarkLoaded(bookmark));
     } catch (err) {
-      console.error(err);
-      dispatch(bookmarkError('Failed to fetch bookmark'));
+      dispatch(bookmarksError('Failed to load bookmark'));
     }
   };
 };
@@ -90,8 +88,7 @@ export const addBookmark = (
       dispatch(setAlert('success', 'Bookmark edited!'));
       navigate(`/bookmarks/${bookmark.id}`);
     } catch (err) {
-      console.error(err);
-      dispatch(bookmarkError('Failed to add bookmark'));
+      dispatch(setAlert('error', 'Failed to add bookmark'));
     }
   };
 };
@@ -110,8 +107,7 @@ export const editBookmark = (
       dispatch(setAlert('success', 'Bookmark edited!'));
       if (navigate) navigate('/bookmarks');
     } catch (err) {
-      console.error(err);
-      dispatch(bookmarkError('Failed to edit bookmark'));
+      dispatch(setAlert('error', 'Failed to edit bookmark'));
     }
   };
 };
@@ -128,8 +124,7 @@ export const deleteBookmark = (
       dispatch(setAlert('error', 'Bookmark deleted!'));
       if (navigate) navigate('/bookmarks');
     } catch (err) {
-      console.error(err);
-      dispatch(bookmarkError('Failed to delete bookmark'));
+      dispatch(setAlert('error', 'Failed to delete bookmark'));
     }
   };
 };

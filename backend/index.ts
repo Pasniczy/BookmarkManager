@@ -3,7 +3,7 @@ import cors from 'cors';
 import 'express-async-errors';
 import * as dotenv from 'dotenv';
 import session from 'express-session';
-import { handleError } from './utils/errors';
+import { handleError, handleMySQLError } from './utils/errors';
 import { bookmarksRouter } from './routes/bookmarks';
 import { authRouter } from './routes/auth';
 import { UserRecord } from './records/user.record';
@@ -49,6 +49,7 @@ app.use(
 app.use('/bookmarks', bookmarksRouter);
 app.use('/auth', authRouter);
 
+app.use(handleMySQLError);
 app.use(handleError);
 
 app.listen(APP_PORT, 'localhost', () => {
