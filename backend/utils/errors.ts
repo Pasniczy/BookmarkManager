@@ -6,8 +6,6 @@ export class ValidationError extends Error {}
 export class AuthError extends Error {}
 
 export const handleMySQLError = (err: QueryError, req: Request, res: Response, next: NextFunction) => {
-  console.log(err);
-
   switch (err.code) {
     case 'ER_DUP_ENTRY':
       return res.status(400).json({
@@ -18,7 +16,9 @@ export const handleMySQLError = (err: QueryError, req: Request, res: Response, n
   }
 };
 
-export const handleError = (err: Error, req: Request, res: Response) => {
+// Comment: next function parameter is required for error handler to properly access error instance information
+// eslint-disable-next-line
+export const handleError = (err: Error, req: Request, res: Response, next: NextFunction) => {
   console.log(err);
 
   if (err instanceof ValidationError) return res.status(400).json({ message: err.message });
