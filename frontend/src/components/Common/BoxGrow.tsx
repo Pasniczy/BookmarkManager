@@ -5,6 +5,6 @@ type Props = {
   children: ReactNode;
 };
 
-export const BoxGrowStyled = ({ children }: Props) => {
+export const BoxGrow = ({ children }: Props) => {
   return <Box sx={{ marginBottom: 2, flexGrow: 1, backgroundColor: 'yellow' }}>{children}</Box>;
 };

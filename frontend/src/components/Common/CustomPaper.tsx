@@ -5,7 +5,7 @@ type Props = {
   children: ReactNode;
 };
 
-export const PaperStyled = ({ children }: Props) => {
+export const CustomPaper = ({ children }: Props) => {
   return (
     <Paper style={{ padding: 20 }} elevation={6}>
       {children}

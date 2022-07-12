@@ -8,9 +8,9 @@ import { registerUser } from 'Actions';
 import { useAppSelector } from 'Hooks/useAppSelector';
 import { RegisterFormState } from 'Views/RegisterView';
 import { Paper, TextField, Button } from '@mui/material';
-import { FormGroupStyled } from 'Components/styled/FormGroup.styled';
-import { FormInputError } from 'Components/styled/FormInputError';
-import { Error } from 'Components/styled/Error.styled';
+import { CustomFormGroup } from 'Components/Common/CustomFormGroup';
+import { FormInputError } from 'Components/Common/FormInputError';
+import { Error } from 'Components/Common/Error';
 
 const registerSchema = yup.object().shape({
   username: yup.string().required('Name is required'),
@@ -45,7 +45,7 @@ export const RegisterForm = () => {
             control={control}
             name="username"
             render={({ field: { onChange, onBlur, value, name, ref }, fieldState: { error } }) => (
-              <FormGroupStyled>
+              <CustomFormGroup>
                 <TextField
                   name={name}
                   onChange={onChange}
@@ -57,7 +57,7 @@ export const RegisterForm = () => {
                   variant="standard"
                 />
                 {error && <FormInputError>{error.message}</FormInputError>}
-              </FormGroupStyled>
+              </CustomFormGroup>
             )}
           />
 
@@ -65,7 +65,7 @@ export const RegisterForm = () => {
             control={control}
             name="email"
             render={({ field: { onChange, onBlur, value, name, ref }, fieldState: { error } }) => (
-              <FormGroupStyled>
+              <CustomFormGroup>
                 <TextField
                   name={name}
                   onChange={onChange}
@@ -77,7 +77,7 @@ export const RegisterForm = () => {
                   variant="standard"
                 />
                 {error && <FormInputError>{error.message}</FormInputError>}
-              </FormGroupStyled>
+              </CustomFormGroup>
             )}
           />
 
@@ -85,7 +85,7 @@ export const RegisterForm = () => {
             control={control}
             name="password"
             render={({ field: { onChange, onBlur, value, name, ref }, fieldState: { error } }) => (
-              <FormGroupStyled>
+              <CustomFormGroup>
                 <TextField
                   name={name}
                   onChange={onChange}
@@ -97,7 +97,7 @@ export const RegisterForm = () => {
                   variant="standard"
                 />
                 {error && <FormInputError>{error.message}</FormInputError>}
-              </FormGroupStyled>
+              </CustomFormGroup>
             )}
           />
 
@@ -105,7 +105,7 @@ export const RegisterForm = () => {
             control={control}
             name="passwordConfirmed"
             render={({ field: { onChange, onBlur, value, name, ref }, fieldState: { error } }) => (
-              <FormGroupStyled>
+              <CustomFormGroup>
                 <TextField
                   name={name}
                   onChange={onChange}
@@ -117,7 +117,7 @@ export const RegisterForm = () => {
                   variant="standard"
                 />
                 {error && <FormInputError>{error.message}</FormInputError>}
-              </FormGroupStyled>
+              </CustomFormGroup>
             )}
           />
 

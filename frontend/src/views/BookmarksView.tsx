@@ -5,8 +5,8 @@ import { BookmarkAdd as BookmarkAddIcon } from '@mui/icons-material';
 import { ViewHeading } from 'Components/ViewHeading/ViewHeading';
 import { BookmarksSearch } from 'Components/Bookmarks/BookmarksSearch/BookmarksSearch';
 import { BookmarkItem } from 'Components/Bookmarks/BookmarkItem';
-import { BoxStyled } from 'Components/styled/Box.styled';
-import { ErrorView } from 'Components/styled/ErrorView.styled';
+import { BoxStyled } from 'Components/Common/BoxStyled';
+import { ErrorView } from 'Components/Common/ErrorView';
 
 export const BookmarksView = () => {
   const { bookmarks, error } = useAppSelector((state) => state.bookmarks);

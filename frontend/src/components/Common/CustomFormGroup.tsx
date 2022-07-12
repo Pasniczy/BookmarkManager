@@ -5,6 +5,6 @@ type Props = {
   children: ReactNode;
 };
 
-export const FormGroupStyled = ({ children }: Props) => {
+export const CustomFormGroup = ({ children }: Props) => {
   return <FormGroup style={{ marginBottom: 16 }}>{children}</FormGroup>;
 };

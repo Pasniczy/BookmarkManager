@@ -5,7 +5,7 @@ import { getBookmark } from 'Actions';
 import { useAppSelector } from 'Hooks/useAppSelector';
 import { Button } from '@mui/material';
 import { BookmarkForm } from 'Components/Bookmarks/BookmarkForm';
-import { BoxStyled } from 'Components/styled/Box.styled';
+import { BoxStyled } from 'Components/Common/BoxStyled';
 import { ViewHeading } from 'Components/ViewHeading/ViewHeading';
 
 export const EditBookmarkView = () => {

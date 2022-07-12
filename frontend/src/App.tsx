@@ -15,7 +15,7 @@ import { PrivateRoute } from 'Components/routing/PrivateRoute';
 import { AppContainer } from 'Components/Layout/AppContainer';
 import { MainContainer } from 'Components/Layout/MainContainer';
 import { Header } from 'Components/Layout/Header/Header';
-import { AlertStyled } from 'Components/styled/Alert.styled';
+import { CustomAlert } from 'Components/Common/CustomAlert';
 import './App.css';
 
 const App = () => {
@@ -31,7 +31,7 @@ const App = () => {
       <AppContainer>
         <Header />
         <MainContainer>
-          {alert && <AlertStyled type={alert.type} message={alert.message} />}
+          {alert && <CustomAlert type={alert.type} message={alert.message} />}
           <Routes>
             <Route path="/bookmarks" element={<PrivateRoute />}>
               <Route index element={<BookmarksView />} />
