@@ -5,6 +5,7 @@ import { useAppSelector } from 'Hooks/useAppSelector';
 import { getBookmark } from 'Actions';
 import { Button } from '@mui/material';
 import { BookmarkDetails } from 'Components/Bookmarks/BookmarkDetails';
+import { BookmarkDetailsSkeleton } from 'Components/Bookmarks/BookmarkDetailsSkeleton';
 import { ViewHeading } from 'Components/ViewHeading/ViewHeading';
 import { BoxStyled } from 'Components/Common/BoxStyled';
 import { ErrorView } from 'Components/Common/ErrorView';
@@ -12,20 +13,13 @@ import { ErrorView } from 'Components/Common/ErrorView';
 export const BookmarkView = () => {
   const dispatch = useDispatch();
   const { id } = useParams() as { id: string };
-  const { bookmark, error } = useAppSelector((state) => state.bookmarks);
+  const { bookmark, loading, error } = useAppSelector((state) => state.bookmarks);
 
   useEffect(() => {
     dispatch(getBookmark(id));
   }, [dispatch, id]);
 
-  // TODO: Handle loading
-  // if (loading) {
-  //   return <p>Loading bookmark with id: {id}...</p>;
-  // }
-
-  if (error || !bookmark) {
-    return <ErrorView>Error occurred while loading bookmark</ErrorView>;
-  }
+  if (error) return <ErrorView>Error occurred while loading bookmark</ErrorView>;
 
   return (
     <>
@@ -37,7 +31,7 @@ export const BookmarkView = () => {
           </Button>
         </Link>
       </BoxStyled>
-      <BookmarkDetails bookmark={bookmark} />
+      {loading || !bookmark ? <BookmarkDetailsSkeleton /> : <BookmarkDetails bookmark={bookmark} />}
     </>
   );
 };

@@ -9,8 +9,6 @@ import { Paper, FormLabel, Switch, TextField, Button } from '@mui/material';
 import { CustomFormGroup } from 'Components/Common/CustomFormGroup';
 import { FormInputError } from 'Components/Common/FormInputError';
 
-// TODO: Add Redux bookmark error UI indicator
-
 type AddBookmarkProps = {
   formType: 'add';
 };

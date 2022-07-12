@@ -11,14 +11,7 @@ import { ErrorView } from 'Components/Common/ErrorView';
 export const BookmarksView = () => {
   const { bookmarks, error } = useAppSelector((state) => state.bookmarks);
 
-  // TODO: Handle loading
-  // if (loading) {
-  //   return <p>Loading bookmarks...</p>;
-  // }
-
-  if (error) {
-    return <ErrorView>Error occurred while loading bookmarks</ErrorView>;
-  }
+  if (error) return <ErrorView>Error occurred while loading bookmarks</ErrorView>;
 
   return (
     <>

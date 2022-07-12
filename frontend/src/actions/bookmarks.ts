@@ -85,7 +85,7 @@ export const addBookmark = (
       const res = await axiosClient.post('/bookmarks', newBookmark);
       const bookmark = res.data as BookmarkEntity;
       dispatch(bookmarkAdded(bookmark));
-      dispatch(setAlert('success', 'Bookmark edited!'));
+      dispatch(setAlert('success', 'Bookmark added!'));
       navigate(`/bookmarks/${bookmark.id}`);
     } catch (err) {
       dispatch(setAlert('error', 'Failed to add bookmark'));

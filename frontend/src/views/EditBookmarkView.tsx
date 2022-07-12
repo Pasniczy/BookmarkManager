@@ -7,9 +7,10 @@ import { Button } from '@mui/material';
 import { BookmarkForm } from 'Components/Bookmarks/BookmarkForm';
 import { BoxStyled } from 'Components/Common/BoxStyled';
 import { ViewHeading } from 'Components/ViewHeading/ViewHeading';
+import { Spinner } from 'Components/Common/Spinner';
 
 export const EditBookmarkView = () => {
-  const bookmark = useAppSelector((state) => state.bookmarks.bookmark);
+  const { bookmark, loading } = useAppSelector((state) => state.bookmarks);
   const dispatch = useDispatch();
   const navigate = useNavigate();
   const params = useParams();
@@ -19,9 +20,6 @@ export const EditBookmarkView = () => {
     dispatch(getBookmark(id));
   }, [dispatch, id]);
 
-  // TODO: Handle loading
-  if (!bookmark) return <p>Loading...</p>;
-
   return (
     <>
       <ViewHeading>Edit bookmark</ViewHeading>
@@ -30,7 +28,7 @@ export const EditBookmarkView = () => {
           Go back
         </Button>
       </BoxStyled>
-      <BookmarkForm formType="edit" id={id} defaultValues={bookmark} />
+      {loading || !bookmark ? <Spinner /> : <BookmarkForm formType="edit" id={id} defaultValues={bookmark} />}
     </>
   );
 };
