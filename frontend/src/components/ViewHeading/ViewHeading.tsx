@@ -1,6 +1,6 @@
 import { ReactNode } from 'react';
 import { Typography } from '@mui/material';
-import { BoxStyled } from 'Components/styled/Box.styled';
+import { BoxStyled } from 'Components/Common/BoxStyled';
 
 type Props = {
   children: ReactNode;

@@ -3,9 +3,9 @@ import { useDispatch } from 'react-redux';
 import { BookmarkEntity } from 'Models';
 import { deleteBookmark } from 'Actions';
 import { Button, Link, Typography } from '@mui/material';
-import { PaperStyled } from 'Components/styled/Paper.styled';
-import { BoxStyled } from 'Components/styled/Box.styled';
-import { StyledButtonGroup } from 'Components/styled/ButtonGroup.styled';
+import { CustomPaper } from 'Components/Common/CustomPaper';
+import { BoxStyled } from 'Components/Common/BoxStyled';
+import { StyledButtonGroup } from 'Components/Common/CustomButtonGroup';
 
 type Props = {
   bookmark: BookmarkEntity;
@@ -24,7 +24,7 @@ export const BookmarkDetails = ({ bookmark }: Props) => {
   };
 
   return (
-    <PaperStyled>
+    <CustomPaper>
       <BoxStyled>
         <Typography variant="body1" component="p">
           Name: {bookmark.name}
@@ -46,6 +46,6 @@ export const BookmarkDetails = ({ bookmark }: Props) => {
           Delete
         </Button>
       </StyledButtonGroup>
-    </PaperStyled>
+    </CustomPaper>
   );
 };

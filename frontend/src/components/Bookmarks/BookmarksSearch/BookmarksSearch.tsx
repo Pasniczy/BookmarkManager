@@ -5,7 +5,7 @@ import { useDebounce } from 'Hooks/useDebounce';
 import { getBookmarks } from 'Actions';
 import { Search as SearchIcon } from '@mui/icons-material';
 import { FormLabel, Switch, Box } from '@mui/material';
-import { FormGroupStyled } from 'Components/styled/FormGroup.styled';
+import { CustomFormGroup } from 'Components/Common/CustomFormGroup';
 import { Search, SearchIconWrapper, InputBaseStyled } from './BookmarksSearch.styled';
 
 export const BookmarksSearch = () => {
@@ -33,12 +33,12 @@ export const BookmarksSearch = () => {
         />
       </Search>
 
-      <FormGroupStyled>
+      <CustomFormGroup>
         <FormLabel>
           Show favorites:
           <Switch name="shouldSearchFavorites" onChange={toggle} checked={shouldSearchFavorites} color="warning" />
         </FormLabel>
-      </FormGroupStyled>
+      </CustomFormGroup>
     </Box>
   );
 };

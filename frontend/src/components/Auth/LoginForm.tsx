@@ -6,9 +6,9 @@ import { yupResolver } from '@hookform/resolvers/yup';
 import * as yup from 'yup';
 import { loginUser } from 'Actions';
 import { Paper, TextField, Button } from '@mui/material';
-import { FormGroupStyled } from 'Components/styled/FormGroup.styled';
-import { FormInputError } from 'Components/styled/FormInputError';
-import { Error } from 'Components/styled/Error.styled';
+import { CustomFormGroup } from 'Components/Common/CustomFormGroup';
+import { FormInputError } from 'Components/Common/FormInputError';
+import { Error } from 'Components/Common/Error';
 import { useAppSelector } from 'Hooks/useAppSelector';
 
 const loginSchema = yup.object().shape({
@@ -35,7 +35,7 @@ export const LoginForm = () => {
             control={control}
             name="email"
             render={({ field: { onChange, onBlur, value, name, ref }, fieldState: { error } }) => (
-              <FormGroupStyled>
+              <CustomFormGroup>
                 <TextField
                   name={name}
                   onChange={onChange}
@@ -47,7 +47,7 @@ export const LoginForm = () => {
                   variant="standard"
                 />
                 {error && <FormInputError>{error.message}</FormInputError>}
-              </FormGroupStyled>
+              </CustomFormGroup>
             )}
           />
 
@@ -55,7 +55,7 @@ export const LoginForm = () => {
             control={control}
             name="password"
             render={({ field: { onChange, onBlur, value, name, ref }, fieldState: { error } }) => (
-              <FormGroupStyled>
+              <CustomFormGroup>
                 <TextField
                   name={name}
                   onChange={onChange}
@@ -67,7 +67,7 @@ export const LoginForm = () => {
                   variant="standard"
                 />
                 {error && <FormInputError>{error.message}</FormInputError>}
-              </FormGroupStyled>
+              </CustomFormGroup>
             )}
           />
 

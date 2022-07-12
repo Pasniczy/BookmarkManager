@@ -1,8 +1,8 @@
 import { ReactNode } from 'react';
 import { Link } from 'react-router-dom';
 import { Button, Typography } from '@mui/material';
-import { BoxStyled } from 'Components/styled/Box.styled';
-import { Error } from 'Components/styled/Error.styled';
+import { BoxStyled } from 'Components/Common/BoxStyled';
+import { Error } from 'Components/Common/Error';
 
 type Props = {
   children: ReactNode;

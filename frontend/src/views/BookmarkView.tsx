@@ -6,8 +6,8 @@ import { getBookmark } from 'Actions';
 import { Button } from '@mui/material';
 import { BookmarkDetails } from 'Components/Bookmarks/BookmarkDetails';
 import { ViewHeading } from 'Components/ViewHeading/ViewHeading';
-import { BoxStyled } from 'Components/styled/Box.styled';
-import { ErrorView } from 'Components/styled/ErrorView.styled';
+import { BoxStyled } from 'Components/Common/BoxStyled';
+import { ErrorView } from 'Components/Common/ErrorView';
 
 export const BookmarkView = () => {
   const dispatch = useDispatch();

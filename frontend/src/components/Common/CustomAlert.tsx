@@ -8,7 +8,7 @@ type Props = {
   type: AlertType;
 };
 
-export const AlertStyled = ({ type, message }: Props) => {
+export const CustomAlert = ({ type, message }: Props) => {
   const dispatch = useDispatch();
 
   const handleClick = () => dispatch(clearAlert());

@@ -6,8 +6,8 @@ import * as yup from 'yup';
 import { NewBookmarkData } from 'Models';
 import { addBookmark, editBookmark } from 'Actions';
 import { Paper, FormLabel, Switch, TextField, Button } from '@mui/material';
-import { FormGroupStyled } from 'Components/styled/FormGroup.styled';
-import { FormInputError } from 'Components/styled/FormInputError';
+import { CustomFormGroup } from 'Components/Common/CustomFormGroup';
+import { FormInputError } from 'Components/Common/FormInputError';
 
 // TODO: Add Redux bookmark error UI indicator
 
@@ -54,7 +54,7 @@ export const BookmarkForm = (props: Props) => {
           control={control}
           name="name"
           render={({ field: { onChange, onBlur, value, name, ref }, fieldState: { error } }) => (
-            <FormGroupStyled>
+            <CustomFormGroup>
               <TextField
                 name={name}
                 onChange={onChange}
@@ -66,7 +66,7 @@ export const BookmarkForm = (props: Props) => {
                 variant="standard"
               />
               {error && <FormInputError>{error.message}</FormInputError>}
-            </FormGroupStyled>
+            </CustomFormGroup>
           )}
         />
 
@@ -74,7 +74,7 @@ export const BookmarkForm = (props: Props) => {
           control={control}
           name="url"
           render={({ field: { onChange, onBlur, value, name, ref }, fieldState: { error } }) => (
-            <FormGroupStyled>
+            <CustomFormGroup>
               <TextField
                 name={name}
                 onChange={onChange}
@@ -86,7 +86,7 @@ export const BookmarkForm = (props: Props) => {
                 variant="standard"
               />
               {error && <FormInputError>{error.message}</FormInputError>}
-            </FormGroupStyled>
+            </CustomFormGroup>
           )}
         />
 
@@ -94,7 +94,7 @@ export const BookmarkForm = (props: Props) => {
           control={control}
           name="favorite"
           render={({ field: { onChange, onBlur, value, name, ref }, fieldState: { error } }) => (
-            <FormGroupStyled>
+            <CustomFormGroup>
               <FormLabel>Favorite:</FormLabel>
               <Switch
                 name={name}
@@ -105,7 +105,7 @@ export const BookmarkForm = (props: Props) => {
                 color="warning"
               />
               {error && <FormInputError>{error.message}</FormInputError>}
-            </FormGroupStyled>
+            </CustomFormGroup>
           )}
         />
 
