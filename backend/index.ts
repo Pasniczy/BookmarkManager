@@ -1,3 +1,4 @@
+import path from 'path';
 import express from 'express';
 import cors from 'cors';
 import 'express-async-errors';
@@ -20,13 +21,14 @@ dotenv.config({ path: './config/config.env' });
 const APP_PORT = (process.env.APP_PORT && parseInt(process.env.APP_PORT, 10)) || 3001;
 const APP_URL = (process.env.APP_URL && parseInt(process.env.APP_URL, 10)) || 'http://localhost:3001';
 const FRONTEND_APP_URL = process.env.FRONTEND_APP_URL || 'http://localhost:3000';
+const SESSION_SECRET = process.env.SESSION_SECRET || 'random-string';
 
 const app = express();
 
 app.use(
   session({
     name: 'session',
-    secret: process.env.SESSION_SECRET as string,
+    secret: SESSION_SECRET,
     resave: false,
     saveUninitialized: false,
     cookie: {
@@ -38,6 +40,7 @@ app.use(
 );
 
 app.use(express.json());
+app.use(express.static(path.join(__dirname, 'public')));
 
 app.use(
   cors({
