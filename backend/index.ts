@@ -1,5 +1,5 @@
 import path from 'path';
-import express from 'express';
+import express, { Router } from 'express';
 import cors from 'cors';
 import 'express-async-errors';
 import * as dotenv from 'dotenv';
@@ -22,9 +22,13 @@ const APP_PORT = (process.env.APP_PORT && parseInt(process.env.APP_PORT, 10)) ||
 const APP_URL = (process.env.APP_URL && parseInt(process.env.APP_URL, 10)) || 'http://localhost:3001';
 const FRONTEND_APP_URL = process.env.FRONTEND_APP_URL || 'http://localhost:3000';
 const SESSION_SECRET = process.env.SESSION_SECRET || 'random-string';
+const SESSION_EXPIRE = process.env.SESSION_EXPIRE || 2592000000;
 
 const app = express();
+const appRouter = Router();
 
+app.use(express.json());
+app.use(express.static(path.join(__dirname, 'public')));
 app.use(
   session({
     name: 'session',
@@ -32,16 +36,10 @@ app.use(
     resave: false,
     saveUninitialized: false,
     cookie: {
-      secure: process.env.NODE_ENV === 'production',
-      httpOnly: process.env.NODE_ENV === 'development',
-      expires: new Date(Date.now() + Number(process.env.SESSION_EXPIRE)),
+      expires: new Date(Date.now() + Number(SESSION_EXPIRE)),
     },
   })
 );
-
-app.use(express.json());
-app.use(express.static(path.join(__dirname, 'public')));
-
 app.use(
   cors({
     origin: FRONTEND_APP_URL,
@@ -49,12 +47,13 @@ app.use(
   })
 );
 
-app.use('/bookmarks', bookmarksRouter);
-app.use('/auth', authRouter);
+appRouter.use('/bookmarks', bookmarksRouter);
+appRouter.use('/auth', authRouter);
+app.use('/api', appRouter);
 
 app.use(handleMySQLError);
 app.use(handleError);
 
-app.listen(APP_PORT, 'localhost', () => {
+app.listen(APP_PORT, '0.0.0.0', () => {
   console.log(`Server listening on ${APP_URL}`);
 });

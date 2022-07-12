@@ -3,6 +3,19 @@
   "version": "0.1.0",
   "private": true,
   "license": "MIT",
+  "scripts": {
+    "start": "react-app-rewired start",
+    "build": "react-app-rewired build",
+    "build:win": "set REACT_APP_API_URL_BASE=/api&& react-app-rewired build",
+    "build:unix": "REACT_APP_API_URL_BASE=/api react-app-rewired build",
+    "test": "react-app-rewired test",
+    "eject": "react-scripts eject",
+    "lint": "eslint . --ext .ts,.js,.tsx,.jsx",
+    "lint:fix": "eslint . --ext .ts,.js,.tsx,.jsx --fix",
+    "format": "prettier \"src/**/*.{js,jsx,json,ts,tsx,css,scss}\" -c",
+    "format:fix": "prettier --write \"src/**/*.{js,jsx,json,ts,tsx,css,scss}\" ",
+    "type": "tsc --noEmit --skipLibCheck"
+  },
   "dependencies": {
     "@emotion/react": "^11.9.3",
     "@emotion/styled": "^11.9.3",
@@ -31,29 +44,6 @@
     "yarn": "^1.22.19",
     "yup": "^0.32.11"
   },
-  "scripts": {
-    "start": "react-app-rewired start",
-    "build": "react-app-rewired build",
-    "test": "react-app-rewired test",
-    "eject": "react-scripts eject",
-    "lint": "eslint . --ext .ts,.js,.tsx,.jsx",
-    "lint:fix": "eslint . --ext .ts,.js,.tsx,.jsx --fix",
-    "format": "prettier \"src/**/*.{js,jsx,json,ts,tsx,css,scss}\" -c",
-    "format:fix": "prettier --write \"src/**/*.{js,jsx,json,ts,tsx,css,scss}\" ",
-    "type": "tsc --noEmit --skipLibCheck"
-  },
-  "browserslist": {
-    "production": [
-      ">0.2%",
-      "not dead",
-      "not op_mini all"
-    ],
-    "development": [
-      "last 1 chrome version",
-      "last 1 firefox version",
-      "last 1 safari version"
-    ]
-  },
   "devDependencies": {
     "@typescript-eslint/eslint-plugin": "^5.29.0",
     "@typescript-eslint/parser": "^5.29.0",
@@ -74,5 +64,17 @@
     "prettier": "^2.7.1",
     "react-app-rewire-alias": "^1.1.7",
     "react-app-rewired": "^2.2.1"
+  },
+  "browserslist": {
+    "production": [
+      ">0.2%",
+      "not dead",
+      "not op_mini all"
+    ],
+    "development": [
+      "last 1 chrome version",
+      "last 1 firefox version",
+      "last 1 safari version"
+    ]
   }
 }
