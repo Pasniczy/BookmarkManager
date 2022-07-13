@@ -11,7 +11,7 @@ import { BookmarksView } from 'Views/BookmarksView';
 import { BookmarkView } from 'Views/BookmarkView';
 import { AddBookmarkView } from 'Views/AddBookmarkView';
 import { EditBookmarkView } from 'Views/EditBookmarkView';
-import { PrivateRoute } from 'Components/routing/PrivateRoute';
+import { PrivateRoute } from 'Components/Routing/PrivateRoute';
 import { AppContainer } from 'Components/Layout/AppContainer';
 import { MainContainer } from 'Components/Layout/MainContainer';
 import { Header } from 'Components/Layout/Header/Header';
