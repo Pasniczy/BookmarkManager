@@ -2,7 +2,7 @@ import { ReactNode } from 'react';
 import { Link } from 'react-router-dom';
 import { Button, Typography } from '@mui/material';
 import { BoxStyled } from 'Components/Common/BoxStyled';
-import { Error } from 'Components/Common/Error';
+import { InfoBox } from 'Components/Common/InfoBox';
 
 type Props = {
   children: ReactNode;
@@ -12,12 +12,12 @@ export const ErrorView = ({ children }: Props) => {
   return (
     <>
       <BoxStyled>
-        <Error>
+        <InfoBox severity="error">
           <Typography variant="h5" sx={{ marginBottom: 1 }}>
             Unexpected Error Occurred
           </Typography>
           {children}
-        </Error>
+        </InfoBox>
       </BoxStyled>
       <BoxStyled>
         <Link to="/">

@@ -11,7 +11,7 @@ import { RegisterFormState } from 'Views/RegisterView';
 import { Paper, TextField, Button } from '@mui/material';
 import { CustomFormGroup } from 'Components/Common/CustomFormGroup';
 import { FormInputError } from 'Components/Common/FormInputError';
-import { Error } from 'Components/Common/Error';
+import { InfoBox } from 'Components/Common/InfoBox';
 
 const registerSchema = yup.object().shape({
   username: yup.string().required('Name is required'),
@@ -134,7 +134,7 @@ export const RegisterForm = () => {
         </form>
       </Paper>
 
-      {errors.register && <Error>{errors.register}</Error>}
+      {errors.register && <InfoBox severity="error">{errors.register}</InfoBox>}
     </>
   );
 };

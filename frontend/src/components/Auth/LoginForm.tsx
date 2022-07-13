@@ -9,7 +9,7 @@ import { loginUser, clearErrors } from 'Actions';
 import { Paper, TextField, Button } from '@mui/material';
 import { CustomFormGroup } from 'Components/Common/CustomFormGroup';
 import { FormInputError } from 'Components/Common/FormInputError';
-import { Error } from 'Components/Common/Error';
+import { InfoBox } from 'Components/Common/InfoBox';
 import { useAppSelector } from 'Hooks/useAppSelector';
 
 const loginSchema = yup.object().shape({
@@ -84,7 +84,7 @@ export const LoginForm = () => {
         </form>
       </Paper>
 
-      {errors.login && <Error>{errors.login}</Error>}
+      {errors.login && <InfoBox severity="error">{errors.login}</InfoBox>}
     </>
   );
 };
