@@ -1,9 +1,12 @@
 import path from 'path';
 import express, { Router } from 'express';
-import cors from 'cors';
-import 'express-async-errors';
 import * as dotenv from 'dotenv';
+import cors from 'cors';
+import helmet from 'helmet';
+import hpp from 'hpp';
+import rateLimit from 'express-rate-limit';
 import session from 'express-session';
+import 'express-async-errors';
 import { handleError, handleMySQLError } from './utils/errors';
 import { bookmarksRouter } from './routes/bookmarks';
 import { authRouter } from './routes/auth';
@@ -27,8 +30,10 @@ const SESSION_EXPIRE = process.env.SESSION_EXPIRE || 2592000000;
 const app = express();
 const appRouter = Router();
 
-app.use(express.json());
 app.use(express.static(path.join(__dirname, 'public')));
+app.use(express.json());
+app.use(helmet());
+app.use(hpp());
 app.use(
   session({
     name: 'session',
@@ -44,6 +49,12 @@ app.use(
   cors({
     origin: FRONTEND_APP_URL,
     credentials: true,
+  })
+);
+app.use(
+  rateLimit({
+    windowMs: 5 * 60 * 1000,
+    max: 200,
   })
 );
 
