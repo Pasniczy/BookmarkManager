@@ -1,4 +1,3 @@
-import path from 'path';
 import express, { Router } from 'express';
 import * as dotenv from 'dotenv';
 import cors from 'cors';
@@ -30,7 +29,6 @@ const SESSION_EXPIRE = process.env.SESSION_EXPIRE || 2592000000;
 const app = express();
 const appRouter = Router();
 
-app.use(express.static(path.join(__dirname, 'public')));
 app.use(express.json());
 app.use(helmet());
 app.use(hpp());
