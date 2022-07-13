@@ -37,6 +37,10 @@ const userLoadError = (error: string): AuthAction => ({
   payload: { error },
 });
 
+export const clearErrors = (): AuthAction => ({
+  type: AuthActionType.CLEAR_ERRORS,
+});
+
 export const loadUser = (): ThunkAction<Promise<void>, RootState, unknown, AuthAction> => {
   return async (dispatch) => {
     try {

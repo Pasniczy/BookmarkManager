@@ -7,6 +7,7 @@ export enum AuthActionType {
   USER_REGISTER_ERROR = 'USER_REGISTER_ERROR',
   USER_LOGIN_ERROR = 'USER_LOGIN_ERROR',
   USER_LOAD_ERROR = 'USER_LOAD_ERROR',
+  CLEAR_ERRORS = 'CLEAR_ERRORS',
 }
 
 export type UserLoaded = {
@@ -45,4 +46,15 @@ export type UserLoadError = {
   };
 };
 
-export type AuthAction = UserLoaded | UserLoggedOut | UserLoading | UserRegisterError | UserLoginError | UserLoadError;
+export type ClearErrors = {
+  type: AuthActionType.CLEAR_ERRORS;
+};
+
+export type AuthAction =
+  | UserLoaded
+  | UserLoggedOut
+  | UserLoading
+  | UserRegisterError
+  | UserLoginError
+  | UserLoadError
+  | ClearErrors;

@@ -1,10 +1,11 @@
+import { useEffect } from 'react';
 import { useDispatch } from 'react-redux';
 import { useNavigate } from 'react-router-dom';
 import { Controller, SubmitHandler, useForm } from 'react-hook-form';
 import { yupResolver } from '@hookform/resolvers/yup';
 import * as yup from 'yup';
 import { NewUserEntity } from 'Models';
-import { registerUser } from 'Actions';
+import { registerUser, clearErrors } from 'Actions';
 import { useAppSelector } from 'Hooks/useAppSelector';
 import { RegisterFormState } from 'Views/RegisterView';
 import { Paper, TextField, Button } from '@mui/material';
@@ -27,6 +28,12 @@ export const RegisterForm = () => {
     resolver: yupResolver(registerSchema),
     defaultValues: { username: '', email: '', password: '', passwordConfirmed: '' },
   });
+
+  useEffect(() => {
+    return () => {
+      dispatch(clearErrors());
+    };
+  }, [dispatch]);
 
   const submitForm: SubmitHandler<RegisterFormState> = (data) => {
     const newUserEntity: NewUserEntity = {

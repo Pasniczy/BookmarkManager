@@ -1,10 +1,11 @@
-import { LoginUserRequestData } from 'Models';
+import { useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { useDispatch } from 'react-redux';
 import { Controller, SubmitHandler, useForm } from 'react-hook-form';
 import { yupResolver } from '@hookform/resolvers/yup';
 import * as yup from 'yup';
-import { loginUser } from 'Actions';
+import { LoginUserRequestData } from 'Models';
+import { loginUser, clearErrors } from 'Actions';
 import { Paper, TextField, Button } from '@mui/material';
 import { CustomFormGroup } from 'Components/Common/CustomFormGroup';
 import { FormInputError } from 'Components/Common/FormInputError';
@@ -24,6 +25,12 @@ export const LoginForm = () => {
     resolver: yupResolver(loginSchema),
     defaultValues: { email: '', password: '' },
   });
+
+  useEffect(() => {
+    return () => {
+      dispatch(clearErrors());
+    };
+  }, [dispatch]);
 
   const submitForm: SubmitHandler<LoginUserRequestData> = (data) => dispatch(loginUser(data, navigate));
 

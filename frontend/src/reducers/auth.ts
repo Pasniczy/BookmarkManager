@@ -84,6 +84,15 @@ export const authReducer = (state: AuthState = initialState, action: AuthAction)
           load: action.payload.error,
         },
       };
+    case AuthActionType.CLEAR_ERRORS:
+      return {
+        ...state,
+        errors: {
+          register: null,
+          login: null,
+          load: null,
+        },
+      };
     default:
       return state;
   }
