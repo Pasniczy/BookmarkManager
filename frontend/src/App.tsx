@@ -1,6 +1,6 @@
 import { useEffect } from 'react';
 import { useDispatch } from 'react-redux';
-import { BrowserRouter, Routes, Route } from 'react-router-dom';
+import { BrowserRouter, Routes, Route, Navigate } from 'react-router-dom';
 import { loadUser } from 'Actions';
 import { useAppSelector } from 'Hooks/useAppSelector';
 import { HomeView } from 'Views/HomeView';
@@ -51,6 +51,7 @@ const App = () => {
             <Route path="/">
               <Route index element={<HomeView />} />
             </Route>
+            <Route path="*" element={<Navigate to="/" />} />
           </Routes>
         </MainContainer>
       </AppContainer>
