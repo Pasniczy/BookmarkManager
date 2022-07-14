@@ -33,7 +33,7 @@ const cookiesTableRows: Cookie[] = [
     expires: '30 days',
   },
   {
-    name: 'accept-cookie',
+    name: 'accept-cookies',
     purpose: 'user cookie acceptance',
     provider: 'bookmark-manager.networkmanager.pl',
     country: 'Poland',

@@ -16,6 +16,7 @@ import { PrivateRoute } from 'Components/Routing/PrivateRoute';
 import { AppContainer } from 'Components/Layout/AppContainer';
 import { MainContainer } from 'Components/Layout/MainContainer';
 import { Header } from 'Components/Layout/Header/Header';
+import { Footer } from 'Components/Layout/Footer';
 import { CookieConsent } from 'Components/Common/CookieConsent';
 import { CustomAlert } from 'Components/Common/CustomAlert';
 import './App.css';
@@ -59,6 +60,7 @@ const App = () => {
             <Route path="*" element={<Navigate to="/" />} />
           </Routes>
         </MainContainer>
+        <Footer />
         <CookieConsent />
       </AppContainer>
     </BrowserRouter>
