@@ -6,7 +6,7 @@ import { useAppSelector } from 'Hooks/useAppSelector';
 import { Button } from '@mui/material';
 import { BookmarkForm } from 'Components/Bookmarks/BookmarkForm';
 import { BoxStyled } from 'Components/Common/BoxStyled';
-import { ViewHeading } from 'Components/ViewHeading/ViewHeading';
+import { ViewHeading } from 'Components/Common/ViewHeading';
 import { Spinner } from 'Components/Common/Spinner';
 
 export const EditBookmarkView = () => {

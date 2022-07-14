@@ -20,7 +20,7 @@ module.exports = {
     sourceType: 'module',
   },
   rules: {
-    'max-len': [2, 120],
+    'max-len': 0,
     'linebreak-style': 0,
     semi: 2,
     'no-undef': 0,

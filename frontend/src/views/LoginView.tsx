@@ -1,7 +1,7 @@
 import { Link, useNavigate } from 'react-router-dom';
 import { Button, Typography } from '@mui/material';
 import { BoxStyled } from 'Components/Common/BoxStyled';
-import { ViewHeading } from 'Components/ViewHeading/ViewHeading';
+import { ViewHeading } from 'Components/Common/ViewHeading';
 import { LoginForm } from 'Components/Auth/LoginForm';
 
 export const LoginView = () => {

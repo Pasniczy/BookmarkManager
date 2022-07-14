@@ -1,6 +1,6 @@
 import { useAppSelector } from 'Hooks/useAppSelector';
 import { Typography } from '@mui/material';
-import { ViewHeading } from 'Components/ViewHeading/ViewHeading';
+import { ViewHeading } from 'Components/Common/ViewHeading';
 import { BoxStyled } from 'Components/Common/BoxStyled';
 
 export const AccountView = () => {

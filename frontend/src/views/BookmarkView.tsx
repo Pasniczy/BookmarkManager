@@ -6,7 +6,7 @@ import { getBookmark } from 'Actions';
 import { Button } from '@mui/material';
 import { BookmarkDetails } from 'Components/Bookmarks/BookmarkDetails';
 import { BookmarkDetailsSkeleton } from 'Components/Bookmarks/BookmarkDetailsSkeleton';
-import { ViewHeading } from 'Components/ViewHeading/ViewHeading';
+import { ViewHeading } from 'Components/Common/ViewHeading';
 import { BoxStyled } from 'Components/Common/BoxStyled';
 import { ErrorView } from 'Components/Common/ErrorView';
 
