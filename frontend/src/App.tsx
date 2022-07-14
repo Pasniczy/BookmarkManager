@@ -11,6 +11,7 @@ import { BookmarksView } from 'Views/BookmarksView';
 import { BookmarkView } from 'Views/BookmarkView';
 import { AddBookmarkView } from 'Views/AddBookmarkView';
 import { EditBookmarkView } from 'Views/EditBookmarkView';
+import { CookiesPolicyView } from 'Views/CookiesPolicyView';
 import { PrivateRoute } from 'Components/Routing/PrivateRoute';
 import { AppContainer } from 'Components/Layout/AppContainer';
 import { MainContainer } from 'Components/Layout/MainContainer';
@@ -34,6 +35,9 @@ const App = () => {
         <MainContainer>
           {alert && <CustomAlert type={alert.type} message={alert.message} />}
           <Routes>
+            <Route path="/account" element={<PrivateRoute />}>
+              <Route index element={<AccountView />} />
+            </Route>
             <Route path="/bookmarks" element={<PrivateRoute />}>
               <Route index element={<BookmarksView />} />
               <Route path="add" element={<AddBookmarkView />} />
@@ -46,8 +50,8 @@ const App = () => {
             <Route path="/login">
               <Route index element={<LoginView />} />
             </Route>
-            <Route path="/account" element={<PrivateRoute />}>
-              <Route index element={<AccountView />} />
+            <Route path="/cookies">
+              <Route index element={<CookiesPolicyView />} />
             </Route>
             <Route path="/">
               <Route index element={<HomeView />} />

@@ -17,7 +17,7 @@ export const LoginView = () => {
       </BoxStyled>
       <LoginForm />
       <Typography variant="body1" component="p" align="center" sx={{ marginTop: 4 }}>
-        Don't have an account? <Link to="/register">Sign Up</Link>
+        Don't have an account? <Link to="/register">Sign Up</Link>.
       </Typography>
     </>
   );
