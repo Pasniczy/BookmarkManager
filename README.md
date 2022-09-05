@@ -1,38 +1,41 @@
 # BookmarkManager
 
-* [Tech Stack](#tech-stack)
-* [Hosting](#hosting)
-* [Local setup](#local-setup)
-* [Contact](#contact)
+- [Tech Stack](#tech-stack)
+- [Hosting](#hosting)
+- [Local setup](#local-setup)
+- [Contact](#contact)
 
 ## Tech Stack
-* TypeScript
-* Node.js + Express.js 
-* MySQL 
-* React 
-* Redux 
-* MaterialUI 
+
+- TypeScript
+- Node.js + Express.js
+- MySQL
+- React
+- Redux
+- MaterialUI
 
 ![TypeScript Avatar icon by Icons8](https://img.icons8.com/color/48/typescript.png)
 ![Node.js Avatar icon by Icons8](https://img.icons8.com/fluency/48/node-js.png)
 ![MySQL Avatar icon by Icons8](https://img.icons8.com/color/48/mysql-logo.png)
 ![ReactJS Avatar icon by Icons8](https://img.icons8.com/office/48/react.png)
-![Redux Avatar icon by Icons8](https://img.icons8.com/color/48/redux.png) 
-![MaterialUI Avatar icon by Icons8](https://img.icons8.com/color/48/material-ui.png) 
+![Redux Avatar icon by Icons8](https://img.icons8.com/color/48/redux.png)
+![MaterialUI Avatar icon by Icons8](https://img.icons8.com/color/48/material-ui.png)
 
 [Avatar icons by Icons8](https://icons8.com/icons/)
 
 ## Hosting
+
 You can preview this project [here](https://bookmark-manager.networkmanager.pl)
 
-## Local setup 
+## Local setup
 
-### 1. Run local MySQL database 
+### 1. Create and run local MySQL database
 
-### 1. Create new database 
+### 2. Insert required tables
+
 Create two required tables (users, bookmarks) using the following queries:
 
-``` 
+```
 CREATE TABLE `users` (
   `id` varchar(36) COLLATE utf8mb4_unicode_ci NOT NULL,
   `username` varchar(20) COLLATE utf8mb4_unicode_ci NOT NULL,
@@ -44,7 +47,7 @@ CREATE TABLE `users` (
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci
 ```
 
-``` 
+```
 CREATE TABLE `bookmarks` (
   `id` varchar(36) COLLATE utf8mb4_unicode_ci NOT NULL,
   `name` varchar(100) COLLATE utf8mb4_unicode_ci NOT NULL,
@@ -58,24 +61,29 @@ CREATE TABLE `bookmarks` (
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci
 ```
 
-### 2. Clone the repository  
-``` 
+### 3. Clone the repository
+
+```
 git clone https://github.com/Pasniczy/BookmarkManager.git
 ```
 
-### 3. Set up the backend server
-Navigate to `backend` directory and: 
+### 4. Set up the backend server
 
-#### 3.1. Install backend dependencies 
+Navigate to `backend` directory and:
+
+#### 4.1. Install backend dependencies
+
 ```
-yarn install 
+yarn install
 ```
 
-#### 3.2. Create config environment variables 
+#### 4.2. Create config environment variables
+
 - in `backend` directory navigate to `config` folder and create `config.env` file
-- in `config.env` create all the necessary environment variables (you can use `config.example` file as guideline) 
-``` 
-# config.example 
+- in `config.env` create all the necessary environment variables (you can use `config.example` file as a guideline)
+
+```
+# config.example
 FRONTEND_APP_URL=... # e.g. http://localhost:3000
 
 APP_PORT=... # e.g. 3001
@@ -93,9 +101,11 @@ JWT_EXPIRE=30d # 30 days
 SESSION_SECRET=... # random string
 SESSION_EXPIRE=2592000000 # 30 days
 ```
-#### 3.3. Start the server
+
+#### 4.3. Start the server
+
 ```
-yarn start # or yarn dev 
+yarn start # or yarn dev
 ```
 
 If everything was set up properly, you should see the following message:
@@ -104,18 +114,22 @@ If everything was set up properly, you should see the following message:
 Server listening on http://localhost:3001
 ```
 
-### 4. Set up the frontend app 
+### 5. Set up the frontend app
+
 Navigate to `frontend` directory and:
 
-#### 4.1. Config environment variables
-In `frontend` root, create `.env.local` file with `REACT_APP_API_URL_BASE` variable. 
+#### 5.1. Config environment variables
+
+In `frontend` root, create `.env.local` file with `REACT_APP_API_URL_BASE` variable.
 
 **Note:** backend server is running on `/api` endpoint, which you need to add to whatever URL you set as backend env variable `APP_URL`
+
 ```
 REACT_APP_API_URL_BASE=... # e.g. http://localhost:3001/api
 ```
 
-#### 4.2. Start the frontend app
+#### 5.2. Start the frontend app
+
 ```
 yarn start
 ```
@@ -123,4 +137,5 @@ yarn start
 ### Happy hacking!
 
 ## Contact
-If you find any bugs or have any questions, you can contact me by email: bartoszpasnik@gmail.com 
+
+If you find any bugs or have any questions, you can contact me by email: bartoszpasnik@gmail.com
