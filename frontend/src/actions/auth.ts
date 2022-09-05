@@ -1,13 +1,10 @@
 import { NavigateFunction } from 'react-router';
 import { ThunkAction } from 'redux-thunk';
-import axios from 'axios';
 import { NewUserEntity, LoginUserRequestData, LoadUserResponseData } from 'Models';
 import { RootState } from 'Store';
 import { AuthAction, AuthActionType } from 'ActionTypes';
 import { getBookmarks, setAlert } from 'Actions';
-import { axiosClient } from 'Utils/axiosClient';
-
-// TODO: Fix axios error types (ts-ignores)
+import { axiosClient, isAxiosError } from 'Utils/axiosClient';
 
 const userLoading = (): AuthAction => ({
   type: AuthActionType.USER_LOADING,
@@ -66,9 +63,7 @@ export const registerUser = (
       await dispatch(loadUser());
       navigate('/bookmarks');
     } catch (err) {
-      if (axios.isAxiosError(err)) {
-        // @ts-ignore
-        // eslint-disable-next-line
+      if (isAxiosError(err)) {
         dispatch(userRegisterError(err.response?.data?.message || 'Failed to register user'));
       } else {
         dispatch(userRegisterError('Failed to register user'));
@@ -88,9 +83,7 @@ export const loginUser = (
       await dispatch(loadUser());
       navigate('/bookmarks');
     } catch (err) {
-      if (axios.isAxiosError(err)) {
-        // @ts-ignore
-        // eslint-disable-next-line
+      if (isAxiosError(err)) {
         dispatch(userLoginError(err.response?.data?.message || 'Failed to login user'));
       } else {
         dispatch(userLoginError('Failed to login user'));
